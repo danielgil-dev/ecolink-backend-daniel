@@ -1,5 +1,5 @@
 
-package com.example.ecolink.service;
+package com.example.ecolink.ecolink.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
