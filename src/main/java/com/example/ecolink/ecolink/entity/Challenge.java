@@ -20,12 +20,12 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private Company company;
-    @ManyToOne
-    private Ods ods;
+    // @ManyToOne
+    // private Company company;
+    // @ManyToOne
+    // private Ods ods;
     private String title;
     private String description;
-    private BigDecimal budget;
-    private LocalDateTime startDate;
+    // private BigDecimal budget;
+    // private LocalDateTime startDate;
 }

@@ -1,12 +1,13 @@
 package com.example.ecolink.ecolink.entity;
 
 import jakarta.persistence.Entity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class Startup extends UserBase {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 }
