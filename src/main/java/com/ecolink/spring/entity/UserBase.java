@@ -21,7 +21,7 @@ public abstract class UserBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    userType userType;
+    UserType userType;
     String name;
     String email;
     String password;

@@ -19,4 +19,8 @@ public class OdsService {
     public void save(Ods ods){
         repository.save(ods);
     }
+
+    public Ods findByName(String name){
+        return repository.findByName(name);
+    }
 }

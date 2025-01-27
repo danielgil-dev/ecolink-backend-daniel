@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "likes") // 
+@Table(name = "likes")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Like {
@@ -23,9 +23,9 @@ public class Like {
     @ManyToOne
     @JoinColumn(unique = true)
     private Post post;
-    
+
     @ManyToOne
     @JoinColumn(unique = true)
     private UserBase user;
-    
+
 }

@@ -1,6 +1,6 @@
 package com.ecolink.spring.entity;
 
-public enum userType {
+public enum UserType {
     CLIENT,
     COMPANY,
     STARTUP,
