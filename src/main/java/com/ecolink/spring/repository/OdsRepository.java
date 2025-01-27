@@ -7,5 +7,5 @@ import com.ecolink.spring.entity.Ods;
 
 @Repository
 public interface OdsRepository extends JpaRepository<Ods, Long> {
-
+    public boolean existsByName(String name);
 }

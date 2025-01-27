@@ -1,5 +1,6 @@
 package com.ecolink.spring.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -25,8 +26,14 @@ public class Ods {
 
     @ManyToMany(mappedBy = "odsList")
     private List<Startup> startups;
-    
-    public void addStartup(Startup startup){
+
+
+    public Ods(String name) {
+        this.name = name;
+        this.startups = new ArrayList<>();
+    }
+
+    public void addStartup(Startup startup) {
         this.startups.add(startup);
     }
 }
