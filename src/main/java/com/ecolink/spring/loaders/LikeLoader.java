@@ -42,7 +42,6 @@ public class LikeLoader implements CommandLineRunner {
         Startup vhat = startupService.findByName("VhAT");
         Startup gamingBuddy = startupService.findByName("GamingBuddy");
 
-
         List<Like> likes = Arrays.asList(
                 new Like(post1, ecoSolutions),
                 new Like(post1, greenTech),
@@ -53,6 +52,8 @@ public class LikeLoader implements CommandLineRunner {
         likes.forEach(like -> {
             if (!service.existsByPostAndUser(like.getPost(), like.getUser())) {
                 service.save(like);
+            } else {
+                System.out.println("Ya existe !!!");
             }
         });
     }
