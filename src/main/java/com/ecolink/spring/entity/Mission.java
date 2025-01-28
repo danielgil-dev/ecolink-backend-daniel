@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Mision {
+public class Mission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,4 +32,11 @@ public class Mision {
         inverseJoinColumns = @JoinColumn(name = "client_id") // Columna que referencia a Client
     )
     private List<Client> clients;
+
+    public Mission(String name, String description, misionType type, Integer points){
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.points = points;
+    }
 }

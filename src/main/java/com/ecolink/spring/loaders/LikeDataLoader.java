@@ -19,7 +19,7 @@ import com.ecolink.spring.service.StartupService;
 
 @Component
 @Order(6)
-public class LikeLoader implements CommandLineRunner {
+public class LikeDataLoader implements CommandLineRunner {
 
     @Autowired
     private LikeService service;

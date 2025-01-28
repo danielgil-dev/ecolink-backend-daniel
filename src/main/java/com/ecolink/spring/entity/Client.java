@@ -3,9 +3,6 @@ package com.ecolink.spring.entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -14,7 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client extends UserBase {
-    private Long activity;
+    private Long activity; //! incompleto
+
     @ManyToMany(mappedBy = "clients")
-    private List<Mision> misiones;
+    private List<Mission> missions;
+
+    public void addMision(Mission mission){
+        this.missions.add(mission);
+    }
 }
