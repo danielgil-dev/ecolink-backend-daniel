@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.ecolink.spring.entity.Proposal;
 
+
+
 @Repository
 public interface ProposalRepository extends JpaRepository<Proposal, Long> {
-    
+    public boolean existsById(Long id);
 }
