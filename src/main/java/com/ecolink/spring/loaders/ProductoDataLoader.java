@@ -65,13 +65,11 @@ public class ProductoDataLoader implements CommandLineRunner {
                 new Product(tooGoodToGo, "Too Good To Go App", "Aplicación para combatir el desperdicio de alimentos",
                         new BigDecimal("0.00"), LocalDate.now()),
 
-                // Productos para Doublepoint
                 new Product(doublepoint, "Doublepoint Smartwatch", "Reloj inteligente con GPS integrado",
                         new BigDecimal("199.99"), LocalDate.now()),
                 new Product(doublepoint, "Doublepoint Fitness Tracker",
                         "Dispositivo para seguimiento de actividad física", new BigDecimal("79.99"), LocalDate.now()));
 
-        // Guardar los productos en la base de datos
         products.forEach(product -> {
             if (!service.existsByNameAndStartup(product.getName(), product.getStartup())) {
                 service.save(product);
