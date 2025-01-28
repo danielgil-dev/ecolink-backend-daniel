@@ -9,8 +9,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Company;
-import com.ecolink.spring.entity.UserType;
-import com.ecolink.spring.repository.CompanyRepository;
 import com.ecolink.spring.service.CompanyService;
 
 @Component
