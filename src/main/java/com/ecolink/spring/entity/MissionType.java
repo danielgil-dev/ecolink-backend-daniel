@@ -1,6 +1,6 @@
 package com.ecolink.spring.entity;
 
-public enum misionType {
+public enum MissionType {
     DAILY,
     WEEKLY
 }

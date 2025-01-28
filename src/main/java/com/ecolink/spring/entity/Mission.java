@@ -23,7 +23,7 @@ public class Mission {
     private Long id;
     private String name;
     private String description;
-    private misionType type;
+    private MissionType type;
     private Integer points;
     @ManyToMany
     @JoinTable(
@@ -33,7 +33,7 @@ public class Mission {
     )
     private List<Client> clients;
 
-    public Mission(String name, String description, misionType type, Integer points){
+    public Mission(String name, String description, MissionType type, Integer points){
         this.name = name;
         this.description = description;
         this.type = type;
