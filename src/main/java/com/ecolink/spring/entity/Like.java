@@ -1,5 +1,7 @@
 package com.ecolink.spring.entity;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,12 +22,16 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(unique = true)
-    private Post post;
 
     @ManyToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserBase user;
 
+    @ManyToOne
+    private Post post;
+
+    public Like(Post post, UserBase user) {
+        this.post = post;
+        this.user = user;
+    }
 }

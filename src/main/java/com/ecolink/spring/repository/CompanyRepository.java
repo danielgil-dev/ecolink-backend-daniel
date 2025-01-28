@@ -6,4 +6,5 @@ import com.ecolink.spring.entity.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Long> {
     boolean existsByName(String name);
+    Company findByName(String name);
 }
