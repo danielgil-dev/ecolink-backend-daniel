@@ -11,6 +11,7 @@ public class ChallengeService {
     @Autowired
     private ChallengeRepository repository;
 
+   
     public Boolean existsByTitle(String title) {
         return repository.existsByTitle(title);
     }
@@ -22,4 +23,6 @@ public class ChallengeService {
     public void save(Challenge challenge) {
         repository.save(challenge);
     }
+
+
 }

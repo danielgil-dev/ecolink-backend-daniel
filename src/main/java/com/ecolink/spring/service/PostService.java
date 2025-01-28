@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,10 @@ public class PostService {
     @Autowired
     private PostRepository repository;
 
+    public List<Post> getAllPosts(){
+        return repository.findAll();
+    }
+    
     public void save(Post post) {
         repository.save(post);
     }
