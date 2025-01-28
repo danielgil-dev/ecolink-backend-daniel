@@ -14,7 +14,6 @@ import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

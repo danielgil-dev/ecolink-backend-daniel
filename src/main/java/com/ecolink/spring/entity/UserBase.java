@@ -30,7 +30,7 @@ public abstract class UserBase {
     String email;
     String password;
     String imageUrl;
-    Long nivel;
+    Long level;
     LocalDate registerDate;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
