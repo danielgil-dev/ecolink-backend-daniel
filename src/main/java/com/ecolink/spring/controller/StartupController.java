@@ -14,12 +14,14 @@ import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/startup")
 public class StartupController {
-    private final DTOConverter productoDTOConverter;
+    private final DTOConverter dtoConverter;
     private final StartupService service;
 
     @GetMapping()
@@ -29,9 +31,23 @@ public class StartupController {
             return ResponseEntity.notFound().build();
         }
 
-        List<StartupDTO> dtoList = startups.stream().map(productoDTOConverter::convertStartupToDto)
+        List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(dtoList);
     }
+
+    @GetMapping("/relevant")
+    public ResponseEntity<?> getRelevantStartups() {
+        List<Startup> startups = service.findTop5ByOrderByRegisterDateDesc();
+        if (startups.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtoList);
+    }
+    
 }

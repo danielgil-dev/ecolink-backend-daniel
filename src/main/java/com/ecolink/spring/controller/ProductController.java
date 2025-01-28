@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/api/product")
 public class ProductController {
-    private final DTOConverter productoDTOConverter;
+    private final DTOConverter dtoConverter;
     private final ProductService service;
 
     @GetMapping()
@@ -29,7 +29,7 @@ public class ProductController {
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertProductToDto)
+            List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         }
@@ -41,7 +41,7 @@ public class ProductController {
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertProductToDto)
+        List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
