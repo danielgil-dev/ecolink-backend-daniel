@@ -24,6 +24,9 @@ public class Ods {
 
     @ManyToMany(mappedBy = "odsList")
     private List<Startup> startups;
+    
+    @ManyToMany(mappedBy = "preferences")
+    private List<UserBase> userPreferences;
 
 
     public Ods(String name) {

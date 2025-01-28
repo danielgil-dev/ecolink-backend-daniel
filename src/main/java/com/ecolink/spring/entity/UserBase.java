@@ -11,6 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,4 +38,8 @@ public abstract class UserBase {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Like> likes;
+
+    @ManyToMany
+    @JoinTable(name = "user_preferences", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
+    private List<Ods> preferences;
 }
