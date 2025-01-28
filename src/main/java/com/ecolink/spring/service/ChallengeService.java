@@ -15,6 +15,10 @@ public class ChallengeService {
         return repository.existsByTitle(title);
     }
 
+    public Challenge findByTitle (String title){
+        return repository.findByTitle(title);
+    }
+
     public void save(Challenge challenge) {
         repository.save(challenge);
     }

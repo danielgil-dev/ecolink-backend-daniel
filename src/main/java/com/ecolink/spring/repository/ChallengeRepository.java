@@ -9,4 +9,5 @@ import com.ecolink.spring.entity.Challenge;
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
     Boolean existsByTitle(String title);
+    Challenge findByTitle(String title);
 }
