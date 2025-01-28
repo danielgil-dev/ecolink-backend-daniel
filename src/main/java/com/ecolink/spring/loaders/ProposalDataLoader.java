@@ -58,11 +58,10 @@ public class ProposalDataLoader implements CommandLineRunner  {
         );
 
         proposals.forEach(proposal ->{
-            if(proposal.getId() == null || !service.existsById(proposal.getId())){
-                System.out.println("Entrando en el foreach");
+            if(!service.existsByStartupAndChallenge(proposal.getStartup(), proposal.getChallenge()) ){
                 service.save(proposal);
             }
-
+            
             System.out.println(proposal.getId());
         });
         
