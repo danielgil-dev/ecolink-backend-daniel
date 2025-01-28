@@ -8,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -26,8 +29,10 @@ public class Challenge {
     @ManyToOne
     private Company company;
     
-    @ManyToOne
-    private Ods ods;
+    @ManyToMany
+    @JoinTable(name = "challenge_ods", joinColumns = @JoinColumn(name = "id_startup"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
+    private List<Ods> odsList;
+
     private String title;
     private String description;
     private BigDecimal budget;
@@ -36,6 +41,15 @@ public class Challenge {
     @OneToMany(mappedBy = "challenge")
     List<Proposal> proposals;
     
+
+    public Challenge(Company company ,String title, String description, BigDecimal budget, LocalDateTime startDate,List<Ods> odsList){
+        this.company = company;
+        this.title = title;
+        this.description = description;
+        this.budget = budget;
+        this.startDate = startDate;
+        this.odsList = odsList;
+    }
     public void addChallenge(Proposal proposal) {
     	this.proposals.add(proposal);
     }

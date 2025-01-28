@@ -13,7 +13,7 @@ import com.ecolink.spring.service.CompanyService;
 
 @Component
 @Order(5)
-public class CompanyLoader implements CommandLineRunner  {
+public class CompanyDataLoader implements CommandLineRunner  {
 
      @Autowired
      private CompanyService service;

@@ -19,5 +19,10 @@ public class CompanyService {
         repository.save(company);
     }
 
+    public Company findByName (String name){
+        return repository.findByName(name);
+
+    }
+
    
 }
