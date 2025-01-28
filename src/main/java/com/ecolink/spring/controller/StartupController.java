@@ -3,9 +3,11 @@ package com.ecolink.spring.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.query.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.DTOConverter;
@@ -34,6 +36,13 @@ public class StartupController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/startups")
+    public Page<Startup> getStartups(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return service.getStartupByPageAndSize(page, size);
     }
 
     @GetMapping("/relevant")
