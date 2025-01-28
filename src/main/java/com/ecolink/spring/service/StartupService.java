@@ -30,7 +30,7 @@ public class StartupService {
         return repository.findAll();
     }
 
-    public List<Startup> findTop5ByOrderByRegisterDateDesc() {
-        return repository.findTop5ByOrderByRegisterDateDesc();
+    public List<Startup> findTop5ByOrderByLevelDesc() {
+        return repository.findTop5ByOrderByLevelDesc();
     }
 }

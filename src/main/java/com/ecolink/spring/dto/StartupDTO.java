@@ -9,5 +9,5 @@ public class StartupDTO {
     Long id;
     String name;
     String imageUrl;
-    Long nivel;
+    Long level;
 }

@@ -51,6 +51,4 @@ public class Startup extends UserBase {
     public String getName() {
         return this.name;
     }
-
-
 }

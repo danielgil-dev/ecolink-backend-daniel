@@ -9,5 +9,5 @@ import com.ecolink.spring.entity.Startup;
 public interface StartupRepository extends JpaRepository<Startup, Long> {
     boolean existsByName(String name);
     Startup findByName(String name);
-    List<Startup> findTop5ByOrderByRegisterDateDesc();
+    List<Startup> findTop5ByOrderByLevelDesc();
 }
