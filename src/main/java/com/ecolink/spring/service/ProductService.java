@@ -30,4 +30,8 @@ public class ProductService {
     public List<Product> findAll(){
         return repository.findAll();
     }
+
+    public List<Product> findTop5ByOrderByCreationDateDesc() {
+        return repository.findTop5ByOrderByCreationDateDesc();
+    }
 }

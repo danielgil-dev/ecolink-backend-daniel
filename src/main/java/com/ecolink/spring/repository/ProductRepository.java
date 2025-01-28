@@ -1,5 +1,7 @@
 package com.ecolink.spring.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,4 +12,5 @@ import com.ecolink.spring.entity.Startup;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByNameAndStartup(String name, Startup startup);
     Boolean existsByNameAndStartup(String name, Startup startup);
+    List<Product> findTop5ByOrderByCreationDateDesc();
 }

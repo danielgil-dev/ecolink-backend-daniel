@@ -15,24 +15,35 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/product")
 public class ProductController {
     private final ProductoDTOConverter productoDTOConverter;
     private final ProductService service;
 
-    @GetMapping("/product")
+    @GetMapping()
     public ResponseEntity<?> getProducts() {
         List<Product> products = service.findAll();
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
-        } else{
-            List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertToDto).collect(Collectors.toList());
+        } else {
+            List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertToDto)
+                    .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         }
     }
-    
 
+    @GetMapping("/relevant")
+    public ResponseEntity<?> getRelevantProducts() {
+        List<Product> products = service.findTop5ByOrderByCreationDateDesc();
+        if (products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
+    }
 }
