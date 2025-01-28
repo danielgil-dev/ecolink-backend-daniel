@@ -25,6 +25,7 @@ public abstract class UserBase {
     String name;
     String email;
     String password;
+    String imageUrl;
     Long nivel;
     LocalDate registerDate;
 }
