@@ -19,4 +19,8 @@ public class StartupService {
     public void save(Startup startup) {
         repository.save(startup);
     }
+
+    public Startup findByName(String name){
+        return repository.findByName(name);
+    }
 }

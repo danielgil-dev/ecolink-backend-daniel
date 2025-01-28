@@ -6,4 +6,5 @@ import com.ecolink.spring.entity.Startup;
 
 public interface StartupRepository extends JpaRepository<Startup, Long> {
     boolean existsByName(String name);
+    Startup findByName(String name);
 }
