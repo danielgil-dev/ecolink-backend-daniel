@@ -3,6 +3,8 @@ package com.ecolink.spring.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.cglib.core.Local;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +30,14 @@ public class Post {
     private String title;
     private String description;
     private LocalDate postDate;
+
+    public Post(Startup startup, Ods ods, String title, String description, LocalDate postDate){
+        this.startup = startup;
+        this.ods = ods;
+        this.title = title;
+        this.description = description;
+        this.postDate = postDate;
+    }
     
     @OneToMany(mappedBy = "post")
     private List<Like> likes;
