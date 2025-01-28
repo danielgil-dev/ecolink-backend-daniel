@@ -2,24 +2,36 @@ package com.ecolink.spring.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecolink.spring.dto.ProductDTO;
+import com.ecolink.spring.dto.ProductoDTOConverter;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
+    private final ProductoDTOConverter productoDTOConverter;
     private final ProductService service;
 
     @GetMapping("/product")
-    public List<Product> getProducts() {
-        return service.findAll();
+    public ResponseEntity<?> getProducts() {
+        List<Product> products = service.findAll();
+        if (products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else{
+            List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertToDto).collect(Collectors.toList());
+            return ResponseEntity.ok(dtoList);
+        }
     }
     
 
