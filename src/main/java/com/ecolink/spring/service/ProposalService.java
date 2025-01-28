@@ -8,5 +8,5 @@ import com.ecolink.spring.repository.ProposalRepository;
 @Service
 public class ProposalService {
     @Autowired
-    private ProposalRepository proposalRepository;
+    private ProposalRepository repository;
 }

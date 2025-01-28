@@ -9,5 +9,5 @@ import com.ecolink.spring.repository.OrderLineRepository;
 public class OrderLineService {
 
         @Autowired
-        private OrderLineRepository orderLineRepository;
+        private OrderLineRepository repository;
 }
