@@ -54,6 +54,7 @@ public class LikeDataLoader implements CommandLineRunner {
                 service.save(like);
             } else {
                 System.out.println("Ya existe !!!");
+                System.out.println("Numero de likes del post " + like.getPost().getTitle() + "likes: " + service.countByPostId(like.getPost().getId()) );
             }
         });
     }

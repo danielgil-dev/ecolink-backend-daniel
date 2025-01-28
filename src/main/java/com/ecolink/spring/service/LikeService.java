@@ -18,6 +18,9 @@ public class LikeService {
         return repository.existsByPostAndUser(post, user);
     }
 
+    public Long countByPostId(Long postId){
+        return repository.countByPostId(postId);
+    }
 
     public void save(Like like) {
        repository.save(like);

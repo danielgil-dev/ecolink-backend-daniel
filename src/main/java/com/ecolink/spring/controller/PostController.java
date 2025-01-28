@@ -34,4 +34,18 @@ public class PostController {
         .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
+    @GetMapping("/recent")
+    public ResponseEntity<?> getRecentPost(){
+        List<Post> posts = postService.getRecentPost();
+        if(posts.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDTO)
+        .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
+    }
+
 }
+    
+

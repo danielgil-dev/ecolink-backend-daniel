@@ -18,6 +18,9 @@ public class PostService {
     public List<Post> getAllPosts(){
         return repository.findAll();
     }
+    public List<Post> getRecentPost(){
+        return repository.findTop5ByOrderByPostDateDesc();
+    }
     
     public void save(Post post) {
         repository.save(post);
@@ -35,3 +38,4 @@ public class PostService {
         return repository.findByTitle(title);
     }
 }
+

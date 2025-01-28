@@ -10,4 +10,5 @@ import com.ecolink.spring.entity.UserBase;
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
     boolean existsByPostAndUser(Post post, UserBase user);
+    Long countByPostId(Long postId);
 }
