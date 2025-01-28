@@ -1,9 +1,12 @@
 
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.StartupRepository;
 
@@ -22,5 +25,9 @@ public class StartupService {
 
     public Startup findByName(String name){
         return repository.findByName(name);
+    }
+
+    public List<Startup> findAll() {
+        return repository.findAll();
     }
 }

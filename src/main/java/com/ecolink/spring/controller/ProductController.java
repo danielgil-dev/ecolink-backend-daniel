@@ -10,7 +10,6 @@ import com.ecolink.spring.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class ProductController {
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertToDto)
+            List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertProductToDto)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         }
@@ -42,7 +41,7 @@ public class ProductController {
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertToDto)
+        List<ProductDTO> dtoList = products.stream().map(productoDTOConverter::convertProductToDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
