@@ -9,9 +9,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Company extends UserBase {
-    public Company(String name, String email, Long nivel) {
+    public Company(String name, String email, Long level) {
         this.name = name;
-        this.nivel = 0L;
+        this.level = (level != null) ? level : 0L;
         this.userType = UserType.COMPANY;
         this.email = email;
 

@@ -30,7 +30,7 @@ public class Startup extends UserBase {
 
     public Startup(String name, List<Ods> odsList, String email) {
         this.name = name;
-        this.nivel = 0L;
+        this.level = 0L;
         this.odsList = odsList;
         this.userType = UserType.STARTUP;
         this.email = email;
@@ -51,6 +51,4 @@ public class Startup extends UserBase {
     public String getName() {
         return this.name;
     }
-
-
 }
