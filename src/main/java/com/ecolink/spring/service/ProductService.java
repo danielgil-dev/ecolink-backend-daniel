@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,10 @@ public class ProductService {
 
     public Boolean existsByNameAndStartup(String name, Startup startup){
         return repository.existsByNameAndStartup(name, startup);
+    }
+
+    
+    public List<Product> findAll(){
+        return repository.findAll();
     }
 }
