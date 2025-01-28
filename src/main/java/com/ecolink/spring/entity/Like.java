@@ -1,7 +1,5 @@
 package com.ecolink.spring.entity;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
