@@ -3,7 +3,7 @@ package com.ecolink.spring.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.ProductDTO;
-import com.ecolink.spring.dto.ProductoDTOConverter;
+import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.service.ProductService;
 
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/api/product")
 public class ProductController {
-    private final ProductoDTOConverter productoDTOConverter;
+    private final DTOConverter productoDTOConverter;
     private final ProductService service;
 
     @GetMapping()

@@ -61,8 +61,6 @@ public class ProposalDataLoader implements CommandLineRunner  {
             if(!service.existsByStartupAndChallenge(proposal.getStartup(), proposal.getChallenge()) ){
                 service.save(proposal);
             }
-            
-            System.out.println(proposal.getId());
         });
         
 
