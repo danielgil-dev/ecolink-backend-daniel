@@ -29,7 +29,7 @@ public class PostController {
         if(posts.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDTO)
+        List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDto)
         .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
@@ -40,7 +40,7 @@ public class PostController {
             return ResponseEntity.notFound().build();
         }
 
-        List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDTO)
+        List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDto)
         .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
