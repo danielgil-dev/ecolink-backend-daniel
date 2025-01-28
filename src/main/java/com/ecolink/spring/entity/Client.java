@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client extends UserBase {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
     private Long activity;
     @ManyToMany(mappedBy = "clients")
     private List<Mision> misiones;

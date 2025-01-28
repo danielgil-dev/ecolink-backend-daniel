@@ -24,4 +24,8 @@ public class PostService {
     public Post findByTitleAndStartupAndOds(String title, Startup startup, Ods ods){
         return repository.findByTitleAndStartupAndOds(title, startup, ods);
     }
+
+    public Post findByTitle(String title) {
+        return repository.findByTitle(title);
+    }
 }

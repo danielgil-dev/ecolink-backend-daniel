@@ -19,9 +19,14 @@ public class CompanyService {
         repository.save(company);
     }
 
+<<<<<<< HEAD
     public Company findByName (String name){
         return repository.findByName(name);
 
+=======
+    public Company findByName(String name){
+        return repository.findByName(name);
+>>>>>>> 9f160bc (Fixed id mapping and finish likes)
     }
 
    

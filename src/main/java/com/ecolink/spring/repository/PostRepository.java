@@ -14,4 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     public Post findByTitleAndStartupAndOds(String title, Startup startup, Ods ods);
 
+    public Post findByTitle(String title);
+
 }
