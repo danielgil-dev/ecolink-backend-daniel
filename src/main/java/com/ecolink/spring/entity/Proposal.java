@@ -29,6 +29,15 @@ public class Proposal {
 	private String description;
 	private LocalDate date;
 	private Status status;
+
+	public Proposal(Startup startup,Challenge challenge,  String description, LocalDate date, Status status){
+
+		this.challenge = challenge;
+		this.startup = startup;
+		this.description = description;
+		this.date = date;
+		this.status = status;
+	}
 	
 	
 }
