@@ -12,6 +12,6 @@ import com.ecolink.spring.entity.Startup;
 public interface StartupRepository extends JpaRepository<Startup, Long>, JpaSpecificationExecutor<Startup> {
     boolean existsByName(String name);
     Startup findByName(String name);
-    List<Startup> findtop4ByOrderByLevelDesc();
+    List<Startup> findTop4ByOrderByLevelDesc();
     Page<Startup> findAll(Pageable pageable);
 }
