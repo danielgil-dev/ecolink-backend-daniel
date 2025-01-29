@@ -9,8 +9,6 @@ public class ErrorDetails {
         this.message = message;
     }
 
-    // Getters y Setters
-
     public int getStatus() {
         return status;
     }
