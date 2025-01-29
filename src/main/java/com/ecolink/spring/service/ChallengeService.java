@@ -1,5 +1,6 @@
 package com.ecolink.spring.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,16 @@ public class ChallengeService {
 
     public List<Challenge> getAllChallenges(){
         return repository.findAll();
+    }
+
+    public List<Challenge> getChallengeByBudgetRange(BigDecimal minBudget, BigDecimal maxBudget){
+        List<Challenge> challenges = repository.findByBudgetBetween(minBudget, maxBudget);
+       
+        challenges.forEach(challenge ->{
+            System.out.println("Holaaaa");
+            System.out.println(challenge.toString());
+        });
+        return challenges;
+        //return repository.findByBudgetBetween(minBudget, maxBudget);
     }
 }
