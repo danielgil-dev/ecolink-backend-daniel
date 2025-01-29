@@ -9,5 +9,6 @@ import lombok.Setter;
 public class PostDTO {
     private String title;
     private String description;
+    private String imageUrl;
     private LocalDate postDate;
 }
