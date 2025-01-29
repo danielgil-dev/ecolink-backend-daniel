@@ -10,4 +10,5 @@ public class StartupDTO {
     String name;
     String imageUrl;
     Long level;
+    String description;
 }

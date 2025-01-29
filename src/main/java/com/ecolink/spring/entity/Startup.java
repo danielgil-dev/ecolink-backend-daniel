@@ -28,12 +28,15 @@ public class Startup extends UserBase {
     @JoinTable(name = "startup_ods", joinColumns = @JoinColumn(name = "id_startup"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> odsList;
 
-    public Startup(String name, List<Ods> odsList, String email) {
+    private String description;
+
+    public Startup(String name, List<Ods> odsList, String email, String description) {
         this.name = name;
         this.level = 0L;
         this.odsList = odsList;
         this.userType = UserType.STARTUP;
         this.email = email;
+        this.description = description;
     }
 
     public void addChallenge(Proposal proposal) {
@@ -50,5 +53,13 @@ public class Startup extends UserBase {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 }
