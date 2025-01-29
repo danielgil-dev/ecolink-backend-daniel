@@ -48,15 +48,16 @@ public class ProductController {
     @GetMapping("/filter")
     public ResponseEntity<?> getProductsWithFilters(
             @RequestParam(required = false) Long startup,
+            @RequestParam(required = false) String name,
             @RequestParam(required = false) BigDecimal priceMin,
             @RequestParam(required = false) BigDecimal priceMax) {
 
-        List<Product> products = service.getProductsByFilter(startup, priceMin, priceMax);
+        List<Product> products = service.getProductsByFilter(startup, name, priceMin, priceMax);
 
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
+        System.out.println(name);
         List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);

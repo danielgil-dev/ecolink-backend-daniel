@@ -15,6 +15,7 @@ import jakarta.persistence.criteria.Predicate;
 public class ProductSpecification {
     public static Specification<Product> filters(
             Long id_startup,
+            String name,
             BigDecimal priceMin,
             BigDecimal priceMax) {
 
@@ -23,6 +24,11 @@ public class ProductSpecification {
             if (id_startup != null) {
                 Join<Product, Startup> startupJoin = root.join("startup");
                 predicates.add(criteriaBuilder.equal(startupJoin.get("id"), id_startup));
+            }
+
+            if (name != null) {
+                predicates.add(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
             }
 
             if (priceMin != null) {
