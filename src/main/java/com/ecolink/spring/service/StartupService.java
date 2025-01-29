@@ -42,8 +42,8 @@ public class StartupService {
         return repository.findAll();
     }
 
-    public List<Startup> findTop5ByOrderByLevelDesc() {
-        return repository.findTop5ByOrderByLevelDesc();
+    public List<Startup> findtop4ByOrderByLevelDesc() {
+        return repository.findtop4ByOrderByLevelDesc();
     }
 
     public Page<Startup> findByPagination(int page, int size) {

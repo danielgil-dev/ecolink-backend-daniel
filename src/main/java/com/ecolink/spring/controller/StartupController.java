@@ -97,7 +97,7 @@ public class StartupController {
 
     @GetMapping("/relevant")
     public ResponseEntity<?> getRelevantStartups() {
-        List<Startup> startups = service.findTop5ByOrderByLevelDesc();
+        List<Startup> startups = service.findtop4ByOrderByLevelDesc();
         if (startups.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
