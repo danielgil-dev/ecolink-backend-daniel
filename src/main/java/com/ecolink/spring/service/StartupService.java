@@ -7,10 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.ecolink.spring.entity.Ods;
+import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.StartupRepository;
+import com.ecolink.spring.specification.ProductSpecification;
+import com.ecolink.spring.specification.StartupSpecification;
 
 @Service
 public class StartupService {
@@ -44,5 +49,10 @@ public class StartupService {
     public Page<Startup> findByPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(pageable);
+    }
+
+    public List<Startup> findByFilter(String name, List<Ods> ods) {
+         Specification<Startup> spec = StartupSpecification.filters(name, ods);
+         return repository.findAll(spec);
     }
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 
@@ -15,15 +14,15 @@ import jakarta.persistence.criteria.Predicate;
 
 public class ProductSpecification {
     public static Specification<Product> filters(
-            Startup startup,
+            Long id_startup,
             BigDecimal priceMin,
             BigDecimal priceMax) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (startup != null) {
+            if (id_startup != null) {
                 Join<Product, Startup> startupJoin = root.join("startup");
-                predicates.add(criteriaBuilder.equal(startupJoin.get("id"), startup.getId()));
+                predicates.add(criteriaBuilder.equal(startupJoin.get("id"), id_startup));
             }
 
             if (priceMin != null) {

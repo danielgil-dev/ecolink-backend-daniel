@@ -1,5 +1,6 @@
 package com.ecolink.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.StartupDTO;
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,12 +27,41 @@ import lombok.RequiredArgsConstructor;
 public class StartupController {
     private final DTOConverter dtoConverter;
     private final StartupService service;
+    private final OdsService odsService;
 
     @GetMapping()
     public ResponseEntity<?> getStartups() {
         List<Startup> startups = service.findAll();
         if (startups.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
+
+        List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<?> getStartupsByFilter(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) List<Long> odsIdList) {
+
+        List<Ods> odsList = new ArrayList<>();
+
+        if (odsIdList != null &&!odsIdList.isEmpty()) {
+            odsIdList.forEach(odsId -> {
+                Ods ods = odsService.findById(odsId);
+                if (ods != null) {
+                    odsList.add(ods);
+                }
+            });
+        }
+
+        List<Startup> startups = service.findByFilter(name, odsList);
+
+        if (startups.isEmpty()) {
+            ResponseEntity.notFound().build();
         }
 
         List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)

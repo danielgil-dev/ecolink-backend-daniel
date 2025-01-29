@@ -32,7 +32,6 @@ public class ProductController {
     private final DTOConverter dtoConverter;
     private final ProductService service;
     private final StartupService startupService;
-    private final OdsService odsService;
 
     @GetMapping()
     public ResponseEntity<?> getProducts() {
@@ -52,12 +51,7 @@ public class ProductController {
             @RequestParam(required = false) BigDecimal priceMin,
             @RequestParam(required = false) BigDecimal priceMax) {
 
-        Startup filterStartup = null;
-        if (startup != null) {
-            filterStartup = startupService.findById(startup);
-        }
-
-        List<Product> products = service.getProductsByFilter(filterStartup, priceMin, priceMax);
+        List<Product> products = service.getProductsByFilter(startup, priceMin, priceMax);
 
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
