@@ -3,6 +3,7 @@ package com.ecolink.spring.dto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Product;
@@ -35,4 +36,8 @@ public class DTOConverter {
         return modelMapper.map(mission, MissionDTO.class);
     }
 
+
+    public ChallengeDTO converChallengeToDto(Challenge challenge){
+        return modelMapper.map(challenge, ChallengeDTO.class);
+    }
 }
