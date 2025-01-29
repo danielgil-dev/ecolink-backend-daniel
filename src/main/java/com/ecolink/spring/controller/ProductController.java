@@ -45,7 +45,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/f")
+    @GetMapping("/filter")
     public ResponseEntity<?> getProductsWithFilters(
             @RequestParam(required = false) Long startup,
             @RequestParam(required = false) BigDecimal priceMin,
@@ -67,7 +67,7 @@ public class ProductController {
         return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/p")
+    @GetMapping("/pagination")
     public ResponseEntity<?> getStartups(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

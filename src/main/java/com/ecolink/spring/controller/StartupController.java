@@ -38,7 +38,7 @@ public class StartupController {
         return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/p")
+    @GetMapping("/pagination")
     public ResponseEntity<?> getStartups(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
