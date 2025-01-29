@@ -5,11 +5,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.ProductDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
+import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.ProductService;
+import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductController {
     private final DTOConverter dtoConverter;
     private final ProductService service;
+    private final StartupService startupService;
+    private final OdsService odsService;
 
     @GetMapping()
     public ResponseEntity<?> getProducts() {
@@ -36,6 +43,26 @@ public class ProductController {
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         }
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getProducts(
+            @RequestParam(required = false) Long startup,
+            @RequestParam(required = false) Long ods,
+            @RequestParam(required = false) BigDecimal precioMin,
+            @RequestParam(required = false) BigDecimal precioMax,
+            @RequestParam(required = false) Boolean disponible) {
+
+                Startup filterStartup = startupService.findById(startup);
+                Ods filterOds = odsService.findById(ods);
+                
+        List<Product> products =  service.getProductsByFilter(filterStartup, filterOds, precioMin, precioMax, disponible);
+
+        if (products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/pagination")
