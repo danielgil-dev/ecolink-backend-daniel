@@ -31,17 +31,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductController {
     private final DTOConverter dtoConverter;
     private final ProductService service;
-    private final StartupService startupService;
 
     @GetMapping()
     public ResponseEntity<?> getProducts() {
-        List<Product> products = service.findAll();
-        if (products.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
+        try {
+            List<Product> products = service.findAll();
+
+            if (products.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
             List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -57,7 +61,7 @@ public class ProductController {
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println(name);
+
         List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
