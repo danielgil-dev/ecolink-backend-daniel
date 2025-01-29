@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.ecolink.spring.entity.Challenge;
-import com.ecolink.spring.entity.Product;
 
 import java.math.BigDecimal;
 

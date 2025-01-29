@@ -6,14 +6,10 @@ import com.ecolink.spring.dto.ProductDTO;
 import com.ecolink.spring.dto.ProductRelevantDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
-import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
-import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ProductNotFoundException;
-import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.ProductService;
-import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
 

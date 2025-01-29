@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client extends UserBase {
-    private Long activity; //! incompleto
 
     @ManyToMany(mappedBy = "clients")
     private List<Mission> missions;
