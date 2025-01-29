@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.StartupDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.exception.StartupNotFoundException;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.StartupService;
 
@@ -31,43 +34,59 @@ public class StartupController {
 
     @GetMapping()
     public ResponseEntity<?> getStartups() {
-        List<Startup> startups = service.findAll();
-        if (startups.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        try {
+            List<Startup> startups = service.findAll();
+            if (startups.isEmpty()) {
+                throw new StartupNotFoundException("No se encontraron startups en la base de datos");
+            }
+
+            List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(dtoList);
+        } catch (StartupNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-
-        List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/filter")
     public ResponseEntity<?> getStartupsByFilter(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) List<Long> odsIdList) {
+        try {
+            List<Ods> odsList = new ArrayList<>();
 
-        List<Ods> odsList = new ArrayList<>();
+            if (odsIdList != null && !odsIdList.isEmpty()) {
+                odsIdList.forEach(odsId -> {
+                    Ods ods = odsService.findById(odsId);
+                    if (ods != null) {
+                        odsList.add(ods);
+                    }
+                });
+            }
 
-        if (odsIdList != null && !odsIdList.isEmpty()) {
-            odsIdList.forEach(odsId -> {
-                Ods ods = odsService.findById(odsId);
-                if (ods != null) {
-                    odsList.add(ods);
-                }
-            });
+            List<Startup> startups = service.findByFilter(name, odsList);
+
+            if (startups.isEmpty()) {
+                throw new StartupNotFoundException("No se encontraron startups con los filtros especificados");
+            }
+
+            List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(dtoList);
+        } catch (StartupNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-
-        List<Startup> startups = service.findByFilter(name, odsList);
-
-        if (startups.isEmpty()) {
-            ResponseEntity.notFound().build();
-        }
-
-        List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/pagination")
@@ -75,36 +94,57 @@ public class StartupController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        Page<Startup> startups = service.findByPagination(page, size);
-        if (startups.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        try {
+            Page<Startup> startups = service.findByPagination(page, size);
+
+            if (startups.isEmpty()) {
+                throw new StartupNotFoundException("No se encontraron startups en la página especificada");
+            }
+
+            List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+                    .collect(Collectors.toList());
+
+            var response = new PaginationResponse<>(
+                    dtoList,
+                    startups.getNumber(),
+                    startups.getSize(),
+                    startups.getTotalElements(),
+                    startups.getTotalPages(),
+                    startups.isLast());
+
+            return ResponseEntity.ok(response);
+        } catch (StartupNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-
-        List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
-                .collect(Collectors.toList());
-
-        var response = new PaginationResponse<>(
-                dtoList,
-                startups.getNumber(),
-                startups.getSize(),
-                startups.getTotalElements(),
-                startups.getTotalPages(),
-                startups.isLast());
-
-        return ResponseEntity.ok(response);
 
     }
 
     @GetMapping("/relevant")
     public ResponseEntity<?> getRelevantStartups() {
-        List<Startup> startups = service.findTop3ByOrderByLevelDesc();
-        if (startups.isEmpty()) {
-            return ResponseEntity.notFound().build();
+
+        try {
+            List<Startup> startups = service.findTop3ByOrderByLevelDesc();
+            if (startups.isEmpty()) {
+                throw new StartupNotFoundException("No se encontraron startups relevantes");
+            }
+
+            List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(dtoList);
+        } catch (StartupNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-
-        List<StartupDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(dtoList);
     }
 }
