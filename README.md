@@ -2,7 +2,7 @@
 ## Backend Spring
 ### Productos de las Startups
 - [Home] Listar productos mas revelantes. Si no hay productos revelantes (productos mas comprados), poner recientes
-- [Pagina de productos | Buscador]. Obtener productos con filtros ej. Startup, ODS, precio, categoría, o disponibilidad.
+- [Pagina de productos | Buscador]. Obtener productos con filtros ej. Startup, ODS, precio, categoría
 
 ### Startups
   <!-- ? ¿Añadir follows como una red social? -->
