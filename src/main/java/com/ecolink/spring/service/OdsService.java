@@ -23,4 +23,8 @@ public class OdsService {
     public Ods findByName(String name){
         return repository.findByName(name);
     }
+
+    public Ods findById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }

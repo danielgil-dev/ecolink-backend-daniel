@@ -25,6 +25,10 @@ public class StartupService {
         repository.save(startup);
     }
 
+    public Startup findById(Long id){
+        return repository.findById(id).orElse(null);
+    }
+
     public Startup findByName(String name) {
         return repository.findByName(name);
     }

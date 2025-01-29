@@ -5,11 +5,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.ProductDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
+import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.ProductService;
+import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductController {
     private final DTOConverter dtoConverter;
     private final ProductService service;
+    private final StartupService startupService;
+    private final OdsService odsService;
 
     @GetMapping()
     public ResponseEntity<?> getProducts() {
@@ -38,7 +45,29 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/p")
+    @GetMapping("/f")
+    public ResponseEntity<?> getProductsWithFilters(
+            @RequestParam(required = false) Long startup,
+            @RequestParam(required = false) BigDecimal priceMin,
+            @RequestParam(required = false) BigDecimal priceMax) {
+
+        Startup filterStartup = null;
+        if (startup != null) {
+            filterStartup = startupService.findById(startup);
+        }
+
+        List<Product> products = service.getProductsByFilter(filterStartup, priceMin, priceMax);
+
+        if (products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/")
     public ResponseEntity<?> getStartups(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
