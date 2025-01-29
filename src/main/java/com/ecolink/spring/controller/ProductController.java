@@ -45,26 +45,29 @@ public class ProductController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<?> getProducts(
+    @GetMapping("/f")
+    public ResponseEntity<?> getProductsWithFilters(
             @RequestParam(required = false) Long startup,
-            @RequestParam(required = false) Long ods,
             @RequestParam(required = false) BigDecimal priceMin,
             @RequestParam(required = false) BigDecimal priceMax) {
 
-                Startup filterStartup = startupService.findById(startup);
-                Ods filterOds = odsService.findById(ods);
-                
-        List<Product> products =  service.getProductsByFilter(filterStartup, filterOds, priceMin, priceMax);
+        Startup filterStartup = null;
+        if (startup != null) {
+            filterStartup = startupService.findById(startup);
+        }
+
+        List<Product> products = service.getProductsByFilter(filterStartup, priceMin, priceMax);
 
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(products);
+        List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/pagination")
+    @GetMapping("/")
     public ResponseEntity<?> getStartups(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
