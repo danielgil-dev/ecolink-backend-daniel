@@ -49,7 +49,7 @@ public class StartupController {
 
         List<Ods> odsList = new ArrayList<>();
 
-        if (odsIdList != null &&!odsIdList.isEmpty()) {
+        if (odsIdList != null && !odsIdList.isEmpty()) {
             odsIdList.forEach(odsId -> {
                 Ods ods = odsService.findById(odsId);
                 if (ods != null) {
@@ -107,5 +107,4 @@ public class StartupController {
 
         return ResponseEntity.ok(dtoList);
     }
-
 }

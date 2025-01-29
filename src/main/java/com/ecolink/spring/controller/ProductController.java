@@ -9,6 +9,8 @@ import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.exception.ProductNotFoundException;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
@@ -16,10 +18,12 @@ import com.ecolink.spring.service.StartupService;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,17 +39,21 @@ public class ProductController {
     @GetMapping()
     public ResponseEntity<?> getProducts() {
         try {
-            List<Product> products = service.findAll();
-
+            List<Product> products = new ArrayList<>();
             if (products.isEmpty()) {
-                return ResponseEntity.notFound().build();
+                throw new ProductNotFoundException("No products found");
             }
 
             List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
+        } catch (ProductNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
 

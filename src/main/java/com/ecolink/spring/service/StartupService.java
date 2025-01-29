@@ -30,7 +30,7 @@ public class StartupService {
         repository.save(startup);
     }
 
-    public Startup findById(Long id){
+    public Startup findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -52,7 +52,7 @@ public class StartupService {
     }
 
     public List<Startup> findByFilter(String name, List<Ods> ods) {
-         Specification<Startup> spec = StartupSpecification.filters(name, ods);
-         return repository.findAll(spec);
+        Specification<Startup> spec = StartupSpecification.filters(name, ods);
+        return repository.findAll(spec);
     }
 }
