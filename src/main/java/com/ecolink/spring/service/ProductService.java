@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.ProductRepository;
+import com.ecolink.spring.specification.ProductSpecification;
 
 @Service
 public class ProductService {
@@ -45,9 +47,10 @@ public class ProductService {
         return repository.findAll(pageable);
     }
 
-    public List<Product> getProductsByFilter(Startup filterStartup, Ods filterOds, BigDecimal precioMin,
-            BigDecimal precioMax, Boolean disponible) {
-        
+    public List<Product> getProductsByFilter(Startup filterStartup, Ods filterOds, BigDecimal priceMin,
+            BigDecimal priceMax) {
+        Specification<Product> spec = ProductSpecification.filters(filterStartup, filterOds, priceMin, priceMax);
+        return repository.findAll(spec);
     }
 
 }

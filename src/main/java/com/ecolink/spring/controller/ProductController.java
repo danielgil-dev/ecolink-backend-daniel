@@ -49,14 +49,13 @@ public class ProductController {
     public ResponseEntity<?> getProducts(
             @RequestParam(required = false) Long startup,
             @RequestParam(required = false) Long ods,
-            @RequestParam(required = false) BigDecimal precioMin,
-            @RequestParam(required = false) BigDecimal precioMax,
-            @RequestParam(required = false) Boolean disponible) {
+            @RequestParam(required = false) BigDecimal priceMin,
+            @RequestParam(required = false) BigDecimal priceMax) {
 
                 Startup filterStartup = startupService.findById(startup);
                 Ods filterOds = odsService.findById(ods);
                 
-        List<Product> products =  service.getProductsByFilter(filterStartup, filterOds, precioMin, precioMax, disponible);
+        List<Product> products =  service.getProductsByFilter(filterStartup, filterOds, priceMin, priceMax);
 
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
