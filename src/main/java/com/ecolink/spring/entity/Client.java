@@ -15,7 +15,7 @@ public class Client extends UserBase {
     @ManyToMany(mappedBy = "clients")
     private List<Mission> missions;
 
-    public void addMision(Mission mission){
+    public void addMision(Mission mission) {
         this.missions.add(mission);
     }
 }
