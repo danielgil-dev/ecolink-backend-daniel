@@ -37,7 +37,7 @@ public class PostController {
         return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/pagination")
+    @GetMapping("/p")
     public ResponseEntity<?> getPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

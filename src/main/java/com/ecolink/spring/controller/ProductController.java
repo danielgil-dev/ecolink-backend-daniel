@@ -38,7 +38,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/pagination")
+    @GetMapping("/p")
     public ResponseEntity<?> getStartups(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
