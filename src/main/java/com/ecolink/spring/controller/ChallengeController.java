@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.ChallengeDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.entity.Challenge;
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.service.ChallengeService;
+import com.ecolink.spring.service.OdsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,7 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
     private final DTOConverter challengeDtoConverter;
+     private final OdsService odsService;
 
     @GetMapping
     public ResponseEntity<?> getAllChallenges() {
@@ -38,11 +41,16 @@ public class ChallengeController {
         return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/budget")
-    public ResponseEntity<?> getMethodName(@RequestParam BigDecimal min,
-            @RequestParam BigDecimal max) {
+    @GetMapping("/filter")
+    public ResponseEntity<?> getFilteredChallenges(
+            @RequestParam(required = false) List<Long> odsIds,
+             @RequestParam(required = false) BigDecimal min,
+            @RequestParam (required = false) BigDecimal max) {
 
-        List<Challenge> challenges = challengeService.getChallengeByBudgetRange(min, max);
+        List<Ods> odsList = (odsIds != null && !odsIds.isEmpty()) ? odsService.findAllById(odsIds) : null;
+        
+
+        List<Challenge> challenges = challengeService.getChallengesByFilter(odsList, min, max);
        
         if (challenges.isEmpty()) {
             return ResponseEntity.badRequest().build();

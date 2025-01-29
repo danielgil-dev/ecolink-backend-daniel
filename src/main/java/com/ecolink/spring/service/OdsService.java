@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,9 @@ public class OdsService {
 
     public Ods findById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public List<Ods> findAllById(List<Long> odsIds){
+        return repository.findAllById(odsIds);
     }
 }
