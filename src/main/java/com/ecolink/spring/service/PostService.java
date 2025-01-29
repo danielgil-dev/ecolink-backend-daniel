@@ -22,7 +22,7 @@ public class PostService {
         return repository.findAll();
     }
     public List<Post> getRecentPost(){
-        return repository.findTop5ByOrderByPostDateDesc();
+        return repository.findTop4ByOrderByPostDateDesc();
     }
     
     public void save(Post post) {

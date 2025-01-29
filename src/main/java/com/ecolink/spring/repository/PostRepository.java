@@ -18,6 +18,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     public Post findByTitle(String title);
 
-    public List<Post> findTop5ByOrderByPostDateDesc();
+    public List<Post> findTop4ByOrderByPostDateDesc();
 
 }
