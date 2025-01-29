@@ -47,9 +47,9 @@ public class ProductService {
         return repository.findAll(pageable);
     }
 
-    public List<Product> getProductsByFilter(Long id_startup, BigDecimal priceMin,
+    public List<Product> getProductsByFilter(Long id_startup, String name, BigDecimal priceMin,
             BigDecimal priceMax) {
-        Specification<Product> spec = ProductSpecification.filters(id_startup, priceMin, priceMax);
+        Specification<Product> spec = ProductSpecification.filters(id_startup, name, priceMin, priceMax);
         return repository.findAll(spec);
     }
 
