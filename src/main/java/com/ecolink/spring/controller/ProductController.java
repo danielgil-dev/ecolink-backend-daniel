@@ -67,7 +67,7 @@ public class ProductController {
         return ResponseEntity.ok(dtoList);
     }
 
-    @GetMapping("/")
+    @GetMapping("/p")
     public ResponseEntity<?> getStartups(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
