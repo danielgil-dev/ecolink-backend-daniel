@@ -3,6 +3,7 @@ package com.ecolink.spring.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.ProductDTO;
+import com.ecolink.spring.dto.ProductRelevantDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.entity.Ods;
@@ -97,7 +98,7 @@ public class ProductController {
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
+        List<ProductRelevantDTO> dtoList = products.stream().map(dtoConverter::convertProductRelevantToDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }

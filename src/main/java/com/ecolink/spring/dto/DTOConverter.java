@@ -19,6 +19,11 @@ public class DTOConverter {
     public ProductDTO convertProductToDto(Product product) {
         return modelMapper.map(product, ProductDTO.class);
     }
+    public ProductRelevantDTO convertProductRelevantToDto(Product product){
+        return modelMapper.map(product, ProductRelevantDTO.class);
+    }
+
+
     public StartupDTO convertStartupToDto(Startup startup) {
         return modelMapper.map(startup, StartupDTO.class);
     }
@@ -29,4 +34,5 @@ public class DTOConverter {
     public MissionDTO convertMissionToDto(Mission mission){
         return modelMapper.map(mission, MissionDTO.class);
     }
+
 }
