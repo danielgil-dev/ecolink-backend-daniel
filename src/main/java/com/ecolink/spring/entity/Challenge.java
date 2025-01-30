@@ -38,18 +38,18 @@ public class Challenge {
     private String title;
     private String description;
     private BigDecimal budget;
-    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     
     @OneToMany(mappedBy = "challenge")
     List<Proposal> proposals;
     
 
-    public Challenge(Company company ,String title, String description, BigDecimal budget, LocalDateTime startDate,List<Ods> odsList){
+    public Challenge(Company company ,String title, String description, BigDecimal budget, LocalDateTime endDate,List<Ods> odsList){
         this.company = company;
         this.title = title;
         this.description = description;
         this.budget = budget;
-        this.startDate = startDate;
+        this.endDate = endDate;
         this.odsList = odsList;
     }
     public void addChallenge(Proposal proposal) {

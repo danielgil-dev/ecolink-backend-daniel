@@ -13,6 +13,6 @@ public class ChallengeDTO {
     private String companyName;
     private String description;
     private BigDecimal budget;
-    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
 }
