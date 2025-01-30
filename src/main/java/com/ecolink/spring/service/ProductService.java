@@ -52,5 +52,4 @@ public class ProductService {
         Specification<Product> spec = ProductSpecification.filters(id_startup, name, priceMin, priceMax);
         return repository.findAll(spec);
     }
-
 }
