@@ -58,7 +58,7 @@ public class StartupController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProduct(@PathVariable Long id) {
+    public ResponseEntity<?> getStartup(@PathVariable Long id) {
         try {
             Startup product = service.findById(id);
             if (product == null) {
