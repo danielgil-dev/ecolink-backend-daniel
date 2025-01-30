@@ -45,5 +45,10 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(pageable);
     }
+
+    public Post findById(Long id){
+
+        return repository.findById(id).orElse(null);
+    }
 }
 
