@@ -1,5 +1,7 @@
 package com.ecolink.spring.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,7 @@ public class PostController {
             
             List<Post> posts = postService.getAllPosts();
             if (posts.isEmpty()) {
-                throw new PostNotFoundException("No se encontraron productos en la base de datos");
+                throw new PostNotFoundException("No se encontraron post en la base de datos");
             }
             List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDto)
                     .collect(Collectors.toList());
