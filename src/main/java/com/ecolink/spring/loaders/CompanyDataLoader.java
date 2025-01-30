@@ -20,18 +20,22 @@ public class CompanyDataLoader implements CommandLineRunner {
 
     public void run(String... args) {
         List<Company> companyList = Arrays.asList(
-                new Company("EcoSolutions", "eco@solutions.com", 1L,
-                        "Empresa dedicada al desarrollo de tecnologías sostenibles para la gestión de residuos y la reducción de la huella de carbono."),
-                new Company("GreenTech", "contact@greentech.com", 2L,
-                        "Startup especializada en soluciones de energía renovable, como paneles solares y turbinas eólicas de alta eficiencia."),
-                new Company("SolarInnovators", "info@solarinno.com", 3L,
-                        "Compañía líder en el diseño y fabricación de paneles solares innovadores con materiales de última generación."),
-                new Company("BioFuture", "support@biofuture.com", 2L,
-                        "Empresa biotecnológica enfocada en la creación de bioplásticos y materiales biodegradables para reducir la contaminación."),
-                new Company("UrbanRenew", "urban@renew.com", 1L,
-                        "Iniciativa que desarrolla soluciones para ciudades inteligentes, incluyendo movilidad sostenible y eficiencia energética en edificios urbanos.")
-
+                new Company("EcoVision", "eco@vision.com", 1L,
+                        "Company dedicated to developing sustainable technologies for waste management and carbon footprint reduction."),
+                
+                new Company("GreenHorizon", "contact@greenhorizon.com", 2L,
+                        "Startup specializing in renewable energy solutions, including high-efficiency solar panels and wind turbines."),
+                
+                new Company("SolarPioneer", "info@solarpioneer.com", 3L,
+                        "Leading company in the design and manufacturing of innovative solar panels using next-generation materials."),
+                
+                new Company("BioCraft", "support@biocraft.com", 2L,
+                        "Biotechnology company focused on creating bioplastics and biodegradable materials to reduce pollution."),
+                
+                new Company("UrbanFlow", "urban@flow.com", 1L,
+                        "Initiative developing smart city solutions, including sustainable mobility and energy-efficient urban infrastructure.")
         );
+        
 
         companyList.forEach(company -> {
             if (!service.existsByName(company.getName())) {

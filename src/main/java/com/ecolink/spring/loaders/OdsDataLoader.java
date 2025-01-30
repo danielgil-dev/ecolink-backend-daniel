@@ -20,26 +20,26 @@ public class OdsDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         List<Ods> odsList = Arrays.asList(
-                new Ods("Fin de la pobreza"),
-                new Ods("Hambre cero"),
-                new Ods("Salud y bienestar"),
-                new Ods("Educación de calidad"),
-                new Ods("Igualdad de género"),
-                new Ods("Agua limpia y saneamiento"),
-                new Ods("Energía asequible y no contaminante"),
-                new Ods("Trabajo decente y crecimiento económico"),
-                new Ods("Industria, innovación e infraestructura"),
-                new Ods("Reducción de las desigualdades"),
-                new Ods("Ciudades y comunidades sostenibles"),
-                new Ods("Producción y consumo responsables"),
-                new Ods("Acción por el clima"),
-                new Ods("Vida submarina"),
-                new Ods("Vida de ecosistemas terrestres"),
-                new Ods("Paz, justicia e instituciones sólidas"),
-                new Ods("Alianzas para lograr los objetivos"));
+                new Ods("End of Poverty"),
+                new Ods("Zero Hunger"),
+                new Ods("Good Health and Well-being"),
+                new Ods("Quality Education"),
+                new Ods("Gender Equality"),
+                new Ods("Clean Water and Sanitation"),
+                new Ods("Affordable and Clean Energy"),
+                new Ods("Decent Work and Economic Growth"),
+                new Ods("Industry, Innovation, and Infrastructure"),
+                new Ods("Reduced Inequalities"),
+                new Ods("Sustainable Cities and Communities"),
+                new Ods("Responsible Consumption and Production"),
+                new Ods("Climate Action"),
+                new Ods("Life Below Water"),
+                new Ods("Life on Land"),
+                new Ods("Peace, Justice, and Strong Institutions"),
+                new Ods("Partnerships for the Goals"));
 
         odsList.forEach(ods -> {
-            if (!service.existByName(ods.getName())) {  
+            if (!service.existByName(ods.getName())) {
                 service.save(ods);
             }
         });

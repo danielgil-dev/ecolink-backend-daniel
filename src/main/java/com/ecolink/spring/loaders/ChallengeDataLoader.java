@@ -20,71 +20,117 @@ import com.ecolink.spring.service.OdsService;
 @Order(7)
 public class ChallengeDataLoader implements CommandLineRunner {
 
-    @Autowired
-    private ChallengeService service;
+        @Autowired
+        private ChallengeService service;
 
-    @Autowired
-    private OdsService odsService;
+        @Autowired
+        private OdsService odsService;
 
-    @Autowired
-    private CompanyService companyService;
+        @Autowired
+        private CompanyService companyService;
 
-    public void run(String... args) {
+        public void run(String... args) {
 
-        Company ecoSolutions = companyService.findByName("EcoSolutions");
-               
-        Company greenTech = companyService.findByName("GreenTech");
-              
-        Company solarInnovators = companyService.findByName("SolarInnovators");
-             
-        Company bioFuture = companyService.findByName("BioFuture");
-            
-        Company urbanRenew = companyService.findByName("UrbanRenew");  
+                Company ecoVision = companyService.findByName("EcoVision");
+                Company greenHorizon = companyService.findByName("GreenHorizon");
+                Company solarPioneer = companyService.findByName("SolarPioneer");
+                Company bioCraft = companyService.findByName("BioCraft");
+                Company urbanFlow = companyService.findByName("UrbanFlow");
+                List<Challenge> challenges = Arrays.asList(
+                                new Challenge(ecoVision,
+                                                "Eco-Friendly Manufacturing",
+                                                "How can we make factory production greener? Propose simple solutions to reduce waste and emissions.",
+                                                new BigDecimal("100000.00"),
+                                                LocalDateTime.of(2025, 2, 4, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName("Climate Action"))),
 
+                                new Challenge(greenHorizon,
+                                                "Powering Remote Areas",
+                                                "Create an easy-to-deploy solar power kit for small businesses or homes in off-grid areas.",
+                                                new BigDecimal("150000.00"),
+                                                LocalDateTime.of(2025, 2, 6, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName("Affordable and Clean Energy"),
+                                                                odsService.findByName(
+                                                                                "Industry, Innovation, and Infrastructure"))),
 
-        List<Challenge> challenges = Arrays.asList(
-                new Challenge( ecoSolutions,
-                        "Reducción de emisiones de carbono",
-                        "Desarrollar soluciones innovadoras para reducir las emisiones de carbono en procesos industriales.",
-                        new BigDecimal("100000.00"),
-                        LocalDateTime.of(2025, 2, 6, 0, 0),
-                        Arrays.asList(
-                                odsService.findByName("Acción por el clima"))),
-                new Challenge( greenTech,
-                        "Energías renovables para comunidades rurales",
-                        "Implementar sistemas de energía solar en comunidades rurales sin acceso a la electricidad.",
-                        new BigDecimal("150000.00"),
-                        LocalDateTime.of(2025, 2, 12, 0, 0),
-                        Arrays.asList(
-                                odsService.findByName("Energía asequible y no contaminante"),
-                                odsService.findByName("Industria, innovación e infraestructura"))),
-                new Challenge( solarInnovators,
-                        "Gestión sostenible del agua",
-                        "Crear tecnologías para la gestión eficiente del agua en zonas con escasez hídrica.",
-                        new BigDecimal("80000.00"),
-                        LocalDateTime.of(2025, 2, 24, 0, 0),
-                        Arrays.asList(
-                                odsService.findByName("Agua limpia y saneamiento"))),
-                new Challenge( bioFuture,
-                        "Agricultura sostenible",
-                        "Desarrollar prácticas agrícolas que reduzcan el uso de pesticidas y promuevan la biodiversidad.",
-                        new BigDecimal("120000.00"),
-                        LocalDateTime.of(2025, 3, 6, 0, 0),
-                        Arrays.asList(
-                                odsService.findByName("Hambre cero"),
-                                odsService.findByName("Vida de ecosistemas terrestres"))),
-                new Challenge( urbanRenew,
-                        "Reciclaje y gestión de residuos",
-                        "Innovar en sistemas de reciclaje y gestión de residuos para reducir la contaminación por plásticos.",
-                        new BigDecimal("90000.00"),
-                        LocalDateTime.of(2025, 3, 12, 0, 0),
-                        Arrays.asList(
-                                odsService.findByName("Producción y consumo responsables"))));
+                                new Challenge(solarPioneer,
+                                                "Water-Saving Tech",
+                                                "How can we help cities or businesses use less water? Propose an affordable, easy-to-implement solution.",
+                                                new BigDecimal("80000.00"),
+                                                LocalDateTime.of(2025, 2, 2, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName("Clean Water and Sanitation"))),
 
-        challenges.forEach(challenge -> {
-            if (!service.existsByTitle(challenge.getTitle())) {
-                service.save(challenge);
-            }
-        });
-    }
+                                new Challenge(bioCraft,
+                                                "Farming Without Waste",
+                                                "Design a solution to help farmers cut down food waste, whether through better storage, distribution, or alternative uses.",
+                                                new BigDecimal("120000.00"),
+                                                LocalDateTime.of(2025, 2, 2, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName("Zero Hunger"),
+                                                                odsService.findByName("Life on Land"))),
+
+                                new Challenge(urbanFlow,
+                                                "The Future of Recycling",
+                                                "What’s the next big idea in recycling? Think beyond traditional bins and propose something that makes waste separation fun and easy.",
+                                                new BigDecimal("90000.00"),
+                                                LocalDateTime.of(2025, 2, 3, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName(
+                                                                                "Responsible Consumption and Production"))),
+
+                                new Challenge(ecoVision,
+                                                "Eco-Friendly Building Materials",
+                                                "Suggest innovative materials or processes that reduce the carbon footprint of construction.",
+                                                new BigDecimal("110000.00"),
+                                                LocalDateTime.of(2025, 2, 3, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName(
+                                                                                "Industry, Innovation, and Infrastructure"),
+                                                                odsService.findByName(
+                                                                                "Sustainable Cities and Communities"))),
+
+                                new Challenge(greenHorizon,
+                                                "Smarter Energy Storage",
+                                                "How can we make storing solar and wind energy more efficient and affordable? Share your ideas!",
+                                                new BigDecimal("140000.00"),
+                                                LocalDateTime.of(2025, 2, 3, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName("Affordable and Clean Energy"),
+                                                                odsService.findByName("Climate Action"))),
+
+                                new Challenge(solarPioneer,
+                                                "A New Era of Solar Panels",
+                                                "Design a creative way to integrate solar panels into everyday life – beyond rooftops!",
+                                                new BigDecimal("130000.00"),
+                                                LocalDateTime.of(2025, 1, 31, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName("Affordable and Clean Energy"))),
+
+                                new Challenge(bioCraft,
+                                                "Bye-Bye Plastic!",
+                                                "Can you develop an alternative to plastic that is cheap, scalable, and biodegradable?",
+                                                new BigDecimal("115000.00"),
+                                                LocalDateTime.of(2025, 2, 6, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName(
+                                                                                "Responsible Consumption and Production"))),
+
+                                new Challenge(urbanFlow,
+                                                "Rethinking City Mobility",
+                                                "What’s the next big idea in urban transportation? Help us make cities cleaner and more efficient.",
+                                                new BigDecimal("105000.00"),
+                                                LocalDateTime.of(2025, 2, 4, 0, 0),
+                                                Arrays.asList(
+                                                                odsService.findByName(
+                                                                                "Sustainable Cities and Communities"))));
+
+                challenges.forEach(challenge -> {
+                        if (!service.existsByTitle(challenge.getTitle())) {
+                                service.save(challenge);
+                        }
+                });
+        }
 }

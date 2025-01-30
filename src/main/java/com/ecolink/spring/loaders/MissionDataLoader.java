@@ -22,10 +22,23 @@ public class MissionDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         List<Mission> missions = Arrays.asList(
-                new Mission("Limpiar el parque", "Recoger basura en el parque local", MissionType.DAILY, 5, false),
-                new Mission("Reforestar la colina", "Plantar árboles en la colina", MissionType.WEEKLY, 10, false), 
-                new Mission("Reciclar en la comunidad", "Organizar una campaña de reciclaje en la comunidad", MissionType.WEEKLY, 15, false),
-                new Mission("Desafio sin coche", "Durante una semana, intenta no usar el coche o la moto para ir a lugares cercanos", MissionType.WEEKLY, 80,false));
+            new Mission("Park Cleanup Crew", 
+                    "Help keep your local park clean by collecting litter and properly disposing of waste.", 
+                    MissionType.DAILY, 5, false),
+    
+            new Mission("Tree Guardians", 
+                    "Join a tree-planting initiative and contribute to reforesting green areas in your city.", 
+                    MissionType.WEEKLY, 10, false), 
+    
+            new Mission("Community Recycling Hero", 
+                    "Organize or participate in a local recycling campaign to encourage proper waste management.", 
+                    MissionType.WEEKLY, 15, false),
+    
+            new Mission("Car-Free Challenge", 
+                    "Ditch your car for a week! Walk, bike, or use public transport for short trips and reduce your carbon footprint.", 
+                    MissionType.WEEKLY, 80, false)
+    );
+    
 
         missions.forEach(mission -> {
             if (!service.existsByNameAndType(mission.getName(), mission.getType())) {

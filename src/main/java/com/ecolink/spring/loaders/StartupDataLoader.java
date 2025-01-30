@@ -25,173 +25,175 @@ public class StartupDataLoader implements CommandLineRunner {
         @Override
         public void run(String... args) throws Exception {
                 List<Startup> startups = Arrays.asList(
-                                new Startup("VhAT", Arrays.asList(
-                                                odsService.findByName("Industria, innovación e infraestructura"),
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Alianzas para lograr los objetivos")),
+                                        new Startup("VhAT", Arrays.asList(
+                                                odsService.findByName("Industry, Innovation, and Infrastructure"),
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Partnerships for the Goals")),
                                                 "contact@vhat.com",
-                                                "Plataforma de automatización para la industria que optimiza la producción mediante IA y procesos sostenibles."),
-
-                                new Startup("GamingBuddy", Arrays.asList(
-                                                odsService.findByName("Educación de calidad"),
-                                                odsService.findByName("Reducción de las desigualdades"),
-                                                odsService.findByName("Trabajo decente y crecimiento económico")),
+                                                "Automation platform for the industry that optimizes production through AI and sustainable processes."),
+                                        
+                                        new Startup("GamingBuddy", Arrays.asList(
+                                                odsService.findByName("Quality Education"),
+                                                odsService.findByName("Reduced Inequalities"),
+                                                odsService.findByName("Decent Work and Economic Growth")),
                                                 "info@gamingbuddy.com",
-                                                "Aplicación educativa que utiliza videojuegos para fomentar el aprendizaje inclusivo y accesible para todos."),
-
-                                new Startup("Nørs", Arrays.asList(
-                                                odsService.findByName("Salud y bienestar"),
-                                                odsService.findByName("Igualdad de género"),
-                                                odsService.findByName("Reducción de las desigualdades")),
+                                                "Educational app that uses video games to promote inclusive and accessible learning for everyone."),
+                                        
+                                        new Startup("Nørs", Arrays.asList(
+                                                odsService.findByName("Good Health and Well-being"),
+                                                odsService.findByName("Gender Equality"),
+                                                odsService.findByName("Reduced Inequalities")),
                                                 "hello@nors.com",
-                                                "Startup enfocada en el desarrollo de tecnología wearable para el monitoreo de la salud con enfoque en equidad de género."),
-
-                                new Startup("AndLight", Arrays.asList(
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Industria, innovación e infraestructura"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Startup focused on developing wearable technology for health monitoring with a gender equity approach."),
+                                        
+                                        new Startup("AndLight", Arrays.asList(
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Industry, Innovation, and Infrastructure"),
+                                                odsService.findByName("Climate Action")),
                                                 "contact@andlight.com",
-                                                "Empresa que desarrolla soluciones de iluminación sostenible con tecnología de energía renovable y materiales reciclables."),
-
-                                new Startup("Influencer Marketing Hub", Arrays.asList(
-                                                odsService.findByName("Trabajo decente y crecimiento económico"),
-                                                odsService.findByName("Reducción de las desigualdades"),
-                                                odsService.findByName("Alianzas para lograr los objetivos")),
+                                                "Company developing sustainable lighting solutions with renewable energy technology and recyclable materials."),
+                                        
+                                        new Startup("Influencer Marketing Hub", Arrays.asList(
+                                                odsService.findByName("Decent Work and Economic Growth"),
+                                                odsService.findByName("Reduced Inequalities"),
+                                                odsService.findByName("Partnerships for the Goals")),
                                                 "info@imhub.com",
-                                                "Plataforma que conecta marcas con influencers éticos para campañas de marketing responsables y sostenibles."),
-
-                                new Startup("Too Good To Go", Arrays.asList(
-                                                odsService.findByName("Hambre cero"),
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Platform connecting brands with ethical influencers for responsible and sustainable marketing campaigns."),
+                                        
+                                        new Startup("Too Good To Go", Arrays.asList(
+                                                odsService.findByName("Zero Hunger"),
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Climate Action")),
                                                 "contact@toogoodtogo.com",
-                                                "Aplicación que combate el desperdicio de alimentos permitiendo a los usuarios comprar excedentes de comida a precios reducidos."),
-
-                                new Startup("Doublepoint", Arrays.asList(
-                                                odsService.findByName("Industria, innovación e infraestructura"),
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Trabajo decente y crecimiento económico")),
+                                                "App combating food waste by allowing users to buy surplus food at reduced prices."),
+                                        
+                                        new Startup("Doublepoint", Arrays.asList(
+                                                odsService.findByName("Industry, Innovation, and Infrastructure"),
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Decent Work and Economic Growth")),
                                                 "info@doublepoint.com",
-                                                "Empresa de tecnología que desarrolla sensores avanzados para optimizar procesos industriales con menor impacto ambiental."),
-                                new Startup("BeCause", Arrays.asList(
-                                                odsService.findByName("Industria, innovación e infraestructura"),
-                                                odsService.findByName("Producción y consumo responsables")),
+                                                "Technology company developing advanced sensors to optimize industrial processes with lower environmental impact."),
+                                        
+                                        new Startup("BeCause", Arrays.asList(
+                                                odsService.findByName("Industry, Innovation, and Infrastructure"),
+                                                odsService.findByName("Responsible Consumption and Production")),
                                                 "contact@because.com",
-                                                "Plataforma de gestión de sostenibilidad para empresas, facilitando decisiones responsables."),
-
-                                new Startup("Bitlig Renewable Fuels", Arrays.asList(
-                                                odsService.findByName("Acción por el clima"),
-                                                odsService.findByName("Energía asequible y no contaminante")),
+                                                "Sustainability management platform for companies, facilitating responsible decision-making."),
+                                        
+                                        new Startup("Bitlig Renewable Fuels", Arrays.asList(
+                                                odsService.findByName("Climate Action"),
+                                                odsService.findByName("Affordable and Clean Energy")),
                                                 "info@bitligrenewables.com",
-                                                "Desarrolla tecnología para reducir costos de producción de combustibles sostenibles."),
-
-                                new Startup("Mavi Bioscience", Arrays.asList(
-                                                odsService.findByName("Acción por el clima"),
-                                                odsService.findByName("Producción y consumo responsables")),
+                                                "Developing technology to reduce sustainable fuel production costs."),
+                                        
+                                        new Startup("Mavi Bioscience", Arrays.asList(
+                                                odsService.findByName("Climate Action"),
+                                                odsService.findByName("Responsible Consumption and Production")),
                                                 "contact@mavibioscience.com",
-                                                "Solución innovadora para reducir emisiones de metano del ganado en un 80%."),
-
-                                new Startup("Doecos", Arrays.asList(
-                                                odsService.findByName("Energía asequible y no contaminante"),
-                                                odsService.findByName("Ciudades y comunidades sostenibles")),
+                                                "Innovative solution to reduce livestock methane emissions by 80%."),
+                                        
+                                        new Startup("Doecos", Arrays.asList(
+                                                odsService.findByName("Affordable and Clean Energy"),
+                                                odsService.findByName("Sustainable Cities and Communities")),
                                                 "info@doecos.com",
-                                                "Ayuda a clientes a adoptar fuentes de calor más sostenibles en sus hogares."),
-
-                                new Startup("VISCAN", Arrays.asList(
-                                                odsService.findByName("Industria, innovación e infraestructura"),
-                                                odsService.findByName("Ciudades y comunidades sostenibles")),
+                                                "Helping customers adopt more sustainable heating sources at home."),
+                                        
+                                        new Startup("VISCAN", Arrays.asList(
+                                                odsService.findByName("Industry, Innovation, and Infrastructure"),
+                                                odsService.findByName("Sustainable Cities and Communities")),
                                                 "contact@viscan.com",
-                                                "Captura 3D de edificios para mejorar la eficiencia y reducir huella de carbono."),
-
-                                new Startup("NXT Catch AS", Arrays.asList(
-                                                odsService.findByName("Vida submarina"),
-                                                odsService.findByName("Producción y consumo responsables")),
+                                                "3D capture of buildings to improve efficiency and reduce carbon footprint."),
+                                        
+                                        new Startup("NXT Catch AS", Arrays.asList(
+                                                odsService.findByName("Life Below Water"),
+                                                odsService.findByName("Responsible Consumption and Production")),
                                                 "info@nxtcatch.com",
-                                                "Innovaciones para la pesca sostenible y reducción de desperdicio de equipos."),
-
-                                new Startup("SquareRoot", Arrays.asList(
-                                                odsService.findByName("Ciudades y comunidades sostenibles"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Innovations for sustainable fishing and waste reduction in fishing equipment."),
+                                        
+                                        new Startup("SquareRoot", Arrays.asList(
+                                                odsService.findByName("Sustainable Cities and Communities"),
+                                                odsService.findByName("Climate Action")),
                                                 "contact@squareroot.com",
-                                                "Plataforma para fomentar la infraestructura verde en ciudades."),
-
-                                new Startup("Altered Power AS", Arrays.asList(
-                                                odsService.findByName("Energía asequible y no contaminante"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Platform to promote green infrastructure in cities."),
+                                        
+                                        new Startup("Altered Power AS", Arrays.asList(
+                                                odsService.findByName("Affordable and Clean Energy"),
+                                                odsService.findByName("Climate Action")),
                                                 "info@alteredpower.com",
-                                                "Energía renovable portátil para personas que disfrutan actividades al aire libre."),
-
-                                new Startup("Besen Group AS", Arrays.asList(
-                                                odsService.findByName("Energía asequible y no contaminante"),
-                                                odsService.findByName("Ciudades y comunidades sostenibles")),
+                                                "Portable renewable energy for outdoor enthusiasts."),
+                                        
+                                        new Startup("Besen Group AS", Arrays.asList(
+                                                odsService.findByName("Affordable and Clean Energy"),
+                                                odsService.findByName("Sustainable Cities and Communities")),
                                                 "contact@besengroup.com",
-                                                "Distribución de cargadores eléctricos para la movilidad sostenible."),
-
-                                new Startup("Seacirc", Arrays.asList(
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Industria, innovación e infraestructura")),
+                                                "Distribution of electric chargers for sustainable mobility."),
+                                        
+                                        new Startup("Seacirc", Arrays.asList(
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Industry, Innovation, and Infrastructure")),
                                                 "info@seacirc.com",
-                                                "Software para mejorar la sostenibilidad de empresas mediante el uso de datos."),
-
-                                new Startup("Manolin", Arrays.asList(
-                                                odsService.findByName("Vida submarina"),
-                                                odsService.findByName("Industria, innovación e infraestructura")),
+                                                "Software to improve business sustainability through data usage."),
+                                        
+                                        new Startup("Manolin", Arrays.asList(
+                                                odsService.findByName("Life Below Water"),
+                                                odsService.findByName("Industry, Innovation, and Infrastructure")),
                                                 "contact@manolin.com",
-                                                "Gestión de salud digital para la acuicultura sostenible."),
-
-                                new Startup("Algaepro AS", Arrays.asList(
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Digital health management for sustainable aquaculture."),
+                                        
+                                        new Startup("Algaepro AS", Arrays.asList(
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Climate Action")),
                                                 "info@algaepro.com",
-                                                "Producción de biomasa a partir de microalgas para bioplásticos y alimentación."),
-
-                                new Startup("Elife AS", Arrays.asList(
-                                                odsService.findByName("Ciudades y comunidades sostenibles"),
-                                                odsService.findByName("Energía asequible y no contaminante")),
+                                                "Production of biomass from microalgae for bioplastics and food."),
+                                        
+                                        new Startup("Elife AS", Arrays.asList(
+                                                odsService.findByName("Sustainable Cities and Communities"),
+                                                odsService.findByName("Affordable and Clean Energy")),
                                                 "contact@elife.com",
-                                                "Fabricación y distribución de bicicletas eléctricas."),
-
-                                new Startup("Nordic Electrofuel", Arrays.asList(
-                                                odsService.findByName("Acción por el clima"),
-                                                odsService.findByName("Energía asequible y no contaminante")),
+                                                "Manufacturing and distribution of electric bicycles."),
+                                        
+                                        new Startup("Nordic Electrofuel", Arrays.asList(
+                                                odsService.findByName("Climate Action"),
+                                                odsService.findByName("Affordable and Clean Energy")),
                                                 "info@nordicelectrofuel.com",
-                                                "Transformación de energía eléctrica en combustibles renovables."),
-
-                                new Startup("Evoltec", Arrays.asList(
-                                                odsService.findByName("Industria, innovación e infraestructura"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Transforming electric energy into renewable fuels."),
+                                        
+                                        new Startup("Evoltec", Arrays.asList(
+                                                odsService.findByName("Industry, Innovation, and Infrastructure"),
+                                                odsService.findByName("Climate Action")),
                                                 "contact@evoltec.com",
-                                                "Servicios y productos tecnológicos para la industria energética sostenible."),
-
-                                new Startup("EcoCharge", Arrays.asList(
-                                                odsService.findByName("Energía asequible y no contaminante"),
-                                                odsService.findByName("Ciudades y comunidades sostenibles")),
+                                                "Technology services and products for the sustainable energy industry."),
+                                        
+                                        new Startup("EcoCharge", Arrays.asList(
+                                                odsService.findByName("Affordable and Clean Energy"),
+                                                odsService.findByName("Sustainable Cities and Communities")),
                                                 "info@ecocharge.com",
-                                                "Estaciones de carga solar para vehículos eléctricos."),
-
-                                new Startup("WaterWise", Arrays.asList(
-                                                odsService.findByName("Agua limpia y saneamiento"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Solar charging stations for electric vehicles."),
+                                        
+                                        new Startup("WaterWise", Arrays.asList(
+                                                odsService.findByName("Clean Water and Sanitation"),
+                                                odsService.findByName("Climate Action")),
                                                 "contact@waterwise.com",
-                                                "Tecnología de monitoreo para el uso eficiente del agua."),
-
-                                new Startup("GreenTransport", Arrays.asList(
-                                                odsService.findByName("Ciudades y comunidades sostenibles"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Monitoring technology for efficient water use."),
+                                        
+                                        new Startup("GreenTransport", Arrays.asList(
+                                                odsService.findByName("Sustainable Cities and Communities"),
+                                                odsService.findByName("Climate Action")),
                                                 "info@greentransport.com",
-                                                "Soluciones de transporte público eléctrico y compartido."),
-
-                                new Startup("EcoPackaging", Arrays.asList(
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Acción por el clima")),
+                                                "Electric and shared public transportation solutions."),
+                                        
+                                        new Startup("EcoPackaging", Arrays.asList(
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Climate Action")),
                                                 "contact@ecopackaging.com",
-                                                "Desarrollo de envases biodegradables y compostables."),
-
-                                new Startup("SustainableFashion", Arrays.asList(
-                                                odsService.findByName("Producción y consumo responsables"),
-                                                odsService.findByName("Trabajo decente y crecimiento económico")),
+                                                "Development of biodegradable and compostable packaging."),
+                                        
+                                        new Startup("SustainableFashion", Arrays.asList(
+                                                odsService.findByName("Responsible Consumption and Production"),
+                                                odsService.findByName("Decent Work and Economic Growth")),
                                                 "info@sustainablefashion.com",
-                                                "Moda sostenible con materiales reciclados y comercio justo."));
+                                                "Sustainable fashion with recycled materials and fair trade."));
+                                        
 
                 startups.forEach(startup -> {
                         if (!service.existsByName(startup.getName())) {
