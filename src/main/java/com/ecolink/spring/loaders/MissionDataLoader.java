@@ -22,10 +22,10 @@ public class MissionDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         List<Mission> missions = Arrays.asList(
-                new Mission("Limpiar el parque", "Recoger basura en el parque local", MissionType.DAILY, 5),
-                new Mission("Reforestar la colina", "Plantar árboles en la colina", MissionType.WEEKLY, 10),
-                new Mission("Reciclar en la comunidad", "Organizar una campaña de reciclaje en la comunidad",
-                        MissionType.WEEKLY, 15));
+                new Mission("Limpiar el parque", "Recoger basura en el parque local", MissionType.DAILY, 5, false),
+                new Mission("Reforestar la colina", "Plantar árboles en la colina", MissionType.WEEKLY, 10, false), 
+                new Mission("Reciclar en la comunidad", "Organizar una campaña de reciclaje en la comunidad", MissionType.WEEKLY, 15, false),
+                new Mission("Desafio sin coche", "Durante una semana, intenta no usar el coche o la moto para ir a lugares cercanos", MissionType.WEEKLY, 80,false));
 
         missions.forEach(mission -> {
             if (!service.existsByNameAndType(mission.getName(), mission.getType())) {

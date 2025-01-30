@@ -25,6 +25,7 @@ public class Mission {
     private String description;
     private MissionType type;
     private Integer points;
+    private Boolean completed;
     @ManyToMany
     @JoinTable(
         name = "mision_client", // Nombre de la tabla de unión
@@ -33,10 +34,11 @@ public class Mission {
     )
     private List<Client> clients;
 
-    public Mission(String name, String description, MissionType type, Integer points){
+    public Mission(String name, String description, MissionType type, Integer points, Boolean completed){
         this.name = name;
         this.description = description;
         this.type = type;
         this.points = points;
+        this.completed = completed;
     }
 }

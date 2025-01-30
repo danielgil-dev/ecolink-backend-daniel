@@ -11,5 +11,6 @@ public class MissionDTO {
     private String description;
     private String type;
     private Integer points;
+    private Boolean completed;
 
 }
