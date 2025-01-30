@@ -26,8 +26,8 @@ public class DTOConverter {
         return modelMapper.map(product, ProductRelevantDTO.class);
     }
 
-    public StartupDTO convertStartupToDto(Startup startup) {
-        return modelMapper.map(startup, StartupDTO.class);
+    public StartupHomeDTO convertStartupToDto(Startup startup) {
+        return modelMapper.map(startup, StartupHomeDTO.class);
     }
 
     public PostDTO convertPostToDto(Post post) {
