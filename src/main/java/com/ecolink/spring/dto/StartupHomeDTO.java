@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StartupDTO {
+public class StartupHomeDTO {
     Long id;
     String name;
     String imageUrl;
