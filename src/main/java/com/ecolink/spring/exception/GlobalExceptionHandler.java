@@ -15,7 +15,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(StartupNotFoundException.class)
-    public ResponseEntity<Object> handleStartupNotFoundException(ProductNotFoundException ex) {
+    public ResponseEntity<Object> handleStartupNotFoundException(StartupNotFoundException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MissionNotFoundException.class)
+    public ResponseEntity<Object> handleMissionNotFoundException(MissionNotFoundException ex) {
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), ex.getMessage());
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
