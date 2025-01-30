@@ -13,16 +13,15 @@ public class OdsService {
     @Autowired
     private OdsRepository repository;
 
-
-    public Boolean existByName(String name){
+    public Boolean existByName(String name) {
         return repository.existsByName(name);
     }
 
-    public void save(Ods ods){
+    public void save(Ods ods) {
         repository.save(ods);
     }
 
-    public Ods findByName(String name){
+    public Ods findByName(String name) {
         return repository.findByName(name);
     }
 
@@ -30,7 +29,11 @@ public class OdsService {
         return repository.findById(id).orElse(null);
     }
 
-    public List<Ods> findAllById(List<Long> odsIds){
+    public List<Ods> findAllById(List<Long> odsIds) {
         return repository.findAllById(odsIds);
+    }
+
+    public List<Ods> findAll() {
+        return repository.findAll();
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Mission;
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
@@ -40,4 +41,10 @@ public class DTOConverter {
     public ChallengeDTO converChallengeToDto(Challenge challenge){
         return modelMapper.map(challenge, ChallengeDTO.class);
     }
+
+
+    public OdsDTO convertOdsToDto(Ods ods){
+        return modelMapper.map(ods, OdsDTO.class);
+    }
+
 }

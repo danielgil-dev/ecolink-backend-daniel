@@ -32,7 +32,7 @@ public class MissionController {
         try {
             List<Mission> missions = missionService.getAllMissions();
             if (missions.isEmpty()) {
-                return ResponseEntity.badRequest().build();
+                throw new MissionNotFoundException("No hay misiones en la base de datos");
             }
 
             List<MissionDTO> dtoMission = missions.stream().map(dtoConverter::convertMissionToDto)
