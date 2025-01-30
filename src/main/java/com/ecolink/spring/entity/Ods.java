@@ -1,6 +1,9 @@
 package com.ecolink.spring.entity;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +27,7 @@ public class Ods {
 
     @ManyToMany(mappedBy = "odsList")
     private List<Startup> startups;
+    
     
     @ManyToMany(mappedBy = "preferences")
     private List<UserBase> userPreferences;

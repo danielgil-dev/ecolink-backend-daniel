@@ -9,10 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChallengeDTO {
-    
     private String companyName;
     private String description;
     private BigDecimal budget;
     private LocalDateTime endDate;
-
 }
