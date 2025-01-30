@@ -6,6 +6,8 @@ import com.ecolink.spring.dto.ProductDTO;
 import com.ecolink.spring.dto.ProductRelevantDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
+import com.ecolink.spring.dto.PostDTO;
+import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ProductNotFoundException;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,7 +38,7 @@ public class ProductController {
     @GetMapping()
     public ResponseEntity<?> getProducts() {
         try {
-            List<Product> products = new ArrayList<>();
+            List<Product> products = service.findAll();
             if (products.isEmpty()) {
                 throw new ProductNotFoundException("No se encontraron productos en la base de datos");
             }
@@ -47,7 +50,28 @@ public class ProductController {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocurrió un error interno en el servidor");
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProduct(@PathVariable Long id) {
+        try {
+            Product product = service.findById(id);
+            if (product == null) {
+                throw new ProductNotFoundException("No existe un producto con id=" + id);
+            }
+            ProductDTO dto = dtoConverter.convertProductToDto(product);
+
+            return ResponseEntity.ok(dto);
+        } catch (ProductNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
@@ -62,7 +86,8 @@ public class ProductController {
         try {
             List<Product> products = service.getProductsByFilter(startup, name, priceMin, priceMax);
             if (products.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron productos con los filtros especificados"));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
+                        "No se encontraron productos con los filtros especificados"));
             }
 
             List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
@@ -72,7 +97,8 @@ public class ProductController {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocurrió un error interno en el servidor");
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
@@ -84,9 +110,10 @@ public class ProductController {
 
         try {
             Page<Product> products = service.findByPagination(page, size);
-            
+
             if (products.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron productos en la página especificada"));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
+                        "No se encontraron productos en la página especificada"));
             }
 
             List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
@@ -105,7 +132,8 @@ public class ProductController {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocurrió un error interno en el servidor");
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
@@ -114,7 +142,8 @@ public class ProductController {
     public ResponseEntity<?> getRelevantProducts() {
         List<Product> products = service.findTop4ByOrderByCreationDateDesc();
         if (products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron productos relevantes"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron productos relevantes"));
         }
         List<ProductRelevantDTO> dtoList = products.stream().map(dtoConverter::convertProductRelevantToDto)
                 .collect(Collectors.toList());
