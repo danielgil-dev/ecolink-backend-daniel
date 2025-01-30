@@ -1,5 +1,7 @@
 package com.ecolink.spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,9 +25,11 @@ public class Like {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private UserBase user;
 
     @ManyToOne
+    @JsonIgnore
     private Post post;
 
     public Like(Post post, UserBase user) {
