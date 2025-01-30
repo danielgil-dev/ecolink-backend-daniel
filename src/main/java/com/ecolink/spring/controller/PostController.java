@@ -36,7 +36,7 @@ public class PostController {
     public ResponseEntity<?> getAllPosts() {
 
         try {
-            
+
             List<Post> posts = postService.getAllPosts();
             if (posts.isEmpty()) {
                 throw new PostNotFoundException("No se encontraron post en la base de datos");
@@ -46,15 +46,15 @@ public class PostController {
             return ResponseEntity.ok(dtoList);
 
         } catch (PostNotFoundException e) {
-               ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-            
 
-        }catch (Exception e){
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocurrio un error interno en el servidor");
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrio un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-     
+
     }
 
     @GetMapping("/pagination")

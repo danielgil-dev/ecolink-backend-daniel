@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,10 @@ public class CompanyService {
 
     public Company findByName(String name){
         return repository.findByName(name);
+    }
+
+    public void saveAll(List<Company> companies){
+        repository.saveAll(companies);
     }
 
    

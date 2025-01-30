@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Challenge;
+import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
@@ -81,6 +82,10 @@ public class DTOConverter {
 
     public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
+    }
+    
+    public CompanyDTO convertCompanyToDto(Company company){
+        return modelMapper.map(company, CompanyDTO.class);
     }
 
 }
