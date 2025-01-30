@@ -2,8 +2,6 @@ package com.ecolink.spring.dto;
 
 import java.util.List;
 
-import com.ecolink.spring.entity.Ods;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +13,6 @@ public class StartupDTO {
     String imageUrl;
     Long level;
     String description;
-    private List<Ods> odsList;
+    private List<OdsDTO> odsList;
+    List<ProposalStartupDTO> proposals;
 }

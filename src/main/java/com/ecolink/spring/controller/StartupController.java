@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.ProductDTO;
+import com.ecolink.spring.dto.StartupDTO;
 import com.ecolink.spring.dto.StartupHomeDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
@@ -44,7 +45,7 @@ public class StartupController {
                 throw new StartupNotFoundException("No se encontraron startups en la base de datos");
             }
 
-            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupHomeToDto)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         } catch (StartupNotFoundException e) {
@@ -64,7 +65,7 @@ public class StartupController {
             if (product == null) {
                 throw new StartupNotFoundException("No existe la startup con id=" + id);
             }
-            StartupHomeDTO dto = dtoConverter.convertStartupToDto(product);
+            StartupDTO dto = dtoConverter.convertStartupToDto(product);
 
             return ResponseEntity.ok(dto);
         } catch (StartupNotFoundException e) {
@@ -99,7 +100,7 @@ public class StartupController {
                 throw new StartupNotFoundException("No se encontraron startups con los filtros especificados");
             }
 
-            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupHomeToDto)
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(dtoList);
@@ -125,7 +126,7 @@ public class StartupController {
                 throw new StartupNotFoundException("No se encontraron startups en la página especificada");
             }
 
-            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupHomeToDto)
                     .collect(Collectors.toList());
 
             var response = new PaginationResponse<>(
@@ -158,7 +159,7 @@ public class StartupController {
                 throw new StartupNotFoundException("No se encontraron startups relevantes");
             }
 
-            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupToDto)
+            List<StartupHomeDTO> dtoList = startups.stream().map(dtoConverter::convertStartupHomeToDto)
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(dtoList);
