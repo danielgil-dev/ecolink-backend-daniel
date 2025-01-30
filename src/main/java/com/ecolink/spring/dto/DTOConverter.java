@@ -21,29 +21,28 @@ public class DTOConverter {
     public ProductDTO convertProductToDto(Product product) {
         return modelMapper.map(product, ProductDTO.class);
     }
-    public ProductRelevantDTO convertProductRelevantToDto(Product product){
+
+    public ProductRelevantDTO convertProductRelevantToDto(Product product) {
         return modelMapper.map(product, ProductRelevantDTO.class);
     }
-
 
     public StartupDTO convertStartupToDto(Startup startup) {
         return modelMapper.map(startup, StartupDTO.class);
     }
-    public PostDTO convertPostToDto(Post post){
+
+    public PostDTO convertPostToDto(Post post) {
         return modelMapper.map(post, PostDTO.class);
     }
 
-    public MissionDTO convertMissionToDto(Mission mission){
+    public MissionDTO convertMissionToDto(Mission mission) {
         return modelMapper.map(mission, MissionDTO.class);
     }
 
-
-    public ChallengeDTO converChallengeToDto(Challenge challenge){
+    public ChallengeDTO converChallengeToDto(Challenge challenge) {
         return modelMapper.map(challenge, ChallengeDTO.class);
     }
 
-
-    public OdsDTO convertOdsToDto(Ods ods){
+    public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
     }
 
