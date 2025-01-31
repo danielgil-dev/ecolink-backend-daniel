@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class Company extends UserBase {
     private String description;
+
     public Company(String name, String email, Long level, String description) {
         this.name = name;
         this.level = (level != null) ? level : 0L;
