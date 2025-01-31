@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +30,7 @@ public class Post {
     @ManyToOne
     private Startup startup;
 
-    
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "post_ods", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> odsLists = new ArrayList<>(); 
@@ -44,7 +46,7 @@ public class Post {
         this.description = description;
         this.postDate = postDate;
     }
-
+    @JsonIgnore
     @OneToMany(mappedBy = "post")
     private List<Like> likes;
 

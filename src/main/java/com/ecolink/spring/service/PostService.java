@@ -6,9 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
+import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.PostRepository;
+import com.ecolink.spring.specification.PostSpecification;
+
 
 @Service
 public class PostService {
@@ -30,9 +36,10 @@ public class PostService {
         return repository.findByTitle(title);
     }
 
-    public Page<Post> findByPagination(int page, int size) {
+    public Page<Post> findByFilterAndPagination(Startup startup , String title, List<Ods> ods, int page, int size) {
+        Specification<Post> spec = PostSpecification.filters(startup, title, ods);
         Pageable pageable = PageRequest.of(page, size);
-        return repository.findAll(pageable);
+        return repository.findAll(spec, pageable);
     }
 
     public Post findById(Long id){

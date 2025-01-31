@@ -14,18 +14,20 @@ import jakarta.persistence.criteria.Predicate;
 
 public class PostSpecification {
 
-      public static Specification<Post> filters(
-            String title, List<Ods> odsList) {
+      public static Specification<Post> filters(Startup startup,
+       String title, List<Ods> odsList) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (title!= null) {
+            if (title != null) {
+                Predicate startupPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("startup")), title.toLowerCase() + "%");
                 Predicate titlePredicate = criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("title")), "%" + name.toLowerCase() + "%");
+                        criteriaBuilder.lower(root.get("title")), "%" + title.toLowerCase() + "%");
                 Predicate descriptionPredicate = criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("description")), "%" + name.toLowerCase() + "%");
+                        criteriaBuilder.lower(root.get("description")), "%" + title.toLowerCase() + "%");
 
-                predicates.add(criteriaBuilder.or(titlePredicate, descriptionPredicate));
+                predicates.add(criteriaBuilder.or(startupPredicate
+                , titlePredicate, descriptionPredicate));
 
             }
             if (odsList != null && !odsList.isEmpty()) {

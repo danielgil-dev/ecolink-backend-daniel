@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.PostDTO;
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
+import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.PostNotFoundException;
+import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.PostService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
     private final PostService postService;
+    private final OdsService odsService;
     private final DTOConverter postDTOConverter;
 
     @GetMapping
@@ -59,11 +63,24 @@ public class PostController {
 
     @GetMapping("/pagination")
     public ResponseEntity<?> getPosts(
+            @RequestParam(required = false) Startup startup,
+            @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) List<Long> odsIdList) {
 
         try {
-            Page<Post> posts = postService.findByPagination(page, size);
+
+            List<Ods> odList = new ArrayList<>();
+            if (odsIdList != null && !odList.isEmpty()) {
+                odsIdList.forEach(odsId->{
+                   Ods ods =  odsService.findById(odsId);
+                   if (ods != null) {
+                        odList.add(ods);
+                   }
+                });
+            }
+            Page<Post> posts = postService.findByFilterAndPagination(startup, title, odList, page, size);
 
             if (posts.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
