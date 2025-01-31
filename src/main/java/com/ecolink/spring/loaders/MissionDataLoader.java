@@ -13,7 +13,7 @@ import com.ecolink.spring.entity.MissionType;
 import com.ecolink.spring.service.MissionService;
 
 @Component
-@Order(8)
+@Order(9)
 public class MissionDataLoader implements CommandLineRunner {
 
     @Autowired
