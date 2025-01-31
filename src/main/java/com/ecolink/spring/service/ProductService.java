@@ -53,7 +53,14 @@ public class ProductService {
         return repository.findAll(spec);
     }
 
-    public Product findById(Long id){
+    public Product findById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public Page<Product> findByPaginationAndFilter(Long startup, String name, BigDecimal priceMin, BigDecimal priceMax,
+            int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Specification<Product> spec = ProductSpecification.filters(startup, name, priceMin, priceMax);
+        return repository.findAll(spec, pageable);
     }
 }

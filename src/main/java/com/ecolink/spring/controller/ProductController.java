@@ -36,80 +36,16 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping()
-    public ResponseEntity<?> getProducts() {
-        try {
-            List<Product> products = service.findAll();
-            if (products.isEmpty()) {
-                throw new ProductNotFoundException("No se encontraron productos en la base de datos");
-            }
-
-            List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(dtoList);
-        } catch (ProductNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Ocurrió un error interno en el servidor");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProduct(@PathVariable Long id) {
-        try {
-            Product product = service.findById(id);
-            if (product == null) {
-                throw new ProductNotFoundException("No existe un producto con id=" + id);
-            }
-            ProductDTO dto = dtoConverter.convertProductToDto(product);
-
-            return ResponseEntity.ok(dto);
-        } catch (ProductNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Ocurrió un error interno en el servidor");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
-    }
-
-    @GetMapping("/filter")
-    public ResponseEntity<?> getProductsWithFilters(
+    public ResponseEntity<?> getProducts(
             @RequestParam(required = false) Long startup,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) BigDecimal priceMin,
-            @RequestParam(required = false) BigDecimal priceMax) {
-
-        try {
-            List<Product> products = service.getProductsByFilter(startup, name, priceMin, priceMax);
-            if (products.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
-                        "No se encontraron productos con los filtros especificados"));
-            }
-
-            List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(dtoList);
-        } catch (ProductNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Ocurrió un error interno en el servidor");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
-    }
-
-    @GetMapping("/pagination")
-    public ResponseEntity<?> getStartups(
+            @RequestParam(required = false) BigDecimal priceMax,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "8") int size) {
 
         try {
-            Page<Product> products = service.findByPagination(page, size);
+            Page<Product> products = service.findByPaginationAndFilter(startup, name, priceMin, priceMax, page, size);
 
             if (products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
@@ -128,6 +64,27 @@ public class ProductController {
                     products.isLast());
 
             return ResponseEntity.ok(response);
+        } catch (ProductNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProduct(@PathVariable Long id) {
+        try {
+            Product product = service.findById(id);
+            if (product == null) {
+                throw new ProductNotFoundException("No existe un producto con id=" + id);
+            }
+            ProductDTO dto = dtoConverter.convertProductToDto(product);
+
+            return ResponseEntity.ok(dto);
         } catch (ProductNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
