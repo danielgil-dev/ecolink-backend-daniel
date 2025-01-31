@@ -2,6 +2,8 @@ package com.ecolink.spring.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,7 @@ public class Proposal {
 	private Challenge challenge;
 
 	@ManyToOne
+	@JsonIgnore
 	private Startup startup;
 
 	private String description;

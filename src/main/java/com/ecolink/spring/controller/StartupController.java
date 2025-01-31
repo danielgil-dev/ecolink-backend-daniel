@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
-import com.ecolink.spring.dto.StartupDTO;
 import com.ecolink.spring.dto.StartupHomeDTO;
+import com.ecolink.spring.dto.StartupProfileDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.exception.ErrorDetails;
@@ -57,12 +57,11 @@ public class StartupController {
 
             if (startups.isEmpty()) {
                 throw new StartupNotFoundException("No se encontraron startups en la página especificada");
-            };
-
+            }
+            ;
 
             List<StartupHomeDTO> dtoList = startups.getContent().stream().map(dtoConverter::convertStartupHomeToDto)
                     .collect(Collectors.toList());
-
 
             var response = new PaginationResponse<>(
                     dtoList,
@@ -91,12 +90,12 @@ public class StartupController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getStartup(@PathVariable Long id) {
         try {
-            Startup product = service.findById(id);
-            if (product == null) {
+            Startup startup = service.findById(id);
+            if (startup == null) {
                 throw new StartupNotFoundException("No existe la startup con id=" + id);
             }
-            StartupDTO dto = dtoConverter.convertStartupToDto(product);
-
+            StartupProfileDTO dto = dtoConverter.convertStartupProfileToDto(startup);
+            
             return ResponseEntity.ok(dto);
         } catch (StartupNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());

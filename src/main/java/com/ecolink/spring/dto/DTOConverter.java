@@ -1,9 +1,5 @@
 package com.ecolink.spring.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +42,9 @@ public class DTOConverter {
 
     public StartupHomeDTO convertStartupHomeToDto(Startup startup) {
         return modelMapper.map(startup, StartupHomeDTO.class);
+    }
+    public StartupProfileDTO convertStartupProfileToDto(Startup startup) {
+        return modelMapper.map(startup, StartupProfileDTO.class);
     }
 
     public PostDTO convertPostToDto(Post post) {

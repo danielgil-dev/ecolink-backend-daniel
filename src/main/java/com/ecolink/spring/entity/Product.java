@@ -3,6 +3,8 @@ package com.ecolink.spring.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class Product {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Startup startup;
 
     public Product(Startup startup, String name, String description, BigDecimal price, LocalDate creationDate) {

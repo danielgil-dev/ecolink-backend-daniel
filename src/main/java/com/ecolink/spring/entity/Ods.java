@@ -26,10 +26,12 @@ public class Ods {
     private String name;
 
     @ManyToMany(mappedBy = "odsList")
+    @JsonIgnore
     private List<Startup> startups;
     
     
     @ManyToMany(mappedBy = "preferences")
+    @JsonIgnore
     private List<UserBase> userPreferences;
 
 
