@@ -19,11 +19,9 @@ public class StartupSpecification {
             List<Predicate> predicates = new ArrayList<>();
             if (name != null) {
                 Predicate namePredicate = criteriaBuilder.like(
-                    criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"
-                );
+                        criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
                 Predicate descriptionPredicate = criteriaBuilder.like(
-                    criteriaBuilder.lower(root.get("description")), "%" + name.toLowerCase() + "%"
-                );
+                        criteriaBuilder.lower(root.get("description")), "%" + name.toLowerCase() + "%");
 
                 predicates.add(criteriaBuilder.or(namePredicate, descriptionPredicate));
 

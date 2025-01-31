@@ -27,11 +27,12 @@ public class ProductSpecification {
             }
 
             if (name != null) {
-                predicates.add(
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
-                predicates.add(
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")),
-                                "%" + name.toLowerCase() + "%"));
+                Predicate namePredicate = criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
+                Predicate descriptionPredicate = criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("description")), "%" + name.toLowerCase() + "%");
+
+                predicates.add(criteriaBuilder.or(namePredicate, descriptionPredicate));
             }
 
             if (priceMin != null) {
