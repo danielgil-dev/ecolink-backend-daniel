@@ -51,8 +51,9 @@ public class StartupService {
         return repository.findAll(pageable);
     }
 
-    public List<Startup> findByFilter(String name, List<Ods> ods) {
+    public Page<Startup> findByFilterAndPagination(String name, List<Ods> ods, int page, int size) {
         Specification<Startup> spec = StartupSpecification.filters(name, ods);
-        return repository.findAll(spec);
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(spec, pageable);
     }
 }

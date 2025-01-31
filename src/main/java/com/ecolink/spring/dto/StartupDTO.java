@@ -13,6 +13,6 @@ public class StartupDTO {
     String imageUrl;
     Long level;
     String description;
-    private List<OdsDTO> odsList;
+    List<OdsDTO> odsList;
     List<ProposalStartupDTO> proposals;
 }
