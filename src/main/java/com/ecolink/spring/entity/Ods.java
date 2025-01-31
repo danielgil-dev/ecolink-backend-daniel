@@ -34,12 +34,25 @@ public class Ods {
     @JsonIgnore
     private List<UserBase> userPreferences;
 
+    @ManyToMany(mappedBy = "odsLists")
+    private List<Post> posts = new ArrayList<>();
+
     public Ods(String name) {
         this.name = name;
         this.startups = new ArrayList<>();
     }
 
+    //Metodos helpers STARTUP
     public void addStartup(Startup startup) {
         this.startups.add(startup);
+    }
+
+    //POST
+    public void addPost(Post post){
+        this.posts.add(post);
+    }
+
+    public void removePost(Post post){
+        this.posts.remove(post);
     }
 }
