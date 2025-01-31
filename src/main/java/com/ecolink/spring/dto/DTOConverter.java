@@ -41,26 +41,7 @@ public class DTOConverter {
 
     public StartupDTO convertStartupToDto(Startup startup) {
 
-        StartupDTO startupDto = modelMapper.map(startup, StartupDTO.class);
-
-        startupDto.setOdsList(startup.getOdsList().stream()
-                .map(this::convertOdsToDto)
-                .collect(Collectors.toList()));
-        List<Proposal> proposals = startup.getProposals();
-
-        List<ProposalStartupDTO> proposalsDto = new ArrayList<>();
-
-        proposals.forEach(proposal -> {
-            ProposalStartupDTO proposalDto = this.convertProposalStartupToDto(proposal);
-            ChallengeDTO challengeDTO = this.converChallengeToDto(proposal.getChallenge());
-
-            proposalDto.setChallenge(challengeDTO);
-            proposalsDto.add(proposalDto);
-        });
-
-        startupDto.setProposals(proposalsDto);
-
-        return startupDto;
+        return modelMapper.map(startup, StartupDTO.class);
     }
 
     public StartupHomeDTO convertStartupHomeToDto(Startup startup) {

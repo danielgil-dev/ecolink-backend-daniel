@@ -2,6 +2,9 @@ package com.ecolink.spring.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.ecolink.spring.entity.Proposal;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +12,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChallengeDTO {
-    private String companyName;
-    private String description;
-    private BigDecimal budget;
-    private LocalDateTime endDate;
+    Long id;
+    String companyName;
+    String description;
+    BigDecimal budget;
+    LocalDateTime endDate;
 }
