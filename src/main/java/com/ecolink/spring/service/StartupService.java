@@ -11,10 +11,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ecolink.spring.entity.Ods;
-import com.ecolink.spring.entity.Product;
+
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.StartupRepository;
-import com.ecolink.spring.specification.ProductSpecification;
 import com.ecolink.spring.specification.StartupSpecification;
 
 @Service
