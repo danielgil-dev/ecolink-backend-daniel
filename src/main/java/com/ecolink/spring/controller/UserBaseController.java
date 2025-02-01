@@ -6,7 +6,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Company;
-import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.entity.UserType;
@@ -15,8 +14,6 @@ import com.ecolink.spring.service.UserBaseService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
