@@ -12,16 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.OdsDTO;
-import com.ecolink.spring.dto.ProductDTO;
 import com.ecolink.spring.entity.Ods;
-import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.OdsNotFoundException;
-import com.ecolink.spring.exception.ProductNotFoundException;
 import com.ecolink.spring.service.OdsService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor

@@ -29,6 +29,10 @@ public class UserBaseController {
     @PostMapping("/register")
     public ResponseEntity<UserBase> newUser(@RequestBody UserBase user) {
         try {
+
+            System.out.println(user.getPreferences());
+            
+            
             if (user instanceof Startup) {
                 user.setUserType(UserType.STARTUP);
                 Startup startup = (Startup) user;
