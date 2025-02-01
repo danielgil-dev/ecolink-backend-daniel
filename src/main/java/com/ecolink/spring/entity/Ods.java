@@ -1,4 +1,5 @@
 package com.ecolink.spring.entity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +29,10 @@ public class Ods {
     @ManyToMany(mappedBy = "odsList")
     @JsonIgnore
     private List<Startup> startups;
-    
-    
+
     @ManyToMany(mappedBy = "preferences")
     @JsonIgnore
     private List<UserBase> userPreferences;
-
 
     public Ods(String name) {
         this.name = name;

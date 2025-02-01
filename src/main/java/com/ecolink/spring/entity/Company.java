@@ -1,5 +1,10 @@
 package com.ecolink.spring.entity;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +23,15 @@ public class Company extends UserBase {
         this.userType = UserType.COMPANY;
         this.email = email;
         this.description = description;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(() -> "ROLE_COMPANY");
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 }

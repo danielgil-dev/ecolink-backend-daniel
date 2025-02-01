@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,5 +20,9 @@ public class UserBaseService {
     public UserBase newUser(UserBase user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repository.save(user);
+    }
+
+    public Optional<UserBase> findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 }

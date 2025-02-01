@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Ods;
-import com.ecolink.spring.entity.Product;
-import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.ChallengeRepository;
 import com.ecolink.spring.specification.ChallengeSpecification;
-import com.ecolink.spring.specification.ProductSpecification;
 
 @Service
 public class ChallengeService {

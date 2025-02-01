@@ -1,6 +1,10 @@
 package com.ecolink.spring.entity;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -55,11 +59,21 @@ public class Startup extends UserBase {
         return this.name;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(() -> "ROLE_STARTUP");
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 }
