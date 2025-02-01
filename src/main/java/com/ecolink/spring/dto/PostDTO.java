@@ -13,12 +13,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostDTO {
-    private Startup startupName;
     private Long id;
+    private String startupName;
     private String title;
     private String description;
-    private String imageUrl;
-    List<Like> likes;
-    List<Ods> odsLists;
+    private Integer likesCount; 
+    List<OdsDTO> odsList;
     private LocalDate postDate;
 }

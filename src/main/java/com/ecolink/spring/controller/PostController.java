@@ -36,32 +36,32 @@ public class PostController {
     private final OdsService odsService;
     private final DTOConverter postDTOConverter;
 
-    @GetMapping
-    public ResponseEntity<?> getAllPosts() {
+    // @GetMapping
+    // public ResponseEntity<?> getAllPosts() {
 
-        try {
+    //     try {
             
-            List<Post> posts = postService.getAllPosts();
-            if (posts.isEmpty()) {
-                throw new PostNotFoundException("No se encontraron post en la base de datos");
-            }
-            List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDto)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(dtoList);
+    //         List<Post> posts = postService.getAllPosts();
+    //         if (posts.isEmpty()) {
+    //             throw new PostNotFoundException("No se encontraron post en la base de datos");
+    //         }
+    //         List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDto)
+    //                 .collect(Collectors.toList());
+    //         return ResponseEntity.ok(dtoList);
 
-        } catch (PostNotFoundException e) {
-               ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+    //     } catch (PostNotFoundException e) {
+    //            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
             
 
-        }catch (Exception e){
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocurrio un error interno en el servidor");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
+    //     }catch (Exception e){
+    //         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocurrio un error interno en el servidor");
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+    //     }
      
-    }
+    // }
 
-    @GetMapping("/pagination")
+    @GetMapping
     public ResponseEntity<?> getPosts(
             @RequestParam(required = false) Startup startup,
             @RequestParam(required = false) String title,
@@ -71,16 +71,20 @@ public class PostController {
 
         try {
 
-            List<Ods> odList = new ArrayList<>();
-            if (odsIdList != null && !odList.isEmpty()) {
+            List<Ods> odsList = new ArrayList<>();
+            if (odsIdList != null && !odsIdList.isEmpty()) {
                 odsIdList.forEach(odsId->{
                    Ods ods =  odsService.findById(odsId);
                    if (ods != null) {
-                        odList.add(ods);
+                        odsList.add(ods);
                    }
                 });
             }
-            Page<Post> posts = postService.findByFilterAndPagination(startup, title, odList, page, size);
+            System.out.println("Filtrando posts con título: " + title);
+            System.out.println("ODS seleccionadas: " + odsList);
+            System.out.println("Página: " + page + ", Tamaño: " + size);
+
+            Page<Post> posts = postService.findByFilterAndPagination(startup, title, odsList, page, size);
 
             if (posts.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),

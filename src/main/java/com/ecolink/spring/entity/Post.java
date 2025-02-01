@@ -27,10 +27,12 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @JsonIgnore
     @ManyToOne
     private Startup startup;
 
-    @JsonIgnore
+   
     @ManyToMany
     @JoinTable(name = "post_ods", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> odsLists = new ArrayList<>(); 
@@ -39,9 +41,8 @@ public class Post {
     private String description;
     private LocalDate postDate;
 
-    public Post(Startup startup, List<Ods> ods, String title, String description, LocalDate postDate) {
+    public Post(Startup startup, String title, String description, LocalDate postDate) {
         this.startup = startup;
-        this.odsLists = ods;
         this.title = title;
         this.description = description;
         this.postDate = postDate;

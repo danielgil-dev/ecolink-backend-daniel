@@ -1,5 +1,4 @@
 package com.ecolink.spring.dto;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -43,12 +42,21 @@ public class DTOConverter {
     public StartupHomeDTO convertStartupHomeToDto(Startup startup) {
         return modelMapper.map(startup, StartupHomeDTO.class);
     }
+
     public StartupProfileDTO convertStartupProfileToDto(Startup startup) {
         return modelMapper.map(startup, StartupProfileDTO.class);
     }
 
     public PostDTO convertPostToDto(Post post) {
-        return modelMapper.map(post, PostDTO.class);
+
+        PostDTO postDto = modelMapper.map(post, PostDTO.class);
+        if (post.getLikes() != null && post.getLikes().size() > 0) {
+            postDto.setLikesCount(post.getLikes().size());
+        } else {
+            postDto.setLikesCount(0);
+        }
+
+        return postDto;
     }
 
     public MissionDTO convertMissionToDto(Mission mission) {
