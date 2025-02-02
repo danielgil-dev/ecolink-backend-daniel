@@ -34,7 +34,7 @@ public class Ods {
     @JsonIgnore
     private List<UserBase> userPreferences;
 
-    @ManyToMany(mappedBy = "odsLists")
+    @ManyToMany(mappedBy = "odsList")
     private List<Post> posts = new ArrayList<>();
 
     public Ods(String name) {

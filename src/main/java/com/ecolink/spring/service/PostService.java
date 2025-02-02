@@ -36,8 +36,8 @@ public class PostService {
         return repository.findByTitle(title);
     }
 
-    public Page<Post> findByFilterAndPagination(Startup startup , String title, List<Ods> ods, int page, int size) {
-        Specification<Post> spec = PostSpecification.filters(startup, title, ods);
+    public Page<Post> findByFilterAndPagination(String startupName , String title, List<Ods> ods, int page, int size) {
+        Specification<Post> spec = PostSpecification.filters(startupName, title, ods);
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(spec, pageable);
     }

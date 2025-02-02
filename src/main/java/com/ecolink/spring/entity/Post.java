@@ -35,7 +35,7 @@ public class Post {
    
     @ManyToMany
     @JoinTable(name = "post_ods", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
-    private List<Ods> odsLists = new ArrayList<>(); 
+    private List<Ods> odsList = new ArrayList<>(); 
 
     private String title;
     private String description;
@@ -58,12 +58,12 @@ public class Post {
 
     //Post
     public void addOds(Ods ods){
-        this.odsLists.add(ods);
+        this.odsList.add(ods);
         ods.addPost(this);
     }
 
     public void removeOds(Ods ods){
-        this.odsLists.remove(ods);
+        this.odsList.remove(ods);
         ods.removePost(this);
         
     }

@@ -63,7 +63,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<?> getPosts(
-            @RequestParam(required = false) Startup startup,
+            @RequestParam(required = false) String startupName,
             @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -84,7 +84,7 @@ public class PostController {
             System.out.println("ODS seleccionadas: " + odsList);
             System.out.println("Página: " + page + ", Tamaño: " + size);
 
-            Page<Post> posts = postService.findByFilterAndPagination(startup, title, odsList, page, size);
+            Page<Post> posts = postService.findByFilterAndPagination(startupName, title, odsList, page, size);
 
             if (posts.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
