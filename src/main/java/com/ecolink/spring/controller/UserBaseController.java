@@ -35,7 +35,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -49,7 +48,7 @@ public class UserBaseController {
     private String uploadUserDir;
 
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<GetUserDTO> newUser(
+    public ResponseEntity<GetUserFrontDTO> newUser(
             @RequestPart("user") String userJson,
             @RequestPart("image") MultipartFile image) {
         String urlImage = null;
@@ -75,7 +74,7 @@ public class UserBaseController {
             }
             user.setImageUrl(urlImage);
 
-            GetUserDTO dto;
+            GetUserFrontDTO dto;
             if (user instanceof Startup startup) {
                 user.setUserType(UserType.STARTUP);
                 startup.setProposals(new ArrayList<>());
@@ -107,8 +106,5 @@ public class UserBaseController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
-
- 
-    
 
 }
