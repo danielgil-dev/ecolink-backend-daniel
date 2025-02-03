@@ -36,30 +36,7 @@ public class PostController {
     private final OdsService odsService;
     private final DTOConverter postDTOConverter;
 
-    // @GetMapping
-    // public ResponseEntity<?> getAllPosts() {
 
-    //     try {
-            
-    //         List<Post> posts = postService.getAllPosts();
-    //         if (posts.isEmpty()) {
-    //             throw new PostNotFoundException("No se encontraron post en la base de datos");
-    //         }
-    //         List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDto)
-    //                 .collect(Collectors.toList());
-    //         return ResponseEntity.ok(dtoList);
-
-    //     } catch (PostNotFoundException e) {
-    //            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-            
-
-    //     }catch (Exception e){
-    //         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Ocurrio un error interno en el servidor");
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-    //     }
-     
-    // }
 
     @GetMapping
     public ResponseEntity<?> getPosts(
@@ -80,10 +57,7 @@ public class PostController {
                    }
                 });
             }
-            System.out.println("Filtrando posts con título: " + title);
-            System.out.println("ODS seleccionadas: " + odsList);
-            System.out.println("Página: " + page + ", Tamaño: " + size);
-
+        
             Page<Post> posts = postService.findByFilterAndPagination(startupName, title, odsList, page, size);
 
             if (posts.isEmpty()) {
@@ -91,7 +65,7 @@ public class PostController {
                         "No se encontraron post en la página especificada"));
             }
 
-            List<PostDTO> dtoList = posts.stream().map(postDTOConverter::convertPostToDto)
+            List<PostDTO> dtoList = posts.getContent().stream().map(postDTOConverter::convertPostToDto)
                     .collect(Collectors.toList());
 
             var response = new PaginationResponse<>(
