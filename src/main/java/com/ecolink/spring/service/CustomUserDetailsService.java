@@ -17,4 +17,9 @@ public class CustomUserDetailsService implements UserDetailsService{
         return userBaseService.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 
+    public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
+		return userBaseService.findById(id)
+					.orElseThrow(() -> new UsernameNotFoundException("User with ID: " + id + " not found") );
+	}
+
 }
