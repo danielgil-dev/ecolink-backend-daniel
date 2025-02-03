@@ -31,14 +31,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try {
-
             String token = getJwtFromRequest(request);
 
             if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-
                 Long userId = tokenProvider.getUserIdFromJWT(token);
                 UserBase user = (UserBase) userDetailsService.loadUserById(userId);
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,
                         user.getUserType(), user.getAuthorities());
 
@@ -47,10 +44,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
+
+
         } catch (Exception ex) {
             log.info("No se ha podido establecer la autenticación en el contexto de seguridad");
         }
 
+        
         filterChain.doFilter(request, response);
     }
 

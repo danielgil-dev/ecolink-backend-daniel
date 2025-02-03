@@ -106,6 +106,7 @@ public class UserBaseController {
             if (urlImage != null && !urlImage.isEmpty()) {
                 images.deleteFile(urlImage, uploadUserDir);
             }
+            System.out.println(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }

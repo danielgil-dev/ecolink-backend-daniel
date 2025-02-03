@@ -9,17 +9,17 @@ import lombok.RequiredArgsConstructor;
 
 @Service("userDetailsService")
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService{
+public class CustomUserDetailsService implements UserDetailsService {
     private final UserBaseService userBaseService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userBaseService.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        return userBaseService.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
-		return userBaseService.findById(id)
-					.orElseThrow(() -> new UsernameNotFoundException("User with ID: " + id + " not found") );
-	}
+        return userBaseService.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User with ID: " + id + " not found"));
+    }
 
 }
