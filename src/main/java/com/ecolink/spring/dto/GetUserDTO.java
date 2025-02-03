@@ -11,7 +11,7 @@ import com.ecolink.spring.entity.UserType;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class GetUserDTO {
+    private Long id;
     private String username;
-	private String avatar;
 	private UserType userType;
 }

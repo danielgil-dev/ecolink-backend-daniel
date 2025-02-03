@@ -58,8 +58,8 @@ public class AuthenticationController {
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(UserBase user, String jwtToken) {
         return JwtUserResponse.jwtUserResponseBuilder()
                 .username(user.getEmail())
-                .avatar(user.getImageUrl())
                 .rol(user.getUserType())
+                .id(user.getId())
                 .token(jwtToken)
                 .build();
     }
