@@ -3,7 +3,6 @@ package com.ecolink.spring.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.exception.ClientNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;

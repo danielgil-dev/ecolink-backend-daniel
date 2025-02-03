@@ -3,12 +3,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Challenge;
+import com.ecolink.spring.entity.Client;
+import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.entity.UserBase;
 
 import lombok.RequiredArgsConstructor;
 
@@ -69,6 +72,16 @@ public class DTOConverter {
 
     public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
+    }
+
+    public GetUserDTO convertClientBaseToDto(Client client){
+        return modelMapper.map(client, GetUserDTO.class);
+    }
+    public GetUserDTO convertStartupBaseToDto(Startup startup){
+        return modelMapper.map(startup, GetUserDTO.class);
+    }
+    public GetUserDTO convertCompanypBaseToDto(Company company){
+        return modelMapper.map(company, GetUserDTO.class);
     }
 
 }
