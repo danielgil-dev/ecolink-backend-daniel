@@ -79,14 +79,17 @@ public class DTOConverter {
         return modelMapper.map(ods, OdsDTO.class);
     }
 
-    public GetUserDTO convertClientBaseToDto(Client client){
-        return modelMapper.map(client, GetUserDTO.class);
+    public GetUserDTO convertUserDTO(UserBase user){
+        return modelMapper.map(user, GetUserDTO.class);
     }
-    public GetUserDTO convertStartupBaseToDto(Startup startup){
-        return modelMapper.map(startup, GetUserDTO.class);
+    public GetUserFrontDTO convertClientBaseToDto(Client client){
+        return modelMapper.map(client, GetUserFrontDTO.class);
     }
-    public GetUserDTO convertCompanypBaseToDto(Company company){
-        return modelMapper.map(company, GetUserDTO.class);
+    public GetUserFrontDTO convertStartupBaseToDto(Startup startup){
+        return modelMapper.map(startup, GetUserFrontDTO.class);
+    }
+    public GetUserFrontDTO convertCompanypBaseToDto(Company company){
+        return modelMapper.map(company, GetUserFrontDTO.class);
     }
 
 }

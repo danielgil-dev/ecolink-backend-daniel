@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ecolink.spring.dto.DTOConverter;
-import com.ecolink.spring.dto.GetUserDTO;
+import com.ecolink.spring.dto.GetUserFrontDTO;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Ods;
@@ -34,8 +34,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

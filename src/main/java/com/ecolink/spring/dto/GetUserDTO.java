@@ -1,19 +1,17 @@
 package com.ecolink.spring.dto;
 
-import java.util.List;
 
-
-import com.ecolink.spring.entity.Ods;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.ecolink.spring.entity.UserType;
 
-@Getter
-@Setter
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
 public class GetUserDTO {
-    Long id;
-    String name;
-    String imageUrl;
-    Long level;
-    List<Ods> preferences;
+    private String username;
+	private String avatar;
+	private UserType userType;
 }
