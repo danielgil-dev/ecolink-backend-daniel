@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class Images {
-    public  boolean isExtensionImageValid(MultipartFile imagen) {
+    public boolean isExtensionImageValid(MultipartFile imagen) {
         String nameImage = imagen.getOriginalFilename();
         if (nameImage.endsWith(".jpg") || nameImage.endsWith(".jpeg") || nameImage.endsWith(".png")) {
             return true;
@@ -49,6 +49,22 @@ public class Images {
         }
 
         return null;
+    }
+
+    public void deleteFile(String fileName, String directory) {
+        try {
+            String fullDir = null;
+            fullDir = Paths.get("").toAbsolutePath().toString() + directory;
+
+            Path uploadPath = Paths.get(fullDir);
+            Path filePath = uploadPath.resolve(fileName);
+
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

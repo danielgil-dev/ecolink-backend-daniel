@@ -50,6 +50,7 @@ public class UserBaseController {
     public ResponseEntity<GetUserDTO> newUser(
             @RequestPart("user") String userJson,
             @RequestPart("image") MultipartFile image) {
+        String urlImage = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             UserBase user = objectMapper.readValue(userJson, UserBase.class);
@@ -66,7 +67,7 @@ public class UserBaseController {
             if (!images.isExtensionImageValid(image)) {
                 throw new ImageNotValidExtension("The extension is invalid");
             }
-            String urlImage = images.uploadFile(image, uploadUserDir);
+            urlImage = images.uploadFile(image, uploadUserDir);
             if (urlImage == null || urlImage.isEmpty()) {
                 throw new ImageSubmitError("Error to submit the image");
             }
@@ -92,19 +93,16 @@ public class UserBaseController {
             service.newUser(user);
             dto.setId(user.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(dto);
-        } catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException | ImageNotValidExtension | ImageSubmitError e) {
+            if (urlImage != null && !urlImage.isEmpty()) {
+                images.deleteFile(urlImage, uploadUserDir);
+            }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-        catch(ImageNotValidExtension e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } 
-        catch(ImageSubmitError e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } 
-        catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            if (urlImage != null && !urlImage.isEmpty()) {
+                images.deleteFile(urlImage, uploadUserDir);
+            }
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
-
 }
