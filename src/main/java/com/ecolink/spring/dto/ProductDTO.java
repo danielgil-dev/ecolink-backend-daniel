@@ -15,4 +15,5 @@ public class ProductDTO {
     private String image;
     private BigDecimal price;
     private LocalDate creationDate;
+    private String startupName;
 }

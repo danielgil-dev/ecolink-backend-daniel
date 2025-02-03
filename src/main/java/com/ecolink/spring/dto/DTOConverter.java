@@ -22,7 +22,12 @@ public class DTOConverter {
     private final ModelMapper modelMapper;
 
     public ProductDTO convertProductToDto(Product product) {
-        return modelMapper.map(product, ProductDTO.class);
+        ProductDTO productDto = modelMapper.map(product, ProductDTO.class);
+        String startupName = product.getStartup().getName();
+        if( startupName != null){
+            productDto.setStartupName(startupName);
+        }
+        return productDto;
     }
 
     public ProductRelevantDTO convertProductRelevantToDto(Product product) {
