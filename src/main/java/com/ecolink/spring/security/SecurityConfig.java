@@ -45,11 +45,11 @@ public class SecurityConfig {
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+						.requestMatchers("/api/auth/**").permitAll()
 						.requestMatchers("/h2-console/**","/swagger-ui/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post", "/api/ods").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("CLIENT")
-						.requestMatchers(HttpMethod.GET, "/api/challenge").hasAnyAuthority("COMPANY","STARTUP")
+						.requestMatchers(HttpMethod.GET, "/api/challenge/**").hasAnyAuthority("COMPANY","STARTUP")
 
 						.anyRequest().authenticated())
 						//.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
