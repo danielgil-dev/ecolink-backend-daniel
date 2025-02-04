@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -40,7 +41,9 @@ public class Company extends UserBase {
       //Metodos Helpers
     public void addChallenge(Challenge challenge){
 
-        this.challenges.add(challenge);
+        if(!this.challenges.contains(challenge)){
+            this.challenges.add(challenge);
+        }
         if(challenge.getCompany() == null){
             challenge.setCompany(this);
         }
