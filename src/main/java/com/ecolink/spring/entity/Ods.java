@@ -32,7 +32,7 @@ public class Ods {
 
     @ManyToMany(mappedBy = "preferences")
     @JsonIgnore
-    private List<UserBase> userPreferences;
+    private List<Client> userPreferences;
 
     @ManyToMany(mappedBy = "odsList")
     @JsonIgnore

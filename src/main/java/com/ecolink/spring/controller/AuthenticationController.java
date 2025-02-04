@@ -95,11 +95,6 @@ public class AuthenticationController {
             ObjectMapper objectMapper = new ObjectMapper();
             UserBase user = objectMapper.readValue(userJson, UserBase.class);
 
-            List<Ods> preferences = odsService.findAllById(
-                    user.getPreferences().stream()
-                            .map(Ods::getId)
-                            .collect(Collectors.toList()));
-            user.setPreferences(preferences);
             user.setLikes(new ArrayList<>());
             user.setRegisterDate(java.time.LocalDate.now());
             user.setLevel(0L);
@@ -127,6 +122,11 @@ public class AuthenticationController {
             } else {
                 Client client = (Client) user;
                 user.setUserType(UserType.CLIENT);
+                List<Ods> preferences = odsService.findAllById(
+                        client.getPreferences().stream()
+                                .map(Ods::getId)
+                                .collect(Collectors.toList()));
+                client.setPreferences(preferences);
                 dto = converter.convertClientBaseToDto(client);
             }
 

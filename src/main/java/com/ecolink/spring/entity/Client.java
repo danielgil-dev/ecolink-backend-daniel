@@ -7,11 +7,17 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client extends UserBase {
@@ -26,11 +32,15 @@ public class Client extends UserBase {
         this.email = email;
     }
 
+    @ManyToMany
+    @JoinTable(name = "user_preferences", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
+    private List<Ods> preferences;
+
     public void addMision(Mission mission) {
         this.missions.add(mission);
     }
 
-        @Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(() -> "ROLE_CLIENT");
     }
