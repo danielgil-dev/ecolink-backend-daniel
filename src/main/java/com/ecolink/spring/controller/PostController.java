@@ -1,7 +1,6 @@
 package com.ecolink.spring.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,6 @@ import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.PostDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
-import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.PostNotFoundException;
 import com.ecolink.spring.service.OdsService;

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
-import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.PostRepository;
 import com.ecolink.spring.specification.PostSpecification;
 
