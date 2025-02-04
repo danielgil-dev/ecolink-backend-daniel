@@ -33,12 +33,15 @@ public class SecurityConfig {
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post",
-								"/api/ods")
+						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**")
 						.permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post",
+								"/api/ods", "/api/client/**")
+						.permitAll()
+						.requestMatchers("/api/company").hasAuthority("ROLE_STARTUP")
 						.requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("ROLE_CLIENT")
-						.requestMatchers(HttpMethod.GET, "/api/challenge/**").hasAnyAuthority("ROLE_COMPANY", "ROLE_STARTUP")
+						.requestMatchers(HttpMethod.GET, "/api/challenge/**")
+						.hasAnyAuthority("ROLE_COMPANY", "ROLE_STARTUP")
 
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
