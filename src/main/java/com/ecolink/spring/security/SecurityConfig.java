@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,12 +28,8 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
-	//private final JwtAuthorizationFilter jwtAuthorizationFilter;
-
-	@Bean
-	protected BCryptPasswordEncoder getPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	private final JwtAuthorizationFilter jwtAuthorizationFilter;
+	private final PasswordEncoder passwordEncoder;
 
 	// @Bean
 	// protected WebSecurityCustomizer getWebSecurityConfig() {
@@ -46,23 +43,22 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/api/auth/**").permitAll()
-						.requestMatchers("/h2-console/**","/swagger-ui/**").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post", "/api/ods").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("CLIENT")
-						.requestMatchers(HttpMethod.GET, "/api/challenge/**").hasAnyAuthority("COMPANY","STARTUP")
+						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post",
+								"/api/ods")
+						.permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("ROLE_CLIENT")
+						.requestMatchers(HttpMethod.GET, "/api/challenge/**").hasAnyAuthority("ROLE_COMPANY", "ROLE_STARTUP")
 
 						.anyRequest().authenticated())
-						//.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-						.csrf(csrf -> csrf.disable()
-						)
+				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+				.csrf(csrf -> csrf.disable())
 				.headers(headers -> headers
 						.frameOptions(frameOptions -> frameOptions.disable())
-							
+
 				)
 				.logout(logout -> logout
 						.logoutUrl("/logout")
-						.logoutSuccessUrl("/public") // Redirige a la página de inicio de sesión después del cierre de
-														// sesión
+						.logoutSuccessUrl("/public")
 						.invalidateHttpSession(true)
 						.permitAll());
 		return http.build();
@@ -72,7 +68,7 @@ public class SecurityConfig {
 	protected AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
 
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setPasswordEncoder(getPasswordEncoder());
+		authProvider.setPasswordEncoder(passwordEncoder);
 		authProvider.setUserDetailsService(userDetailsService);
 		return new ProviderManager(authProvider);
 	}
