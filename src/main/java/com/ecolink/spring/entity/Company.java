@@ -12,11 +12,13 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Company extends UserBase {
     private String description;
 
@@ -30,6 +32,20 @@ public class Company extends UserBase {
         this.email = email;
         this.description = description;
         this.challenges = new ArrayList<>();
+    }
+
+      //Metodos Helpers
+    public void addChallenge(Challenge challenge){
+
+        this.challenges.add(challenge);
+        if(challenge.getCompany() == null){
+            challenge.setCompany(this);
+        }
+    }
+
+    public void removeChallenge(Challenge challenge){
+        this.challenges.remove(challenge);
+        challenge.setCompany(null);
     }
 
     @Override

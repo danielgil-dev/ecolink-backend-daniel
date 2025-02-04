@@ -75,6 +75,14 @@ public class DTOConverter {
         return modelMapper.map(challenge, ChallengeDTO.class);
     }
 
+    //Creo un DTO para solo almacenar el ID,Descripcion, y presupuesto de un reto
+    public ChallengeBasicDTO converChallengeBasicToDTO(Challenge challenge){
+        return modelMapper.map(challenge, ChallengeBasicDTO.class);
+    }
+
+    public  CompanyDTO convertCompanyDTO(Company company){
+        return modelMapper.map(company, CompanyDTO.class);
+    }
     public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
     }

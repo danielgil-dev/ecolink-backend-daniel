@@ -40,5 +40,9 @@ public class ChallengeService {
         return repository.findAll(spec);
     }
 
+    public Long getNumberChallenges(){
+        return repository.count();
+    }
+
     
 }

@@ -33,10 +33,10 @@ public class SecurityConfig {
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**")
+						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**" )
 						.permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post",
-								"/api/ods", "/api/client/**")
+								"/api/ods", "/api/client/**","/api/company/**")
 						.permitAll()
 						.requestMatchers("/api/company").hasAuthority("ROLE_STARTUP")
 						.requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("ROLE_CLIENT")
