@@ -19,7 +19,7 @@ import com.ecolink.spring.service.MissionService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("api/missions")
+@RequestMapping("api/mission")
 @RestController
 public class MissionController {
 
