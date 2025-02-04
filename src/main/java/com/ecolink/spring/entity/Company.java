@@ -10,7 +10,10 @@ import org.springframework.security.core.GrantedAuthority;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
+import jakarta.persistence.OneToMany;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -57,4 +60,5 @@ public class Company extends UserBase {
     public String getUsername() {
         return this.email;
     }
+    
 }

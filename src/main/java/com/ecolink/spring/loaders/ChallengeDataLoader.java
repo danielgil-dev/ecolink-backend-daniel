@@ -18,18 +18,20 @@ import com.ecolink.spring.service.OdsService;
 
 import jakarta.transaction.Transactional;
 
+import jakarta.transaction.Transactional;
+
 @Component
 @Order(7)
 public class ChallengeDataLoader implements CommandLineRunner {
 
-        @Autowired
-        private ChallengeService service;
+    @Autowired
+    private ChallengeService service;
 
-        @Autowired
-        private OdsService odsService;
+    @Autowired
+    private OdsService odsService;
 
-        @Autowired
-        private CompanyService companyService;
+    @Autowired
+    private CompanyService companyService;
 
         @Transactional
         public void run(String... args) {
