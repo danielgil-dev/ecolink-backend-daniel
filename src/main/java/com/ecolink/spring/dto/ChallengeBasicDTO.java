@@ -9,4 +9,5 @@ public class ChallengeBasicDTO {
     Long id;
     String description;
     BigDecimal budget;
+    private Integer numberOfParticipans;
 }

@@ -19,4 +19,5 @@ public class ChallengeDTO {
     BigDecimal budget;
     LocalDateTime endDate;
     List<Ods> odsList;
+    private Integer numberOfParticipans;
 }

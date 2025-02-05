@@ -27,10 +27,10 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     private Company company;
-    
+
     @ManyToMany
     @JoinTable(name = "challenge_ods", joinColumns = @JoinColumn(name = "id_startup"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> odsList;
@@ -39,12 +39,12 @@ public class Challenge {
     private String description;
     private BigDecimal budget;
     private LocalDateTime endDate;
-    
+
     @OneToMany(mappedBy = "challenge")
     List<Proposal> proposals;
-    
 
-    public Challenge(Company company ,String title, String description, BigDecimal budget, LocalDateTime endDate,List<Ods> odsList){
+    public Challenge(Company company, String title, String description, BigDecimal budget, LocalDateTime endDate,
+            List<Ods> odsList) {
         this.company = company;
         this.title = title;
         this.description = description;
@@ -52,8 +52,12 @@ public class Challenge {
         this.endDate = endDate;
         this.odsList = odsList;
     }
+
     public void addChallenge(Proposal proposal) {
-    	this.proposals.add(proposal);
+        this.proposals.add(proposal);
     }
-    
+
+    public Integer getNumberOfParticipants() {
+        return proposals.size();
+    }
 }

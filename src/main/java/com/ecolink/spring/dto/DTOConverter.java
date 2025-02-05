@@ -1,4 +1,5 @@
 package com.ecolink.spring.dto;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ public class DTOConverter {
     public ProductDTO convertProductToDto(Product product) {
         ProductDTO productDto = modelMapper.map(product, ProductDTO.class);
         String startupName = product.getStartup().getName();
-        if( startupName != null){
+        if (startupName != null) {
             productDto.setStartupName(startupName);
         }
         return productDto;
@@ -72,31 +73,41 @@ public class DTOConverter {
     }
 
     public ChallengeDTO converChallengeToDto(Challenge challenge) {
-        return modelMapper.map(challenge, ChallengeDTO.class);
+        ChallengeDTO challengeDto = modelMapper.map(challenge, ChallengeDTO.class);
+        Integer numberOfParticipants = challenge.getNumberOfParticipants();
+        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0 );
+        return challengeDto;
     }
 
-    //Creo un DTO para solo almacenar el ID,Descripcion, y presupuesto de un reto
-    public ChallengeBasicDTO converChallengeBasicToDTO(Challenge challenge){
-        return modelMapper.map(challenge, ChallengeBasicDTO.class);
+    // Creo un DTO para solo almacenar el ID,Descripcion, y presupuesto de un reto
+    public ChallengeBasicDTO converChallengeBasicToDTO(Challenge challenge) {
+        ChallengeBasicDTO challengeDto = modelMapper.map(challenge, ChallengeBasicDTO.class);
+        Integer numberOfParticipants = challenge.getNumberOfParticipants();
+        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0 );
+        return challengeDto;
     }
 
-    public  CompanyDTO convertCompanyDTO(Company company){
+    public CompanyDTO convertCompanyDTO(Company company) {
         return modelMapper.map(company, CompanyDTO.class);
     }
+
     public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
     }
 
-    public GetUserDTO convertUserDTO(UserBase user){
+    public GetUserDTO convertUserDTO(UserBase user) {
         return modelMapper.map(user, GetUserDTO.class);
     }
-    public GetUserFrontDTO convertClientBaseToDto(Client client){
+
+    public GetUserFrontDTO convertClientBaseToDto(Client client) {
         return modelMapper.map(client, GetUserFrontDTO.class);
     }
-    public GetUserFrontDTO convertStartupBaseToDto(Startup startup){
+
+    public GetUserFrontDTO convertStartupBaseToDto(Startup startup) {
         return modelMapper.map(startup, GetUserFrontDTO.class);
     }
-    public GetUserFrontDTO convertCompanypBaseToDto(Company company){
+
+    public GetUserFrontDTO convertCompanypBaseToDto(Company company) {
         return modelMapper.map(company, GetUserFrontDTO.class);
     }
 
