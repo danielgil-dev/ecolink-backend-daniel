@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Images {
     public boolean isExtensionImageValid(MultipartFile imagen) {
         String nameImage = imagen.getOriginalFilename();
-        if (nameImage.endsWith(".jpg") || nameImage.endsWith(".jpeg") || nameImage.endsWith(".png")) {
+        if (nameImage.endsWith(".jpg") || nameImage.endsWith(".jpeg") || nameImage.endsWith(".png") || nameImage.endsWith(".webp")) {
             return true;
         }
 
