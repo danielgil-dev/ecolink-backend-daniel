@@ -51,6 +51,9 @@ public class DTOConverter {
     public StartupHomeDTO convertStartupHomeToDto(Startup startup) {
         return modelMapper.map(startup, StartupHomeDTO.class);
     }
+    public CompanyForChallengeDTO convertCompanyHomeToDto(Company company) {
+        return modelMapper.map(company, CompanyForChallengeDTO.class);
+    }
 
     public StartupProfileDTO convertStartupProfileToDto(Startup startup) {
         return modelMapper.map(startup, StartupProfileDTO.class);
@@ -74,6 +77,15 @@ public class DTOConverter {
 
     public ChallengeDTO converChallengeToDto(Challenge challenge) {
         ChallengeDTO challengeDto = modelMapper.map(challenge, ChallengeDTO.class);
+        Integer numberOfParticipants = challenge.getNumberOfParticipants();
+        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0 );
+        return challengeDto;
+    }
+    public ChallengeFindDTO converChallengeToChallengeFindDto(Challenge challenge) {
+        ChallengeFindDTO challengeDto = modelMapper.map(challenge, ChallengeFindDTO.class);
+        Company company = challenge.getCompany();
+        CompanyForChallengeDTO companyDto = modelMapper.map(company, CompanyForChallengeDTO.class);
+        challengeDto.setCompany(companyDto);
         Integer numberOfParticipants = challenge.getNumberOfParticipants();
         challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0 );
         return challengeDto;

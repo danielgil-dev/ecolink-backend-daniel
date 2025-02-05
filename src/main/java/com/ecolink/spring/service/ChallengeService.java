@@ -20,12 +20,11 @@ public class ChallengeService {
     @Autowired
     private ChallengeRepository repository;
 
-   
     public Boolean existsByTitle(String title) {
         return repository.existsByTitle(title);
     }
 
-    public Challenge findByTitle (String title){
+    public Challenge findByTitle(String title) {
         return repository.findByTitle(title);
     }
 
@@ -33,7 +32,7 @@ public class ChallengeService {
         repository.save(challenge);
     }
 
-    public List<Challenge> getAllChallenges(){
+    public List<Challenge> getAllChallenges() {
         return repository.findAll();
     }
 
@@ -43,12 +42,13 @@ public class ChallengeService {
         return repository.findAll(spec);
     }
 
-    public Long getNumberChallenges(){
+    public Long getNumberChallenges() {
         return repository.count();
     }
 
-    public Page<Challenge> findByFilterAndPagination(List<Ods> odsList, BigDecimal minprice, BigDecimal maxprice, int page, int size) {
-       Specification<Challenge> spec = ChallengeSpecification.filters(odsList, minprice, maxprice);
+    public Page<Challenge> findByFilterAndPagination(List<Ods> odsList, BigDecimal minprice, BigDecimal maxprice,
+            int page, int size) {
+        Specification<Challenge> spec = ChallengeSpecification.filters(odsList, minprice, maxprice);
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(spec, pageable);
     }
@@ -57,5 +57,7 @@ public class ChallengeService {
         return repository.findTop4ByOrderByEndDateAsc();
     }
 
-    
+    public Challenge findById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }

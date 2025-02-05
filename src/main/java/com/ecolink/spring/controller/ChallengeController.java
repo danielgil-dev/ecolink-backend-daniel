@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.ChallengeDTO;
+import com.ecolink.spring.dto.ChallengeFindDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.PostDTO;
@@ -16,6 +17,7 @@ import com.ecolink.spring.exception.PostNotFoundException;
 import com.ecolink.spring.service.ChallengeService;
 import com.ecolink.spring.service.OdsService;
 
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
@@ -26,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/api/challenge")
@@ -105,6 +108,26 @@ public class ChallengeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getChallenge(@PathVariable Long id) {
+        try {
+            Challenge challenge = challengeService.findById(id);
+            if (challenge == null) {
+                throw new ChallengeNotFoundException("No existe un challenge con id=" + id);
+            }
+            ChallengeFindDTO dto = challengeDtoConverter.converChallengeToChallengeFindDto(challenge);
+
+            return ResponseEntity.ok(dto);
+        } catch (ChallengeNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
     }
 
 }
