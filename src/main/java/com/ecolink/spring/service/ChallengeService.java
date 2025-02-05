@@ -1,9 +1,12 @@
 package com.ecolink.spring.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,15 +50,20 @@ public class ChallengeService {
         return repository.count();
     }
 
+
     public Page<Challenge> findByFilterAndPagination(List<Ods> odsList, BigDecimal minprice, BigDecimal maxprice, int page, int size) {
-       Specification<Challenge> spec = ChallengeSpecification.filters(odsList, minprice, maxprice);
+        Specification<Challenge> spec = ChallengeSpecification.filters(odsList, minprice, maxprice);
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(spec, pageable);
     }
 
     public List<Challenge> getChallengesByRelevant() {
-        return repository.findTop4ByOrderByEndDateAsc();
+        return repository.findTop4ByEndDateGreaterThanEqualOrderByEndDateAsc(LocalDate.now());
     }
 
+    public List<Challenge> getActiveChallenges(){
+
+        return repository.findByendDateGreaterThanEqual(LocalDate.now());
+    }
     
 }

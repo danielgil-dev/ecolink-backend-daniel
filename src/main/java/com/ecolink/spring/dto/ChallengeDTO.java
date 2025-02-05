@@ -1,7 +1,7 @@
 package com.ecolink.spring.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ecolink.spring.entity.Ods;
@@ -17,7 +17,7 @@ public class ChallengeDTO {
     String title;
     String description;
     BigDecimal budget;
-    LocalDateTime endDate;
+    LocalDate endDate;
     List<Ods> odsList;
     private Integer numberOfParticipans;
 }
