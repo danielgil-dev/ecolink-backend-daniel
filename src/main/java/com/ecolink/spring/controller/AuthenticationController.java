@@ -34,6 +34,7 @@ import com.ecolink.spring.security.jwt.JwtProvider;
 import com.ecolink.spring.security.jwt.model.JwtUserResponse;
 import com.ecolink.spring.security.jwt.model.LoginRequest;
 import com.ecolink.spring.service.OdsService;
+import com.ecolink.spring.service.StartupService;
 import com.ecolink.spring.service.UserBaseService;
 import com.ecolink.spring.utils.Images;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,6 +57,8 @@ public class AuthenticationController {
     private final JwtProvider tokenProvider;
     private final DTOConverter converter;
     private final UserBaseService service;
+    private final StartupService startupService;
+
     private final OdsService odsService;
     private final Images images;
 
@@ -111,6 +114,7 @@ public class AuthenticationController {
             GetUserFrontDTO dto;
             if (user instanceof Startup startup) {
                 user.setUserType(UserType.STARTUP);
+                startupService.changeStartupState(startup, null);
                 startup.setProposals(new ArrayList<>());
                 startup.setProducts(new ArrayList<>());
                 startup.setOdsList(odsService.findAllById(

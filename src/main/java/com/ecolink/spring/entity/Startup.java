@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -23,7 +25,8 @@ import lombok.ToString;
 @ToString
 public class Startup extends UserBase {
 
-    Boolean accepted;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     
     @OneToMany(mappedBy = "startup")
     List<Proposal> proposals;
@@ -44,7 +47,7 @@ public class Startup extends UserBase {
         this.userType = UserType.STARTUP;
         this.email = email;
         this.description = description;
-        this.accepted = false;
+        this.status = Status.PENDING;
     }
 
     public void addChallenge(Proposal proposal) {
@@ -70,6 +73,8 @@ public class Startup extends UserBase {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
