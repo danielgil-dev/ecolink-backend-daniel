@@ -14,6 +14,7 @@ import lombok.Setter;
 public class ChallengeDTO {
     Long id;
     String companyName;
+    String title;
     String description;
     BigDecimal budget;
     LocalDateTime endDate;
