@@ -33,14 +33,16 @@ public class SecurityConfig {
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**" ,"/api/admin/**")
+						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**",
+								"/api/admin/**")
 						.permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/product/**", "/api/startup/**", "/api/post/**",
-								"/api/ods/**", "/api/client/**","/api/company/**", "/api/challenge/**", "/api/mission/**")
+								"/api/ods/**", "/api/client/**", "/api/company/**", "/api/challenge/**",
+								"/api/mission/**", "/api/image/**")
 						.permitAll()
 						.requestMatchers("/api/company").hasAuthority("ROLE_STARTUP")
-						//.requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("ROLE_CLIENT")
-						//.requestMatchers("/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
+						// .requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("ROLE_CLIENT")
+						// .requestMatchers("/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
 						// .requestMatchers(HttpMethod.GET, "/api/challenge/**")
 						// .hasAnyAuthority("ROLE_COMPANY", "ROLE_STARTUP")
 
@@ -49,7 +51,6 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.headers(headers -> headers
 						.frameOptions(frameOptions -> frameOptions.disable())
-
 				)
 				.logout(logout -> logout
 						.logoutUrl("/logout")
