@@ -95,7 +95,7 @@ public class ChallengeDataLoader implements CommandLineRunner {
                                 "Farming Without Waste",
                                 "Design a solution to help farmers cut down food waste, whether through better storage, distribution, or alternative uses.",
                                 new BigDecimal("120000.00"),
-                                LocalDateTime.of(2025, 2, 2, 0, 0),
+                                LocalDateTime.of(2025, 2, 16, 0, 0),
                                 Arrays.asList(
                                                 odsService.findByName("Zero Hunger"),
                                                 odsService.findByName("Life on Land")));
@@ -104,21 +104,21 @@ public class ChallengeDataLoader implements CommandLineRunner {
                                 "Bye-Bye Plastic!",
                                 "Can you develop an alternative to plastic that is cheap, scalable, and biodegradable?",
                                 new BigDecimal("115000.00"),
-                                LocalDateTime.of(2025, 2, 6, 0, 0),
+                                LocalDateTime.of(2025, 2, 20, 0, 0),
                                 Arrays.asList(odsService.findByName("Responsible Consumption and Production")));
 
                 Challenge urbanFlowChallenge1 = new Challenge(urbanFlow,
                                 "The Future of Recycling",
                                 "What’s the next big idea in recycling? Think beyond traditional bins and propose something that makes waste separation fun and easy.",
                                 new BigDecimal("90000.00"),
-                                LocalDateTime.of(2025, 2, 3, 0, 0),
+                                LocalDateTime.of(2025, 2, 24, 0, 0),
                                 Arrays.asList(odsService.findByName("Responsible Consumption and Production")));
 
                 Challenge urbanFlowChallenge2 = new Challenge(urbanFlow,
                                 "Rethinking City Mobility",
                                 "What’s the next big idea in urban transportation? Help us make cities cleaner and more efficient.",
                                 new BigDecimal("105000.00"),
-                                LocalDateTime.of(2025, 2, 4, 0, 0),
+                                LocalDateTime.of(2025, 2, 28, 0, 0),
                                 Arrays.asList(odsService.findByName("Sustainable Cities and Communities")));
 
                 List<Challenge> allChallenges = Arrays.asList(
