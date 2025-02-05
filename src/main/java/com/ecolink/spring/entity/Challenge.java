@@ -2,7 +2,6 @@ package com.ecolink.spring.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -40,7 +39,7 @@ public class Challenge {
     private String description;
     private BigDecimal budget;
     private LocalDate endDate;
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @OneToMany(mappedBy = "challenge")
     List<Proposal> proposals;
@@ -54,7 +53,7 @@ public class Challenge {
         this.title = title;
         this.description = description;
         this.budget = budget;
-        this.startDate = LocalDateTime.now();
+        this.startDate = LocalDate.now();
         this.endDate = endDate;
         this.odsList = odsList;
     }
