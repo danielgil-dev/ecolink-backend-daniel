@@ -1,7 +1,7 @@
 package com.ecolink.spring.controller;
 
+import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -26,34 +26,29 @@ public class ImageController {
     private String uploadUserDir;
 
     @GetMapping
-    public ResponseEntity<?> findImage(@RequestParam(required = true) String type,
-            @RequestParam(required = true) String name_image) {
+    public ResponseEntity<?> findImage(@RequestParam String type, @RequestParam String name_image) {
         try {
-
+            String baseDir = System.getProperty("user.dir");
             String full_url = "";
+
             switch (type) {
                 case "user":
-                    full_url = uploadUserDir + name_image;
+                    full_url = Paths.get(baseDir, "uploads", "users", name_image).toString();
                     break;
                 case "ods":
-                    // Añadir mas adelante la carpeta de ods
+                    full_url = Paths.get(baseDir, "uploads", "ods", name_image).toString();
                     break;
             }
-            if (full_url.isEmpty()) {
-                if (full_url == null || full_url.isEmpty()) {
-                    throw new ImageGetExcepcion("Error to get the image");
-                }
-            }
-            Path imagePath = Paths.get(full_url).toAbsolutePath().normalize();
-            System.out.println("Ruta absoluta: " + imagePath);
-            
 
-            if (!Files.exists(imagePath)) {
-                throw new ImageGetExcepcion("The image not exists");
+            System.out.println("Ruta generada: " + full_url);
+
+            File imageFile = new File(full_url);
+            if (!imageFile.exists() || !imageFile.canRead()) {
+                throw new ImageGetExcepcion("The image does not exist or cannot be read");
             }
 
-            byte[] imageBytes = Files.readAllBytes(imagePath);
-            String mimeType = Files.probeContentType(imagePath);
+            byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
+            String mimeType = Files.probeContentType(imageFile.toPath());
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, mimeType)
@@ -63,4 +58,5 @@ public class ImageController {
                     .body("Error al obtener la imagen: " + e.getMessage());
         }
     }
+
 }
