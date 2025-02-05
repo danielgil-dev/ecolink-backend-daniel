@@ -16,8 +16,8 @@ public class ProductSpecification {
     public static Specification<Product> filters(
             Long id_startup,
             String name,
-            BigDecimal priceMin,
-            BigDecimal priceMax) {
+            BigDecimal pricemin,
+            BigDecimal pricemax) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -35,11 +35,11 @@ public class ProductSpecification {
                 predicates.add(criteriaBuilder.or(namePredicate, descriptionPredicate));
             }
 
-            if (priceMin != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), priceMin));
+            if (pricemin != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), pricemin));
             }
-            if (priceMax != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), priceMax));
+            if (pricemax != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), pricemax));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

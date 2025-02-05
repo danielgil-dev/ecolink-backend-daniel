@@ -15,8 +15,8 @@ public class ChallengeSpecification {
 
     public static Specification<Challenge> filters(
             List<Ods> odsList,
-            BigDecimal priceMin,
-            BigDecimal priceMax ){
+            BigDecimal pricemin,
+            BigDecimal pricemax ){
        
                 
         return (root, query, criteriaBuilder) -> {
@@ -26,11 +26,11 @@ public class ChallengeSpecification {
                 predicates.add(odsJoin.get("id").in(odsList.stream().map(Ods::getId).toList()));
             }
 
-            if (priceMin != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("budget"), priceMin));
+            if (pricemin != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("budget"), pricemin));
             }
-            if (priceMax != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("budget"), priceMax));
+            if (pricemax != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("budget"), pricemax));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

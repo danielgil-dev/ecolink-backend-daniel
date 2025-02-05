@@ -36,13 +36,13 @@ public class ProductController {
     public ResponseEntity<?> getProducts(
             @RequestParam(required = false) Long startup,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) BigDecimal priceMin,
-            @RequestParam(required = false) BigDecimal priceMax,
+            @RequestParam(required = false) BigDecimal pricemin,
+            @RequestParam(required = false) BigDecimal pricemax,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size) {
 
         try {
-            Page<Product> products = service.findByPaginationAndFilter(startup, name, priceMin, priceMax, page, size);
+            Page<Product> products = service.findByPaginationAndFilter(startup, name, pricemin, pricemax, page, size);
 
             if (products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),

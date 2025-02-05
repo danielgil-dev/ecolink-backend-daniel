@@ -45,9 +45,9 @@ public class ProductService {
         return repository.findAll(pageable);
     }
 
-    public List<Product> getProductsByFilter(Long id_startup, String name, BigDecimal priceMin,
-            BigDecimal priceMax) {
-        Specification<Product> spec = ProductSpecification.filters(id_startup, name, priceMin, priceMax);
+    public List<Product> getProductsByFilter(Long id_startup, String name, BigDecimal pricemin,
+            BigDecimal pricemax) {
+        Specification<Product> spec = ProductSpecification.filters(id_startup, name, pricemin, pricemax);
         return repository.findAll(spec);
     }
 
@@ -55,10 +55,10 @@ public class ProductService {
         return repository.findById(id).orElse(null);
     }
 
-    public Page<Product> findByPaginationAndFilter(Long startup, String name, BigDecimal priceMin, BigDecimal priceMax,
+    public Page<Product> findByPaginationAndFilter(Long startup, String name, BigDecimal pricemin, BigDecimal pricemax,
             int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Specification<Product> spec = ProductSpecification.filters(startup, name, priceMin, priceMax);
+        Specification<Product> spec = ProductSpecification.filters(startup, name, pricemin, pricemax);
         return repository.findAll(spec, pageable);
     }
 }

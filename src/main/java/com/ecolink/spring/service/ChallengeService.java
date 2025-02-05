@@ -34,9 +34,9 @@ public class ChallengeService {
         return repository.findAll();
     }
 
-    public List<Challenge> getChallengesByFilter(List<Ods> filterOds, BigDecimal priceMin,
-            BigDecimal priceMax) {
-        Specification<Challenge> spec = ChallengeSpecification.filters(filterOds, priceMin, priceMax);
+    public List<Challenge> getChallengesByFilter(List<Ods> filterOds, BigDecimal pricemin,
+            BigDecimal pricemax) {
+        Specification<Challenge> spec = ChallengeSpecification.filters(filterOds, pricemin, pricemax);
         return repository.findAll(spec);
     }
 
