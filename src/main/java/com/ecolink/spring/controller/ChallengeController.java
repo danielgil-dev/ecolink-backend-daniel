@@ -83,7 +83,7 @@ public class ChallengeController {
     }
 
     @GetMapping("/relevant")
-    public ResponseEntity<?> getRecentPost() {
+    public ResponseEntity<?> getRelevantChallenges() {
 
         try {
 

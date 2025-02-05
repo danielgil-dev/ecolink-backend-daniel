@@ -1,6 +1,7 @@
 package com.ecolink.spring.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,8 +39,8 @@ public class Challenge {
     private String title;
     private String description;
     private BigDecimal budget;
+    private LocalDate endDate;
     private LocalDateTime startDate;
-    private LocalDateTime endDate;
 
     @OneToMany(mappedBy = "challenge")
     List<Proposal> proposals;
@@ -47,7 +48,7 @@ public class Challenge {
     List<String> requirements;
     List<String> benefits;
 
-    public Challenge(Company company, String title, String description, BigDecimal budget, LocalDateTime endDate,
+    public Challenge(Company company, String title, String description, BigDecimal budget, LocalDate endDate,
             List<Ods> odsList) {
         this.company = company;
         this.title = title;

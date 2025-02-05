@@ -1,6 +1,8 @@
 package com.ecolink.spring.specification;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class ChallengeSpecification {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("endDate"), LocalDateTime.now()));
             if (odsList != null && !odsList.isEmpty()) {
                 Join<Challenge, Ods> odsJoin = root.join("odsList");
                 predicates.add(odsJoin.get("id").in(odsList.stream().map(Ods::getId).toList()));
