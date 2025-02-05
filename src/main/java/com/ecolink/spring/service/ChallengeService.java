@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +45,12 @@ public class ChallengeService {
 
     public Long getNumberChallenges(){
         return repository.count();
+    }
+
+    public Page<Challenge> findByFilterAndPagination(List<Ods> odsList, BigDecimal minprice, BigDecimal maxprice, int page, int size) {
+       Specification<Challenge> spec = ChallengeSpecification.filters(odsList, minprice, maxprice);
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(spec, pageable);
     }
 
     
