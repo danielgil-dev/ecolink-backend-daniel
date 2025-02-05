@@ -35,13 +35,13 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**" )
 						.permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post/**",
-								"/api/ods", "/api/client/**","/api/company/**")
+						.requestMatchers(HttpMethod.GET, "/api/product/**", "/api/startup/**", "/api/post/**",
+								"/api/ods/**", "/api/client/**","/api/company/**", "/api/challenge/**")
 						.permitAll()
 						.requestMatchers("/api/company").hasAuthority("ROLE_STARTUP")
 						.requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("ROLE_CLIENT")
-						.requestMatchers(HttpMethod.GET, "/api/challenge/**")
-						.hasAnyAuthority("ROLE_COMPANY", "ROLE_STARTUP")
+						// .requestMatchers(HttpMethod.GET, "/api/challenge/**")
+						// .hasAnyAuthority("ROLE_COMPANY", "ROLE_STARTUP")
 
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
