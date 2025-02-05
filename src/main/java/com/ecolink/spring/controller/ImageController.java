@@ -33,7 +33,7 @@ public class ImageController {
 
             switch (type) {
                 case "user":
-                    full_url = Paths.get(baseDir, "uploads", "users", name_image).toString();
+                    full_url = Paths.get(baseDir, uploadUserDir, name_image).toString();
                     break;
                 case "ods":
                     full_url = Paths.get(baseDir, "uploads", "ods", name_image).toString();
