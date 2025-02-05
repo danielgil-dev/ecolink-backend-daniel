@@ -38,10 +38,14 @@ public class Challenge {
     private String title;
     private String description;
     private BigDecimal budget;
+    private LocalDateTime startDate;
     private LocalDateTime endDate;
 
     @OneToMany(mappedBy = "challenge")
     List<Proposal> proposals;
+
+    List<String> requirements;
+    List<String> benefits;
 
     public Challenge(Company company, String title, String description, BigDecimal budget, LocalDateTime endDate,
             List<Ods> odsList) {
@@ -49,6 +53,7 @@ public class Challenge {
         this.title = title;
         this.description = description;
         this.budget = budget;
+        this.startDate = LocalDateTime.now();
         this.endDate = endDate;
         this.odsList = odsList;
     }
@@ -59,5 +64,21 @@ public class Challenge {
 
     public Integer getNumberOfParticipants() {
         return proposals.size();
+    }
+
+    public void addRequirement(String requirement) {
+        this.requirements.add(requirement);
+    }
+
+    public void deleteRequirement(String requirement) {
+        this.requirements.remove(requirement);
+    }
+
+    public void addBenefit(String benefit) {
+        this.benefits.add(benefit);
+    }
+
+    public void deleteBenefit(String benefit) {
+        this.benefits.remove(benefit);
     }
 }
