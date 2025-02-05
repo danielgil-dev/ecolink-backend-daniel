@@ -9,12 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -25,7 +21,7 @@ import lombok.ToString;
 @ToString
 public class Company extends UserBase {
     private String description;
-
+    private Boolean accepted;
     @OneToMany(mappedBy = "company")
     List<Challenge> challenges;
 

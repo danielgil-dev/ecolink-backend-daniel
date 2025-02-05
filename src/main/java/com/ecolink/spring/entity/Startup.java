@@ -22,6 +22,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Startup extends UserBase {
+
+    Boolean accepted;
+    
     @OneToMany(mappedBy = "startup")
     List<Proposal> proposals;
 
@@ -41,6 +44,7 @@ public class Startup extends UserBase {
         this.userType = UserType.STARTUP;
         this.email = email;
         this.description = description;
+        this.accepted = false;
     }
 
     public void addChallenge(Proposal proposal) {

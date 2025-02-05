@@ -35,7 +35,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**" )
 						.permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post",
+						.requestMatchers(HttpMethod.GET, "/api/product", "/api/startup", "/api/product", "/api/post/**",
 								"/api/ods", "/api/client/**","/api/company/**")
 						.permitAll()
 						.requestMatchers("/api/company").hasAuthority("ROLE_STARTUP")
