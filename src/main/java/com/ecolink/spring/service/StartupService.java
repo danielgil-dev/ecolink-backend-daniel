@@ -3,6 +3,7 @@ package com.ecolink.spring.service;
 
 import java.util.List;
 
+import org.hibernate.sql.ast.tree.expression.Star;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ecolink.spring.entity.Ods;
 
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.entity.Status;
 import com.ecolink.spring.repository.StartupRepository;
 import com.ecolink.spring.specification.StartupSpecification;
 
@@ -54,5 +56,17 @@ public class StartupService {
         Specification<Startup> spec = StartupSpecification.filters(name, ods);
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(spec, pageable);
+    }
+
+    public void changeStartupState(Startup startup, Status state){
+
+        if(startup.getStatus() == Status.PENDING && state == Status.ACCEPTED){
+            startup.setStatus(state);
+        }else if(startup.getStatus() == Status.PENDING && state == Status.REJECTED){
+            startup.setStatus(state);
+        }else{
+            startup.setStatus(Status.PENDING);
+        }
+      
     }
 }
