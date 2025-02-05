@@ -63,6 +63,7 @@ public class ClientDataLoader implements CommandLineRunner {
                                                                 odsService.findByName("Life on Land")),
                                                 "hannah@example.com", "Environmental activist"));
 
+                                                
                 clients.forEach(client -> {
                         if (!service.existByEmail(client.getEmail())) {
                                 client.setPassword(passwordEncoder.encode(defaultPassword));

@@ -23,8 +23,22 @@ public class MissionService {
 		return repository.findAll();
 	}
 
+	public Mission findById(Long id){
+		return repository.findById(id).orElse(null);
+	}
+
 	public void save(Mission misson) {
 		repository.save(misson);
+	}
+
+	public void updateMission(Mission mission){
+
+		if(mission.getCompleted() == false){
+			mission.setCompleted(true);
+		}else{
+			mission.setCompleted(false);
+		}
+
 	}
 
 }
