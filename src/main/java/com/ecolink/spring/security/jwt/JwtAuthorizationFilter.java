@@ -1,7 +1,6 @@
 package com.ecolink.spring.security.jwt;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
