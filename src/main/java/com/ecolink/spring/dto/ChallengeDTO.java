@@ -2,6 +2,9 @@ package com.ecolink.spring.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.ecolink.spring.entity.Ods;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,4 +17,5 @@ public class ChallengeDTO {
     String description;
     BigDecimal budget;
     LocalDateTime endDate;
+    List<Ods> odsList;
 }
