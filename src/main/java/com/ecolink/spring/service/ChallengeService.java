@@ -53,5 +53,9 @@ public class ChallengeService {
         return repository.findAll(spec, pageable);
     }
 
+    public List<Challenge> getChallengesByRelevant() {
+        return repository.findTop4ByOrderByEndDateAsc();
+    }
+
     
 }

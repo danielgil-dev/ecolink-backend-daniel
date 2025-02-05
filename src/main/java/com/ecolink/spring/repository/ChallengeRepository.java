@@ -17,5 +17,6 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long>, Jpa
     Boolean existsByTitle(String title);
     Challenge findByTitle(String title);
     List<Challenge> findByBudgetBetween(BigDecimal minBudget, BigDecimal maxBudget);
+    List<Challenge> findTop4ByOrderByEndDateAsc();
 
 }

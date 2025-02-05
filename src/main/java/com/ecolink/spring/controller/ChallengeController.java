@@ -77,7 +77,34 @@ public class ChallengeController {
                     "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
+    }
+
+    @GetMapping("/relevant")
+    public ResponseEntity<?> getRecentPost() {
+
+        try {
+
+            List<Challenge> challenges = challengeService.getChallengesByRelevant();
+            if (challenges.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron post relevantes"));
+            }
+
+            List<ChallengeDTO> dtoList = challenges.stream()
+                    .map(challengeDtoConverter::converChallengeToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(dtoList);
+        } catch (PostNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
 
     }
-    
+
 }
