@@ -41,11 +41,11 @@ public class ProposalDataLoader implements CommandLineRunner  {
         Startup tooGoodToGo = startupService.findByName("Too Good To Go");
         Startup doublepoint = startupService.findByName("Doublepoint");
 
-        Challenge carbonReductionChallenge = challengeService.findByTitle("Reducción de emisiones de carbono");
-        Challenge ruralRenewablesChallenge = challengeService.findByTitle("Energías renovables para comunidades rurales");
-        Challenge waterManagementChallenge = challengeService.findByTitle("Gestión sostenible del agua");
-        Challenge sustainableAgricultureChallenge = challengeService.findByTitle("Agricultura sostenible");
-        Challenge wasteRecyclingChallenge = challengeService.findByTitle("Reciclaje y gestión de residuos");
+        Challenge carbonReductionChallenge = challengeService.findByTitle("Eco-Friendly Manufacturing");
+        Challenge ruralRenewablesChallenge = challengeService.findByTitle("Eco-Friendly Building Materials");
+        Challenge waterManagementChallenge = challengeService.findByTitle("Powering Remote Areas");
+        Challenge sustainableAgricultureChallenge = challengeService.findByTitle("Smarter Energy Storage");
+        Challenge wasteRecyclingChallenge = challengeService.findByTitle("Water-Saving Tech");
     
         List<Proposal> proposals = Arrays.asList(
             new Proposal(vhat, carbonReductionChallenge, "Propuesta para implementar filtros innovadores en chimeneas industriales.", LocalDate.of(2024, 1, 15),Status.ACCEPTED ),
@@ -59,6 +59,7 @@ public class ProposalDataLoader implements CommandLineRunner  {
 
         proposals.forEach(proposal ->{
             if(!service.existsByStartupAndChallenge(proposal.getStartup(), proposal.getChallenge()) ){
+                // proposal.getChallenge().addChallenge(proposal);
                 service.save(proposal);
             }
         });

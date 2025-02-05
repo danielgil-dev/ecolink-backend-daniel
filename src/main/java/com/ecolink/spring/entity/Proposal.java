@@ -41,6 +41,4 @@ public class Proposal {
 		this.date = date;
 		this.status = status;
 	}
-	
-	
 }
