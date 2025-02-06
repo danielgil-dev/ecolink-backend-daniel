@@ -1,5 +1,6 @@
 package com.ecolink.spring.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +24,7 @@ import lombok.Setter;
 public class Client extends UserBase {
 
     @ManyToMany(mappedBy = "clients")
-    private List<Mission> missions;
+    private List<Mission> missions = new ArrayList<>();
 
     public Client(String name, List<Ods> odsList, String email, String description) {
         this.name = name;
@@ -38,6 +39,8 @@ public class Client extends UserBase {
 
     public void addMision(Mission mission) {
         this.missions.add(mission);
+        mission.addClient(this);
+        
     }
 
     @Override

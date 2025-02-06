@@ -41,4 +41,8 @@ public class Mission {
         this.points = points;
         this.completed = completed;
     }
+
+    public void addClient(Client client){
+        this.clients.add(client);
+    }
 }

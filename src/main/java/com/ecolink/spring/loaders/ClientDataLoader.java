@@ -10,9 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Client;
+import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.service.ClientService;
+import com.ecolink.spring.service.MissionService;
 import com.ecolink.spring.service.OdsService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -23,8 +26,13 @@ public class ClientDataLoader implements CommandLineRunner {
         private OdsService odsService;
         @Autowired
         private ClientService service;
-        private final PasswordEncoder passwordEncoder;
 
+        @Autowired
+        private MissionService missionService;
+
+        private final PasswordEncoder passwordEncoder;
+        
+        @Transactional
         @Override
         public void run(String... args) throws Exception {
 
@@ -63,13 +71,27 @@ public class ClientDataLoader implements CommandLineRunner {
                                                                 odsService.findByName("Life on Land")),
                                                 "hannah@example.com", "Environmental activist"));
 
-                                                
+                List<Mission> missions = missionService.getAllMission();
+
                 clients.forEach(client -> {
                         if (!service.existByEmail(client.getEmail())) {
                                 client.setPassword(passwordEncoder.encode(defaultPassword));
-                                service.save(client);
+
+                                if (missions != null && !missions.isEmpty()) {
+                                        System.out.println("Las missiones no son nulas");
+                                        missions.forEach(mission -> {
+                                                System.out.println("El nombre de la misiion es " + mission.getName());
+                                                client.addMision(mission);
+                                                service.save(client);
+                                        });
+
+                                }else{
+                                        System.out.println("Las missiones son nulas");
+
+                                }
                         }
                 });
+
         }
 
 }

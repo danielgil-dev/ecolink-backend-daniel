@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.MissionDTO;
 import com.ecolink.spring.entity.Mission;
+import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.MissionNotFoundException;
 import com.ecolink.spring.service.MissionService;
@@ -51,7 +53,7 @@ public class MissionController {
         }
     }
     @PutMapping("{id}")
-    public ResponseEntity<?> completedMisiion(@RequestParam(required = false) Long id){
+    public ResponseEntity<?> completedMisiion(@AuthenticationPrincipal UserBase user, @RequestParam(required = false) Long id){
 
         try{
 
