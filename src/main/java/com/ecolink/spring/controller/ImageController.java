@@ -24,6 +24,8 @@ public class ImageController {
 
     @Value("${spring.users.upload.dir}")
     private String uploadUserDir;
+    @Value("${spring.ods.upload.dir}")
+    private String uploadOdsDir;
 
     @GetMapping
     public ResponseEntity<?> findImage(@RequestParam String type, @RequestParam String name_image) {
@@ -36,10 +38,9 @@ public class ImageController {
                     full_url = Paths.get(baseDir, uploadUserDir, name_image).toString();
                     break;
                 case "ods":
-                    full_url = Paths.get(baseDir, "uploads", "ods", name_image).toString();
+                    full_url = Paths.get(baseDir, uploadOdsDir, name_image).toString();
                     break;
             }
-
 
             File imageFile = new File(full_url);
             if (!imageFile.exists() || !imageFile.canRead()) {

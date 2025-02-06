@@ -39,6 +39,7 @@ public class Ods {
     private List<Post> posts = new ArrayList<>();
 
     private String image;
+    
     public Ods(String name,  String image) {
         this.name = name;
         this.startups = new ArrayList<>();
