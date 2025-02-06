@@ -1,4 +1,5 @@
 package com.ecolink.spring.service;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,23 +13,31 @@ import com.ecolink.spring.repository.MissionRepository;
 public class MissionService {
 
 	@Autowired
-	private  MissionRepository repository;
-
+	private MissionRepository repository;
 
 	public boolean existsByNameAndType(String name, MissionType type) {
 		return repository.existsByNameAndType(name, type);
 	}
 
-	public List<Mission> getAllMissions(){
+	public List<Mission> getAllMissions() {
 		return repository.findAll();
 	}
 
-	public void save(Mission misson) {
-		repository.save(misson);
+	public Mission findById(Long id) {
+		return repository.findById(id).orElse(null);
 	}
 
-    public Mission findById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
+	public void save(Mission mission) {
+		repository.save(mission);
+	}
+
+	public Mission getMissionByName(String name) {
+		return repository.findByName(name);
+	}
+
+	public List<Mission> getAllMission(){
+		return repository.findAll();
+	}
+
 
 }

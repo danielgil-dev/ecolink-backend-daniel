@@ -14,4 +14,5 @@ public interface StartupRepository extends JpaRepository<Startup, Long>, JpaSpec
     Startup findByName(String name);
     List<Startup> findTop3ByOrderByLevelDesc();
     Page<Startup> findAll(Pageable pageable);
+    
 }

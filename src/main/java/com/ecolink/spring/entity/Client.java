@@ -1,5 +1,6 @@
 package com.ecolink.spring.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +24,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Client extends UserBase {
 
-    @ManyToMany(mappedBy = "clients")
-    private List<Mission> missions;
+    @OneToMany(mappedBy = "client")
+    private List<ClientMission> clientMissions = new ArrayList<>();
 
     public Client(String name, List<Ods> odsList, String email, String description) {
         this.name = name;
@@ -36,8 +38,10 @@ public class Client extends UserBase {
     @JoinTable(name = "user_preferences", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> preferences;
 
-    public void addMision(Mission mission) {
-        this.missions.add(mission);
+    public void addMission (Mission mission){
+
+        ClientMission clientMission = new ClientMission(this, mission);
+        this.clientMissions.add(clientMission);
     }
 
     @Override

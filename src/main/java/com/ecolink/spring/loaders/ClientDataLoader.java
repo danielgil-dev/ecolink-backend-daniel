@@ -13,6 +13,7 @@ import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.OdsService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -23,8 +24,10 @@ public class ClientDataLoader implements CommandLineRunner {
         private OdsService odsService;
         @Autowired
         private ClientService service;
-        private final PasswordEncoder passwordEncoder;
 
+        private final PasswordEncoder passwordEncoder;
+        
+        @Transactional
         @Override
         public void run(String... args) throws Exception {
 
@@ -62,13 +65,15 @@ public class ClientDataLoader implements CommandLineRunner {
                                                 Arrays.asList(odsService.findByName("Responsible Consumption"),
                                                                 odsService.findByName("Life on Land")),
                                                 "hannah@example.com", "Environmental activist"));
+                
 
                 clients.forEach(client -> {
                         if (!service.existByEmail(client.getEmail())) {
                                 client.setPassword(passwordEncoder.encode(defaultPassword));
                                 service.save(client);
-                        }
+                        }       
                 });
+
         }
 
 }
