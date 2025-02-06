@@ -38,6 +38,7 @@ public class JwtProvider {
                 .expiration(tokenExpirationDate)
                 .claim("email", user.getUsername())
                 .claim("userType", user.getUserType())
+                .claim("imageUrl", user.getImageUrl())
                 .signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
                 .compact();
     }
