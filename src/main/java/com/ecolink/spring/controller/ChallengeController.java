@@ -17,7 +17,6 @@ import com.ecolink.spring.exception.PostNotFoundException;
 import com.ecolink.spring.service.ChallengeService;
 import com.ecolink.spring.service.OdsService;
 
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;

@@ -9,10 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Admin;
-import com.ecolink.spring.entity.UserBase;
-import com.ecolink.spring.entity.UserType;
 import com.ecolink.spring.service.AdminService;
-import com.ecolink.spring.service.UserBaseService;
 
 import lombok.RequiredArgsConstructor;
 

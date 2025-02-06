@@ -2,7 +2,6 @@ package com.ecolink.spring.loaders;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,12 +46,28 @@ public class ChallengeDataLoader implements CommandLineRunner {
                 Company bioCraft = companyService.findByName("BioCraft");
                 Company urbanFlow = companyService.findByName("UrbanFlow");
 
+                String generalRequirement1 = "Experience in sustainable technologies or environmental solutions.";
+                String generalRequirement2 = "Knowledge of innovative materials and energy-efficient systems.";
+                String generalRequirement3 = "Ability to design and prototype scalable eco-friendly solutions.";
+
+                String generalBenefit1 = "Access to funding and mentorship from industry experts.";
+                String generalBenefit2 = "Opportunity to pilot and implement solutions in real-world scenarios.";
+                String generalBenefit3 = "Networking and collaboration with leaders in sustainability and innovation.";
+
                 Challenge ecoVisionChallenge1 = new Challenge(ecoVision,
                                 "Eco-Friendly Manufacturing",
                                 "How can we make factory production greener? Propose simple solutions to reduce waste and emissions.",
                                 new BigDecimal("100000.00"),
                                 LocalDate.of(2025, 2, 10),
                                 Arrays.asList(odsService.findByName("Climate Action")));
+
+                ecoVisionChallenge1.addRequirement(generalRequirement1);
+                ecoVisionChallenge1.addRequirement(generalRequirement2);
+                ecoVisionChallenge1.addRequirement(generalRequirement3);
+
+                ecoVisionChallenge1.addBenefit(generalBenefit1);
+                ecoVisionChallenge1.addBenefit(generalBenefit2);
+                ecoVisionChallenge1.addBenefit(generalBenefit3);
 
                 Challenge ecoVisionChallenge2 = new Challenge(ecoVision,
                                 "Eco-Friendly Building Materials",
@@ -62,6 +77,14 @@ public class ChallengeDataLoader implements CommandLineRunner {
                                 Arrays.asList(
                                                 odsService.findByName("Industry, Innovation, and Infrastructure"),
                                                 odsService.findByName("Sustainable Cities and Communities")));
+
+                ecoVisionChallenge2.addRequirement(generalRequirement1);
+                ecoVisionChallenge2.addRequirement(generalRequirement2);
+                ecoVisionChallenge2.addRequirement(generalRequirement3);
+
+                ecoVisionChallenge2.addBenefit(generalBenefit1);
+                ecoVisionChallenge2.addBenefit(generalBenefit2);
+                ecoVisionChallenge2.addBenefit(generalBenefit3);
 
                 Challenge greenHorizonChallenge1 = new Challenge(greenHorizon,
                                 "Powering Remote Areas",
@@ -80,6 +103,14 @@ public class ChallengeDataLoader implements CommandLineRunner {
                                 Arrays.asList(
                                                 odsService.findByName("Affordable and Clean Energy"),
                                                 odsService.findByName("Climate Action")));
+
+                greenHorizonChallenge2.addRequirement(generalRequirement1);
+                greenHorizonChallenge2.addRequirement(generalRequirement2);
+                greenHorizonChallenge2.addRequirement(generalRequirement3);
+
+                greenHorizonChallenge2.addBenefit(generalBenefit1);
+                greenHorizonChallenge2.addBenefit(generalBenefit2);
+                greenHorizonChallenge2.addBenefit(generalBenefit3);
 
                 Challenge solarPioneerChallenge1 = new Challenge(solarPioneer,
                                 "Water-Saving Tech",
