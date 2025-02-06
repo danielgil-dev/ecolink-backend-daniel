@@ -19,6 +19,8 @@ import com.ecolink.spring.exception.ProductNotFoundException;
 import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
 import com.ecolink.spring.utils.Images;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
@@ -39,6 +41,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -132,7 +135,7 @@ public class ProductController {
     @PostMapping("/new")
     public ResponseEntity<?> createProduct(@AuthenticationPrincipal UserBase user,
             @RequestPart("product") String productJson, @RequestPart("image") MultipartFile image) {
-                String urlImage = null;
+        String urlImage = null;
         try {
             if (user instanceof Startup startup) {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -154,7 +157,7 @@ public class ProductController {
                 if (urlImage == null || urlImage.isEmpty()) {
                     throw new ImageSubmitError("Error to submit the image");
                 }
-                
+
                 newProduct.setImageUrl(urlImage);
 
                 service.save(newProduct);
@@ -181,14 +184,15 @@ public class ProductController {
                 }
                 if (!product.getStartup().getId().equals(userProduct.getId())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                            .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(), "No tienes permisos para eliminar este producto"));
+                            .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
+                                    "No tienes permisos para eliminar este producto"));
                 }
                 Startup startup = startupService.findById(userProduct.getId());
                 startup.getProducts().remove(product);
                 startupService.save(startup);
                 service.delete(product);
                 return ResponseEntity.ok().build();
-            } else if(user instanceof Admin){
+            } else if (user instanceof Admin) {
                 Product product = service.findById(id);
                 if (product == null) {
                     throw new ProductNotFoundException("No existe un producto con id=" + id);
@@ -211,5 +215,57 @@ public class ProductController {
     }
 
     // Editar producto Startup
-
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@AuthenticationPrincipal UserBase user, @PathVariable Long id,
+            @RequestPart("product") String productJson,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+        try {
+            if (user instanceof Startup userProduct) {
+                Product product = service.findById(id);
+                if (product == null) {
+                    throw new ProductNotFoundException("No existe un producto con id=" + id);
+                }
+                if (!product.getStartup().getId().equals(userProduct.getId())) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                            .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
+                                    "No tienes permisos para editar este producto"));
+                }
+                System.out.println("entrado antes");
+                ObjectMapper objectMapper = new ObjectMapper();
+                ProductPostDTO productDto = objectMapper.readValue(productJson, ProductPostDTO.class);
+                System.out.println("entrado despues");
+                if (productDto.getName() == null || productDto.getName().isEmpty() || productDto.getPrice() == null
+                        || productDto.getPrice().compareTo(BigDecimal.ZERO) <= 0 || productDto.getDescription() == null
+                        || productDto.getDescription().isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid Fields"));
+                }
+                product.setName(productDto.getName());
+                product.setDescription(productDto.getDescription());
+                product.setPrice(productDto.getPrice());
+                if (image != null && !image.isEmpty()) {
+                    if (!images.isExtensionImageValid(image)) {
+                        throw new ImageNotValidExtension("The extension is invalid");
+                    }
+                    String urlImage = images.uploadFile(image, uploadProductDir);
+                    if (urlImage == null || urlImage.isEmpty()) {
+                        throw new ImageSubmitError("Error to submit the image");
+                    }
+                    if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+                        images.deleteFile(product.getImageUrl(), uploadProductDir);
+                    }
+                    product.setImageUrl(urlImage);
+                }
+                service.save(product);
+                return ResponseEntity.ok(product);
+            }
+            throw new UsernameNotFoundException("User not permissions");
+        } catch (ProductNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (ImageNotValidExtension | ImageSubmitError | JsonProcessingException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
 }
