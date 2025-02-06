@@ -16,7 +16,7 @@ import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
 
 @Component
-@Order(3)
+@Order(4)
 public class ProductoDataLoader implements CommandLineRunner {
         @Autowired
         private ProductService service;

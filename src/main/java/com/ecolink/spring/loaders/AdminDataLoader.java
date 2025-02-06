@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-@Order(11)
+@Order(12)
 public class AdminDataLoader implements CommandLineRunner {
 
     private final PasswordEncoder passwordEncoder;

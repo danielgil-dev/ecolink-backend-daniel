@@ -18,7 +18,7 @@ import com.ecolink.spring.service.PostService;
 import com.ecolink.spring.service.StartupService;
 
 @Component
-@Order(4)
+@Order(5)
 public class PostDataLoader implements CommandLineRunner {
 
         @Autowired

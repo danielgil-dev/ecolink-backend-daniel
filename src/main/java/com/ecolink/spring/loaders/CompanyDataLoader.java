@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-@Order(5)
+@Order(7)
 public class CompanyDataLoader implements CommandLineRunner {
 
         @Autowired
