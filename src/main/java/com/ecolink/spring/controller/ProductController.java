@@ -8,6 +8,7 @@ import com.ecolink.spring.dto.ProductPostDTO;
 import com.ecolink.spring.dto.ProductRelevantDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
+import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.UserBase;
@@ -34,6 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -168,8 +170,46 @@ public class ProductController {
         }
     }
 
-    // Editar producto Startup
-
     // Eliminar producto Startup y Admin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
+        try {
+            if (user instanceof Startup userProduct) {
+                Product product = service.findById(id);
+                if (product == null) {
+                    throw new ProductNotFoundException("No existe un producto con id=" + id);
+                }
+                if (!product.getStartup().getId().equals(userProduct.getId())) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                            .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(), "No tienes permisos para eliminar este producto"));
+                }
+                Startup startup = startupService.findById(userProduct.getId());
+                startup.getProducts().remove(product);
+                startupService.save(startup);
+                service.delete(product);
+                return ResponseEntity.ok().build();
+            } else if(user instanceof Admin){
+                Product product = service.findById(id);
+                if (product == null) {
+                    throw new ProductNotFoundException("No existe un producto con id=" + id);
+                }
+                Startup startup = startupService.findById(product.getStartup().getId());
+                startup.getProducts().remove(product);
+                startupService.save(startup);
+                service.delete(product);
+                return ResponseEntity.ok().build();
+            }
+            throw new UsernameNotFoundException("User not permissions");
+        } catch (ProductNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+    // Editar producto Startup
 
 }

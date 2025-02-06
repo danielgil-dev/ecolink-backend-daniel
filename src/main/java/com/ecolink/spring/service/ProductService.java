@@ -61,4 +61,8 @@ public class ProductService {
         Specification<Product> spec = ProductSpecification.filters(startup, name, pricemin, pricemax);
         return repository.findAll(spec, pageable);
     }
+
+    public void delete(Product product) {
+        repository.delete(product);
+    }
 }

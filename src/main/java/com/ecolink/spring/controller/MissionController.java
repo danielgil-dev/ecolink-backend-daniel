@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.ClientMissionDTO;
-import com.ecolink.spring.dto.DTOConverter;
-import com.ecolink.spring.dto.MissionDTO;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Mission;
