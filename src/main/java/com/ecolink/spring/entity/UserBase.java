@@ -47,17 +47,6 @@ public abstract class UserBase implements UserDetails {
     Long level;
     LocalDate registerDate;
 
-    public UserBase(UserType userType, String name, String email, String password, String imageUrl){
-        this.userType = userType;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.imageUrl = imageUrl;
-        this.level = 0L;
-        this.registerDate = LocalDate.now();
-        this.likes = new ArrayList<>();
-    }
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Like> likes;
 }
