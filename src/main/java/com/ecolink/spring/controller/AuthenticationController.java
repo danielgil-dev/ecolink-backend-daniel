@@ -86,7 +86,7 @@ public class AuthenticationController {
                     .secure(true)
                     .path("/")
                     .maxAge(30 * 24 * 60 * 60)
-                    .sameSite("Strict") // Aquí sí funciona
+                    .sameSite("Strict")
                     .build();
 
             response.addHeader("Set-Cookie", jwtCookie.toString());

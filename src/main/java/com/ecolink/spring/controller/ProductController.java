@@ -3,6 +3,7 @@ package com.ecolink.spring.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.ProductDTO;
+import com.ecolink.spring.dto.ProductPostDTO;
 import com.ecolink.spring.dto.ProductRelevantDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
@@ -14,13 +15,10 @@ import com.ecolink.spring.exception.ProductNotFoundException;
 import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +30,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -115,28 +114,38 @@ public class ProductController {
     }
 
     // Subir producto Startup
-    // Editar producto Startup
-    // Eliminar producto Startup y Admin
 
     @Transactional
     @PostMapping("/new")
-    public ResponseEntity<?> createProduct(@AuthenticationPrincipal UserBase user, @Valid @RequestBody Product product) {
+    public ResponseEntity<?> createProduct(@AuthenticationPrincipal UserBase user,
+            @RequestBody ProductPostDTO product) {
         try {
             if (user instanceof Startup startup) {
-                System.out.println("Nombre del producto: " + product.getName());
-                product.setCreationDate(LocalDate.now());
-                service.save(product);
-                startup.addProduct(product);
+                if (product.getName() == null || product.getName().isEmpty() || product.getPrice() == null
+                        || product.getPrice().compareTo(BigDecimal.ZERO) <= 0 || product.getDescription() == null
+                        || product.getDescription().isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid Fields"));
+                }
+
+                Product newProduct = new Product(startup, product.getName(), product.getDescription(),
+                        product.getPrice());
+                service.save(newProduct);
+                startup.addProduct(newProduct);
                 startupService.save(startup);
                 return ResponseEntity.ok(product);
             }
             throw new UsernameNotFoundException("User not permissions");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Internal Error Server");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
+
+    // Editar producto Startup
+    
+
+    // Eliminar producto Startup y Admin
 
 }
