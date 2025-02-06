@@ -85,7 +85,7 @@ public class AuthenticationController {
                     .httpOnly(true)
                     .secure(true)
                     .path("/")
-                    .maxAge(30 * 24 * 60 * 60 )
+                    .maxAge(30 * 24 * 60 * 60)
                     .sameSite("Strict") // Aquí sí funciona
                     .build();
 
@@ -191,7 +191,6 @@ public class AuthenticationController {
 
     @GetMapping("/user/me")
     public GetUserDTO me(@AuthenticationPrincipal UserBase user) {
-        
         return converter.convertUserDTO(user);
     }
 }

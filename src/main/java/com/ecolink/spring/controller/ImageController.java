@@ -40,7 +40,6 @@ public class ImageController {
                     break;
             }
 
-            System.out.println("Ruta generada: " + full_url);
 
             File imageFile = new File(full_url);
             if (!imageFile.exists() || !imageFile.canRead()) {

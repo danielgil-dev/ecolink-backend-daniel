@@ -1,6 +1,7 @@
 package com.ecolink.spring.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +46,17 @@ public abstract class UserBase implements UserDetails {
     String imageUrl;
     Long level;
     LocalDate registerDate;
+
+    public UserBase(UserType userType, String name, String email, String password, String imageUrl){
+        this.userType = userType;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.imageUrl = imageUrl;
+        this.level = 0L;
+        this.registerDate = LocalDate.now();
+        this.likes = new ArrayList<>();
+    }
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Like> likes;
