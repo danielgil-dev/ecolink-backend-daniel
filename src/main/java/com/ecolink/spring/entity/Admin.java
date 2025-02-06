@@ -7,8 +7,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,12 +14,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Admin extends UserBase {
 
-    @ManyToMany(mappedBy = "clients")
-    private List<Mission> missions;
 
     public Admin(String name, String email, String password) {
         this.name = name;
@@ -29,10 +24,6 @@ public class Admin extends UserBase {
         this.userType = UserType.ADMIN;
         this.email = email;
         this.password = password;
-    }
-
-    public void addMision(Mission mission) {
-        this.missions.add(mission);
     }
 
     @Override
