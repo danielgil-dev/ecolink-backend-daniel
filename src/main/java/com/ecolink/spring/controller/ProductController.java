@@ -19,6 +19,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -129,7 +130,7 @@ public class ProductController {
                 }
 
                 Product newProduct = new Product(startup, product.getName(), product.getDescription(),
-                        product.getPrice());
+                        product.getPrice(), LocalDate.now());
                 service.save(newProduct);
                 startup.addProduct(newProduct);
                 startupService.save(startup);
