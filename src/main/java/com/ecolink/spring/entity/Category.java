@@ -29,7 +29,7 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     @JsonIgnore
-    private List<Product> startups;
+    private List<Product> products;
 
     public Category(String name) {
         this.name = name;

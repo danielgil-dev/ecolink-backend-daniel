@@ -49,4 +49,9 @@ public class Product {
         this.creationDate = creationDate;
     }
 
+    public void addCategory(Category category) {
+        category.getProducts().add(this);
+        this.categories.add(category);
+    }
+
 }
