@@ -23,6 +23,7 @@ public class Proposal {
 	private Long id;
 
 	@ManyToOne
+	@JsonIgnore
 	private Challenge challenge;
 
 	@ManyToOne
