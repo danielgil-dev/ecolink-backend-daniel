@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -27,11 +29,11 @@ public class Startup extends UserBase {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-    
+
     @OneToMany(mappedBy = "startup")
     List<Proposal> proposals;
 
-    @OneToMany(mappedBy = "startup")
+    @OneToMany(mappedBy = "startup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Product> products;
 
     @ManyToMany
@@ -55,6 +57,7 @@ public class Startup extends UserBase {
     }
 
     public void addProduct(Product product) {
+        product.setStartup(this);
         this.products.add(product);
     }
 
@@ -73,8 +76,6 @@ public class Startup extends UserBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
