@@ -76,8 +76,10 @@ public class DTOConverter {
         return modelMapper.map(mission, MissionDTO.class);
     }
 
-    public ClientMissionDTO convClientMissionDTO (ClientMission clientMission){
-        return modelMapper.map(clientMission, ClientMissionDTO.class);
+    public ClientMissionDTO convertClientMissionDTO (Mission mission, boolean completed ){
+        ClientMissionDTO clientMissionDto = modelMapper.map(mission, ClientMissionDTO.class);
+        clientMissionDto.setCompleted(completed);
+        return clientMissionDto;
     }
 
     public ChallengeDTO converChallengeToDto(Challenge challenge) {

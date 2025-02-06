@@ -1,6 +1,6 @@
 package com.ecolink.spring.dto;
 
-import com.ecolink.spring.entity.MissionType;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ClientMissionDTO {
     
-    private Long clienteId;
-    private Long missionId;
+    private Long id;
     private String name;
-    private String Missiondescription;
-    private MissionType Missiontype;
-    private Integer Missionpoints;
+    private String description;
+    private String type;
+    private Integer points;
     private Boolean completed;
+    
 
 }

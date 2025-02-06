@@ -1,6 +1,8 @@
 package com.ecolink.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.UserBase;
+import com.ecolink.spring.exception.ClientMissionAssingmentException;
 import com.ecolink.spring.exception.ClientNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.MissionNotFoundException;
@@ -36,7 +39,6 @@ public class MissionController {
     public final MissionService missionService;
     public final ClientService clientService;
     private final ClientMissionService clientMissionService;
-    private final DTOConverter dtoConverter;
 
     @GetMapping
     public ResponseEntity<?> getAllMissions(@AuthenticationPrincipal UserBase user ) {
@@ -53,21 +55,22 @@ public class MissionController {
                 throw new MissionNotFoundException("No hay misiones en la base de datos");
             }
             List<ClientMission> clientMissions = clientMissionService.getClientMission(client);
-            if(clientMissions.isEmpty()){
+            Set<Long> completedMissionIds = clientMissions.stream()
+            .filter(ClientMission::getCompleted) 
+            .map(cm -> cm.getMission().getId())
+            .collect(Collectors.toSet());
+            
+            List<ClientMissionDTO> missionsDto = missions.stream().map(mission ->
+            new ClientMissionDTO(mission.getId(),
+                mission.getName(),
+                mission.getDescription(),
+                mission.getType().toString(),
+                mission.getPoints(),
+                completedMissionIds.contains(mission.getId()))
+            ).collect(Collectors.toList());
+          
+            return ResponseEntity.ok(missionsDto);
 
-                    List<ClientMissionDTO> missionsDTO = missions.stream().map(mission ->
-                     new ClientMissionDTO(client.getId(),
-                     mission.getId(),
-                     mission.getName(), mission.getDescription(), mission.getType(),
-                     mission.getPoints(), false)) // Siempre `false` porque no ha completado ninguna
-                    .collect(Collectors.toList());
-                    return ResponseEntity.ok(missionsDTO);
-            }
-
-            List<MissionDTO> dtoMission = missions.stream().map(dtoConverter::convertMissionToDto)
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.ok(dtoMission);
         } catch (MissionNotFoundException | ClientNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
@@ -77,10 +80,12 @@ public class MissionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<?> completedMission(@AuthenticationPrincipal UserBase user, @PathVariable(required = true) Long id){
 
-        try{
+    @PutMapping("/{id}")
+    public ResponseEntity<?> completedMission(@AuthenticationPrincipal UserBase user,
+            @PathVariable(required = true) Long id) {
+
+        try {
 
             Mission mission = missionService.findById(id);
             if (mission == null) {
@@ -90,14 +95,12 @@ public class MissionController {
             if (client == null) {
                 throw new ClientNotFoundException("No se encontro ningun cliente con el id " + user.getId());
             }
-
-           clientMissionService.assingMissionToClient(mission, client);
-            return ResponseEntity.ok(mission);
-
-        }catch(MissionNotFoundException  | ClientNotFoundException e){
+                clientMissionService.completeMissionForClient(mission, client);
+                return ResponseEntity.ok(HttpStatus.OK);
+        } catch (MissionNotFoundException | ClientNotFoundException  | ClientMissionAssingmentException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
