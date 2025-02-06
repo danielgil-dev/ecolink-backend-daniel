@@ -61,8 +61,8 @@ public class MissionController {
                 throw new MissionNotFoundException("No mission with id:" + id);
             }
 
-            MissionDTO missionDto = dtoConverter.convertMissionToDto(mission);
-            
+            // 
+
 
         } catch (MissionNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
