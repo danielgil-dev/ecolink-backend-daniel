@@ -20,7 +20,6 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Product {
     @Id
@@ -37,6 +36,14 @@ public class Product {
         this.description = description;
         this.price = price;
         this.creationDate = creationDate;
+    }
+
+    public Product(Startup startup, String name, String description, BigDecimal price) {
+        this.startup = startup;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.creationDate = LocalDate.now();
     }
 
     private String name;
