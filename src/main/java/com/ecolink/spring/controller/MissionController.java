@@ -52,27 +52,4 @@ public class MissionController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getMission(@PathVariable Long id) {
-
-        try {
-            Mission mission = missionService.findById(id);
-            if (mission == null) {
-                throw new MissionNotFoundException("No mission with id:" + id);
-            }
-
-            // 
-
-
-        } catch (MissionNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Internal Server Error");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
-
-        return ResponseEntity.ok("");
-    }
-
 }
