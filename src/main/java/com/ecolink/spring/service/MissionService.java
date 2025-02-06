@@ -38,14 +38,6 @@ public class MissionService {
 	public List<Mission> getAllMission(){
 		return repository.findAll();
 	}
-	public void updateMission(Mission mission) {
 
-		if (mission.getCompleted() == false) {
-			mission.setCompleted(true);
-		} else {
-			mission.setCompleted(false);
-		}
-
-	}
 
 }
