@@ -38,9 +38,11 @@ public class Ods {
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
-    public Ods(String name) {
+    private String image;
+    public Ods(String name,  String image) {
         this.name = name;
         this.startups = new ArrayList<>();
+        this.image = image;
     }
 
     //Metodos helpers STARTUP
