@@ -27,4 +27,8 @@ public class MissionService {
 		repository.save(misson);
 	}
 
+    public Mission findById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
 }
