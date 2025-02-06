@@ -2,6 +2,7 @@ package com.ecolink.spring.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -56,6 +57,8 @@ public class Challenge {
         this.startDate = LocalDate.now();
         this.endDate = endDate;
         this.odsList = odsList;
+        this.requirements = new ArrayList<>();
+        this.benefits = new ArrayList<>();
     }
 
     public void addChallenge(Proposal proposal) {
