@@ -185,6 +185,7 @@ public class AuthenticationController {
                 .username(user.getEmail())
                 .rol(user.getUserType())
                 .id(user.getId())
+                .imageUrl(user.getImageUrl())
                 .token(jwtToken)
                 .build();
     }
