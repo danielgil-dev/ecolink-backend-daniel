@@ -6,6 +6,6 @@ import com.ecolink.spring.entity.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     boolean existsByName(String name);
-    boolean findByName(String name);
+    Category findByName(String name);
     
 }

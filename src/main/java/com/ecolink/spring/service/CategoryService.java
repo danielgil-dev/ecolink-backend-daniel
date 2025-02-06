@@ -15,7 +15,7 @@ public class CategoryService {
         return repository.existsByName(name);
     }
 
-    public boolean findByName(String name) {
+    public Category findByName(String name) {
         return repository.findByName(name);
     }
 

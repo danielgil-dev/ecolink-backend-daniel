@@ -2,6 +2,7 @@ package com.ecolink.spring.loaders;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,8 +11,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.ecolink.spring.entity.Category;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.service.CategoryService;
 import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
 
@@ -23,6 +26,9 @@ public class ProductDataLoader implements CommandLineRunner {
 
         @Autowired
         private StartupService startupService;
+
+        @Autowired
+        private CategoryService categoryService;
 
         @Override
         public void run(String... args) throws Exception {
@@ -54,12 +60,189 @@ public class ProductDataLoader implements CommandLineRunner {
                 Startup ecoPackaging = startupService.findByName("EcoPackaging");
                 Startup sustainableFashion = startupService.findByName("SustainableFashion");
 
+                Category electronicsAndTechnology = categoryService.findByName("Electronics & Technology");
+                Category fashionAndAccessories = categoryService.findByName("Fashion & Accessories");
+                Category homeAndKitchen = categoryService.findByName("Home & Kitchen");
+                Category groceryAndFood = categoryService.findByName("Grocery & Food");
+
                 List<Product> products = Arrays.asList(
                                 // VhAT
                                 new Product(vhat, "VhAT Smart Glasses", "Smart glasses for augmented reality",
-                                                new BigDecimal("499.99"), LocalDate.now()),
+                                                                new BigDecimal("499.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
                                 new Product(vhat, "VhAT AR Kit", "Development kit for augmented reality",
-                                                new BigDecimal("299.99"), LocalDate.now()),
+                                                                new BigDecimal("299.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // GamingBuddy
+                                new Product(gamingBuddy, "GamingBuddy Pro", "Premium subscription for gamers",
+                                                                new BigDecimal("9.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(gamingBuddy, "GamingBuddy Controller", "Ergonomic gaming controller",
+                                                                new BigDecimal("59.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Nørs
+                                new Product(nors, "Nørs Health Tracker", "Smart wristband for health monitoring",
+                                                                new BigDecimal("129.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(nors, "Nørs Meditation App", "Guided meditation application",
+                                                                new BigDecimal("4.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // AndLight
+                                new Product(andLight, "AndLight Solar Panel", "High-efficiency solar panel",
+                                                                new BigDecimal("199.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(homeAndKitchen))),
+                                new Product(andLight, "AndLight LED Bulb", "Eco-friendly LED bulb",
+                                                                new BigDecimal("14.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(homeAndKitchen))),
+
+                                // Influencer Marketing Hub
+                                new Product(imHub, "IMHub Analytics", "Analytics tool for influencers",
+                                                                new BigDecimal("49.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(imHub, "IMHub Campaign Manager", "Advertising campaign manager",
+                                                                new BigDecimal("99.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Too Good To Go
+                                new Product(tooGoodToGo, "Too Good To Go Box", "Rescued food box",
+                                                                new BigDecimal("9.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+                                new Product(tooGoodToGo, "Too Good To Go App", "App to fight food waste",
+                                                                new BigDecimal("0.00"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+
+                                // Doublepoint
+                                new Product(doublepoint, "Doublepoint Smartwatch", "Smartwatch with integrated GPS",
+                                                                new BigDecimal("199.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(doublepoint, "Doublepoint Fitness Tracker",
+                                                                "Device for tracking physical activity",
+                                                                new BigDecimal("79.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // BeCause
+                                new Product(beCause, "BeCause Sustainability Dashboard",
+                                                                "Platform for monitoring corporate sustainability",
+                                                                new BigDecimal("99.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(beCause, "BeCause Carbon Tracker", "Tool to track and reduce CO2 emissions",
+                                                                new BigDecimal("149.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Bitlig Renewable Fuels
+                                new Product(bitligRenewableFuels, "Bitlig BioFuel",
+                                                                "Sustainable fuel for industrial and domestic use",
+                                                                new BigDecimal("3.49"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+                                new Product(bitligRenewableFuels, "Bitlig Fuel Efficiency Kit",
+                                                                "Kit to optimize fuel consumption and reduce waste",
+                                                                new BigDecimal("89.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+
+                                // Mavi Bioscience
+                                new Product(Mavibioscience, "Mavi Methane Reducer",
+                                                                "Feed additive to cut livestock methane emissions by 80%",
+                                                                new BigDecimal("59.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+                                new Product(Mavibioscience, "Mavi Soil Booster",
+                                                                "Organic soil enrichment for sustainable farming",
+                                                                new BigDecimal("39.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+
+                                // Doecos
+                                new Product(doecos, "Doecos Smart Heater",
+                                                                "Smart heating system with renewable energy integration",
+                                                                new BigDecimal("299.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(homeAndKitchen))),
+                                new Product(doecos, "Doecos Insulation Kit",
+                                                                "Home insulation kit for energy efficiency",
+                                                                new BigDecimal("89.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(homeAndKitchen))),
+
+                                // VISCAN
+                                new Product(viscan, "VISCAN 3D Mapping System",
+                                                                "Advanced 3D scanning for buildings and urban planning",
+                                                                new BigDecimal("1499.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(viscan, "VISCAN Carbon Footprint Report",
+                                                                "AI-powered analysis of buildings' energy efficiency",
+                                                                new BigDecimal("199.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // NXT Catch AS
+                                new Product(nxtCatchas, "NXT Sustainable Fishing Net",
+                                                                "Biodegradable fishing net to reduce ocean waste",
+                                                                new BigDecimal("299.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+                                new Product(nxtCatchas, "NXT Smart Buoy",
+                                                                "IoT buoy for tracking sustainable fishing practices",
+                                                                new BigDecimal("399.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+
+                                // SquareRoot
+                                new Product(squareRoot, "SquareRoot Green Roof Kit",
+                                                                "Modular green roof system for urban areas",
+                                                                new BigDecimal("799.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(homeAndKitchen))),
+                                new Product(squareRoot, "SquareRoot Smart Irrigation",
+                                                                "Automated irrigation system for sustainable cities",
+                                                                new BigDecimal("249.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(homeAndKitchen))),
+
+                                // Altered Power AS
+                                new Product(alteredPowerAs, "Altered Power Portable Solar Charger",
+                                                                "Portable solar charger for outdoor use",
+                                                                new BigDecimal("129.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(alteredPowerAs, "Altered Power Foldable Solar Panel",
+                                                                "Compact solar panel for off-grid adventures",
+                                                                new BigDecimal("199.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Besen Group AS
+                                new Product(besenGroupAs, "Besen EV Charger", "Home electric vehicle charger",
+                                                                new BigDecimal("349.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(besenGroupAs, "Besen Public Charging Station",
+                                                                "Fast-charging station for urban areas",
+                                                                new BigDecimal("7999.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Seacirc
+                                new Product(seacirc, "Seacirc Circular Economy Software",
+                                                                "AI-based software for waste optimization",
+                                                                new BigDecimal("399.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(seacirc, "Seacirc Sustainable Supply Chain",
+                                                                "Tool for monitoring sustainable supply chains",
+                                                                new BigDecimal("299.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Manolin
+                                new Product(manolin, "Manolin AquaHealth", "Aquaculture health monitoring platform",
+                                                                new BigDecimal("599.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(manolin, "Manolin Smart Sensors", "Water quality sensors for fish farms",
+                                                                new BigDecimal("149.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Algaepro AS
+                                new Product(algaeproAs, "Algaepro BioPlastic", "Biodegradable plastic made from algae",
+                                                                new BigDecimal("49.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+                                new Product(algaeproAs, "Algaepro Protein Powder",
+                                                                "Sustainable algae-based protein supplement",
+                                                                new BigDecimal("29.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+
+                                // Elife AS
+                                new Product(elifeAs, "Elife Electric Bike", "Eco-friendly electric bicycle",
+                                                                new BigDecimal("1199.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+                                new Product(elifeAs, "Elife Smart Battery", "Long-lasting battery pack for e-bikes",
+                                                                new BigDecimal("399.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // Nordic Electrofuel
+                                new Product(nordicElectrofuel, "Nordic SynFuel",
+                                                                "Synthetic fuel made from renewable energy",
+                                                                new BigDecimal("5.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+                                new Product(nordicElectrofuel, "Nordic Carbon Capture System",
+                                                                "Carbon capture and recycling unit",
+                                                                new BigDecimal("2499.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+
+                                // Evoltec
+                                new Product(evoltec, "Evoltec Smart Grid Optimizer",
+                                                                "AI-powered system to enhance energy efficiency in industrial facilities.",
+                                                                new BigDecimal("249.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // EcoCharge
+                                new Product(ecoCharge, "EcoCharge Solar Charging Station",
+                                                                "Solar-powered charging dock for EVs",
+                                                                new BigDecimal("4999.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // WaterWise
+                                new Product(waterWise, "WaterWise Leak Detector",
+                                                                "Smart sensor that detects water leaks in real-time to prevent waste and reduce costs.",
+                                                                new BigDecimal("119.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(homeAndKitchen))),
+
+                                // GreenTransport
+                                new Product(greenTransport, "GreenTransport E-Scooter",
+                                                                "Affordable electric scooter for urban mobility",
+                                                                new BigDecimal("699.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(electronicsAndTechnology))),
+
+                                // EcoPackaging
+                                new Product(ecoPackaging, "EcoPackaging Compostable Bag",
+                                                                "100% biodegradable packaging",
+                                                                new BigDecimal("2.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(groceryAndFood))),
+
+                                // SustainableFashion
+                                new Product(sustainableFashion, "SustainableFashion Recycled Sneakers",
+                                                                "Shoes made from recycled plastics",
+                                                                new BigDecimal("89.99"), LocalDate.now(), new ArrayList<>(Arrays.asList(fashionAndAccessories))),
 
                                 // GamingBuddy
                                 new Product(gamingBuddy, "GamingBuddy Pro", "Premium subscription for gamers",
@@ -235,6 +418,10 @@ public class ProductDataLoader implements CommandLineRunner {
 
                 );
 
+                // añadir categorias a productos
+
+                
+                
                 products.forEach(product -> {
                         if (!service.existsByNameAndStartup(product.getName(), product.getStartup())) {
                                 service.save(product);
