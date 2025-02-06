@@ -53,7 +53,11 @@ public class MissionController {
         }
     }
     @PutMapping("{id}")
+<<<<<<< HEAD
     public ResponseEntity<?> completedMisiion(@AuthenticationPrincipal UserBase user, @RequestParam(required = false) Long id){
+=======
+    public ResponseEntity<?> completedMisiion(@RequestParam(required = false) Long id){
+>>>>>>> 038d52771a52b520e0b8ba681968c7ca029844e6
 
         try{
 
