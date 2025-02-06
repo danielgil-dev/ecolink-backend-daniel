@@ -14,4 +14,5 @@ public class GetUserDTO {
     private Long id;
     private String username;
 	private UserType userType;
+    private String imageUrl;
 }
