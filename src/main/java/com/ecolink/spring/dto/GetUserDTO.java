@@ -12,6 +12,7 @@ import com.ecolink.spring.entity.UserType;
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class GetUserDTO {
     private Long id;
+    private String name;
     private String username;
 	private UserType userType;
     private String imageUrl;

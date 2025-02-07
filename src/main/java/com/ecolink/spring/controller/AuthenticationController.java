@@ -183,6 +183,7 @@ public class AuthenticationController {
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(UserBase user, String jwtToken) {
         return JwtUserResponse.jwtUserResponseBuilder()
                 .username(user.getEmail())
+                .name(user.getName())
                 .rol(user.getUserType())
                 .id(user.getId())
                 .imageUrl(user.getImageUrl())
@@ -192,6 +193,7 @@ public class AuthenticationController {
 
     @GetMapping("/user/me")
     public GetUserDTO me(@AuthenticationPrincipal UserBase user) {
+
         return converter.convertUserDTO(user);
     }
 }

@@ -39,6 +39,7 @@ public class JwtProvider {
                 .claim("email", user.getUsername())
                 .claim("userType", user.getUserType())
                 .claim("imageUrl", user.getImageUrl())
+                .claim("user", user.getName())
                 .signWith(Keys.hmacShaKeyFor(jwtSecreto.getBytes()))
                 .compact();
     }
