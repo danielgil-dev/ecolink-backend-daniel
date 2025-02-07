@@ -230,10 +230,9 @@ public class ProductController {
                             .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
                                     "No tienes permisos para editar este producto"));
                 }
-                System.out.println("entrado antes");
+                
                 ObjectMapper objectMapper = new ObjectMapper();
                 ProductPostDTO productDto = objectMapper.readValue(productJson, ProductPostDTO.class);
-                System.out.println("entrado despues");
                 if (productDto.getName() == null || productDto.getName().isEmpty() || productDto.getPrice() == null
                         || productDto.getPrice().compareTo(BigDecimal.ZERO) <= 0 || productDto.getDescription() == null
                         || productDto.getDescription().isEmpty()) {
