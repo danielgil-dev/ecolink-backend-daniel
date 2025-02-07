@@ -38,6 +38,7 @@ public abstract class UserBase implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     UserType userType;
+    @Column(unique = true)
     String name;
     @Column(unique = true)
     String email;
