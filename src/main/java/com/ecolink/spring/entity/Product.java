@@ -31,8 +31,8 @@ public class Product {
 
     @ManyToOne
     @JsonIgnore
-
     private Startup startup;
+    
     private String name;
     private String description;
     private BigDecimal price;
