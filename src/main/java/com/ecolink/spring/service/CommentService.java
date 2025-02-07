@@ -1,0 +1,21 @@
+package com.ecolink.spring.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ecolink.spring.entity.Comment;
+import com.ecolink.spring.repository.CommentRepository;
+
+@Service
+public class CommentService {
+    @Autowired
+    private CommentRepository repository;
+
+    public void save(Comment comment){
+        repository.save(comment);
+    }
+
+    public Comment findById(Long id){
+        return repository.findById(id).orElse(null);
+    }
+}
