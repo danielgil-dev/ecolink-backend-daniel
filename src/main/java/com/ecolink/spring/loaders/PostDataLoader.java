@@ -81,154 +81,178 @@ public class PostDataLoader implements CommandLineRunner {
                 Ods partnershipsForTheGoals = odsService.findByName("Partnerships for the Goals");
 
                 List<Post> posts = Arrays.asList(
-
                                 new Post(
                                                 vhat,
                                                 "VhAT: Revolutionizing industrial automation",
+                                                "Optimizing production with AI.",
                                                 "Our AI-driven platform optimizes production processes, reducing waste and enhancing efficiency.",
                                                 LocalDate.now()),
 
                                 new Post(
                                                 gamingBuddy,
                                                 "GamingBuddy: Learning through play",
+                                                "Making education fun for all ages.",
                                                 "We offer educational games that promote learning in a fun and engaging way for all ages.",
                                                 LocalDate.now().minusDays(5)),
 
                                 new Post(
                                                 nors,
                                                 "Nørs: Enhancing personal health",
+                                                "Wearable technology for better health.",
                                                 "Our wearable technology tracks vital signs, encouraging healthier lifestyles.",
                                                 LocalDate.now().minusDays(10)),
 
                                 new Post(
                                                 andLight,
                                                 "AndLight: Affordable solar solutions",
+                                                "Providing clean energy through solar power.",
                                                 "We develop solar-powered lighting systems to provide clean energy access.",
                                                 LocalDate.now().minusWeeks(1)),
 
                                 new Post(
                                                 imHub,
                                                 "IM Hub: Supporting fair influencer marketing",
+                                                "Connecting ethical influencers with brands.",
                                                 "We connect brands with ethical influencers to promote fair trade and ethical marketing practices.",
                                                 LocalDate.now().minusMonths(1)),
 
                                 new Post(
                                                 tooGoodToGo,
                                                 "Too Good To Go: Fighting hunger with rescued food",
+                                                "Reducing food waste, feeding communities.",
                                                 "We bridge the gap between surplus food and those in need, reducing food waste.",
                                                 LocalDate.now()),
 
                                 new Post(
                                                 doublepoint,
                                                 "Doublepoint: Towards a zero-carbon future",
+                                                "Helping businesses track and cut emissions.",
                                                 "Our technology helps businesses track and reduce their carbon footprint effectively.",
                                                 LocalDate.now().minusDays(3)),
 
                                 new Post(
                                                 beCause,
                                                 "BeCause: Building sustainable business networks",
+                                                "Collaborating for a greener future.",
                                                 "We enable companies to collaborate towards achieving global sustainability goals.",
                                                 LocalDate.now().minusDays(8)),
 
                                 new Post(
                                                 bitligRenewableFuels,
                                                 "Bitlig Renewable Fuels: Clean energy for all",
+                                                "Affordable renewable fuel solutions.",
                                                 "We produce cost-effective renewable fuels to replace fossil energy sources.",
                                                 LocalDate.now().minusWeeks(2)),
 
                                 new Post(
                                                 Mavibioscience,
                                                 "Mavi Bioscience: Protecting ecosystems",
+                                                "Reducing livestock emissions for sustainability.",
                                                 "Our solutions reduce livestock emissions, preserving natural habitats and biodiversity.",
                                                 LocalDate.now().minusDays(12)),
 
                                 new Post(
                                                 doecos,
                                                 "Doecos: Smart water heating solutions",
+                                                "Efficient water and energy-saving systems.",
                                                 "We develop water heating systems that minimize water and energy consumption.",
                                                 LocalDate.now().minusDays(6)),
 
                                 new Post(
                                                 viscan,
                                                 "VISCAN: Smart city planning",
+                                                "Technology for sustainable urban growth.",
                                                 "Our technology supports sustainable urban development and reduces environmental impact.",
                                                 LocalDate.now().minusDays(15)),
 
                                 new Post(
                                                 nxtCatchas,
                                                 "NXT Catch: Sustainable fishing gear",
+                                                "Protecting marine life with innovation.",
                                                 "We design innovative fishing solutions that protect marine life and reduce bycatch.",
                                                 LocalDate.now().minusDays(7)),
 
                                 new Post(
                                                 squareRoot,
                                                 "SquareRoot: Inclusive urban green spaces",
+                                                "Bringing greenery to underserved areas.",
                                                 "We bring green infrastructure to underserved communities, improving urban quality of life.",
                                                 LocalDate.now().minusDays(20)),
 
                                 new Post(
                                                 alteredPowerAs,
                                                 "Altered Power: Solar solutions for remote areas",
+                                                "Portable solar energy for off-grid regions.",
                                                 "Our portable solar devices bring electricity to off-grid communities.",
                                                 LocalDate.now().minusWeeks(3)),
 
                                 new Post(
                                                 besenGroupAs,
                                                 "Besen Group: Charging the future",
+                                                "Expanding EV charging infrastructure.",
                                                 "We install EV charging stations to promote clean mobility in urban areas.",
                                                 LocalDate.now().minusDays(18)),
 
                                 new Post(
                                                 seacirc,
                                                 "Seacirc: Enabling circular economy",
+                                                "Helping businesses adopt sustainable production.",
                                                 "Our software helps companies transition to sustainable production models.",
                                                 LocalDate.now().minusWeeks(4)),
 
                                 new Post(
                                                 manolin,
                                                 "Manolin: Ensuring aquaculture health",
+                                                "Monitoring aquatic animal health.",
                                                 "We monitor aquatic animal health to ensure sustainable and healthy seafood production.",
                                                 LocalDate.now().minusDays(9)),
 
                                 new Post(
                                                 algaeproAs,
                                                 "Algaepro: Sustainable bioproducts",
+                                                "Eco-friendly bioplastics from algae.",
                                                 "We produce eco-friendly bioplastics from algae, reducing land and marine pollution.",
                                                 LocalDate.now().minusDays(14)),
 
                                 new Post(
                                                 elifeAs,
                                                 "Elife: Eco-friendly urban mobility",
+                                                "Electric bikes for greener cities.",
                                                 "We offer electric bikes as a sustainable transportation option for city dwellers.",
                                                 LocalDate.now().minusDays(11)),
 
                                 new Post(
                                                 nordicElectrofuel,
                                                 "Nordic Electrofuel: Pioneering synthetic fuels",
+                                                "Renewable energy transformed into fuel.",
                                                 "We transform renewable energy into sustainable fuel solutions.",
                                                 LocalDate.now().minusWeeks(5)),
 
                                 new Post(
                                                 evoltec,
                                                 "Evoltec: Innovating for energy efficiency",
+                                                "Advanced tech for industrial energy savings.",
                                                 "We provide advanced technologies to improve energy efficiency in industries.",
                                                 LocalDate.now().minusDays(22)),
 
                                 new Post(
                                                 ecoCharge,
                                                 "EcoCharge: Solar-powered EV charging",
+                                                "Making electric mobility even greener.",
                                                 "We develop solar charging stations to make electric mobility greener.",
                                                 LocalDate.now().minusDays(16)),
 
                                 new Post(
                                                 waterWise,
                                                 "WaterWise: Smart water management",
+                                                "Optimizing water usage efficiently.",
                                                 "Our technology helps optimize water use, ensuring access to clean water.",
                                                 LocalDate.now().minusDays(19)),
 
                                 new Post(
                                                 greenTransport,
                                                 "GreenTransport: Electrifying public transit",
+                                                "Reducing emissions through electric transport.",
                                                 "We offer electric public transport solutions to reduce emissions and improve air quality.",
                                                 LocalDate.now().minusWeeks(6)));
 
@@ -320,7 +344,8 @@ public class PostDataLoader implements CommandLineRunner {
                                         break;
                                 default:
                                         System.out.println(
-                                                        "No se encontro el post de la startup: " + post.getStartup().getName());
+                                                        "No se encontro el post de la startup: "
+                                                                        + post.getStartup().getName());
                                         break;
                         }
 

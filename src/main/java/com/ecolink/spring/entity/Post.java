@@ -27,44 +27,46 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    private String title;
+    private String description;
+    private String shortDescription;
+    private String imageUrl;
+    private LocalDate postDate;
+
     @JsonIgnore
     @ManyToOne
     private Startup startup;
 
-   
     @ManyToMany
     @JoinTable(name = "post_ods", joinColumns = @JoinColumn(name = "id_post"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
-    private List<Ods> odsList = new ArrayList<>(); 
+    private List<Ods> odsList = new ArrayList<>();
 
-    private String title;
-    private String description;
-    private LocalDate postDate;
-
-    public Post(Startup startup, String title, String description, LocalDate postDate) {
+    public Post(Startup startup, String title, String shortDescription, String description, LocalDate postDate) {
         this.startup = startup;
         this.title = title;
         this.description = description;
+        this.shortDescription = shortDescription;
         this.postDate = postDate;
     }
+
     @JsonIgnore
     @OneToMany(mappedBy = "post")
     private List<Like> likes;
 
-    //Metodos helpers LIKE
+    // Metodos helpers LIKE
     public void addLike(Like like) {
         this.likes.add(like);
     }
 
-    //Post
-    public void addOds(Ods ods){
+    // Post
+    public void addOds(Ods ods) {
         this.odsList.add(ods);
         ods.addPost(this);
     }
 
-    public void removeOds(Ods ods){
+    public void removeOds(Ods ods) {
         this.odsList.remove(ods);
         ods.removePost(this);
-        
     }
 }
