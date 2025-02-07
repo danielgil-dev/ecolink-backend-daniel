@@ -96,6 +96,7 @@ public class MissionController {
                 clientMissionService.completeMissionForClient(mission, client);
                 return ResponseEntity.ok(HttpStatus.OK);
         } catch (MissionNotFoundException | ClientNotFoundException  | ClientMissionAssingmentException e) {
+            e.printStackTrace();
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
