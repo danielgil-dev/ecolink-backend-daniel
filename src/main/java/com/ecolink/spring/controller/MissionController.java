@@ -7,13 +7,18 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.ClientMissionDTO;
+import com.ecolink.spring.dto.MissionPostDTO;
+import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Mission;
@@ -25,6 +30,7 @@ import com.ecolink.spring.exception.MissionNotFoundException;
 import com.ecolink.spring.service.ClientMissionService;
 import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.MissionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -78,6 +84,7 @@ public class MissionController {
         }
     }
 
+    //Cambiar estado de la mission a completed
     @PutMapping("/{id}")
     public ResponseEntity<?> completedMission(@AuthenticationPrincipal UserBase user,
             @PathVariable(required = true) Long id) {
@@ -104,5 +111,37 @@ public class MissionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
+
+    //Crear mission 
+    @PostMapping("/new")
+    public ResponseEntity<?> createMission(@AuthenticationPrincipal UserBase user,
+            @RequestPart("mission") String missionJson){
+        
+        try {
+            if(user instanceof Admin ){
+                ObjectMapper objectMapper = new ObjectMapper();
+                MissionPostDTO mission = objectMapper.readValue(missionJson, MissionPostDTO.class);
+                if (mission.getName().isEmpty() || mission.getDescription().isEmpty() || mission.getPoints() == null || mission.getType() == null ) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid Fields"));
+                }
+
+                Mission newMission = new Mission(mission.getName(), mission.getDescription(), mission.getType(), mission.getPoints());
+                missionService.save(newMission);
+                return ResponseEntity.ok(newMission);
+            }
+            throw new UsernameNotFoundException("User not permissions");
+        } catch (UsernameNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        }catch(Exception e){
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+
+      
+    }
+
 }
 
