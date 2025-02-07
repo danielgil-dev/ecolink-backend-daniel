@@ -54,6 +54,10 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Like> likes;
 
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    private List<Comment> comments;
+
     // Metodos helpers LIKE
     public void addLike(Like like) {
         this.likes.add(like);
