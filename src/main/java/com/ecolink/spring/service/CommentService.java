@@ -8,20 +8,27 @@ import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.repository.CommentRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CommentService {
     @Autowired
     private CommentRepository repository;
 
-    public void save(Comment comment){
+    public void save(Comment comment) {
         repository.save(comment);
     }
 
-    public Comment findById(Long id){
+    public Comment findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    public boolean existsByUserAndPost(UserBase user, Post post){
+    public boolean existsByUserAndPost(UserBase user, Post post) {
         return repository.existsByUserAndPost(user, post);
+    }
+
+    public void delete(Comment comment) {
+        repository.delete(comment);
+        
     }
 }

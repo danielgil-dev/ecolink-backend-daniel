@@ -38,7 +38,7 @@ public class SecurityConfig {
 						.permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/startup/**", "/api/post/**",
 								"/api/ods/**", "/api/client/**", "/api/company/**", "/api/challenge/**",
-								 "/api/image/**")
+								"/api/image/**")
 						.permitAll()
 						.requestMatchers("/api/company").hasAuthority("ROLE_STARTUP")
 						// .requestMatchers(HttpMethod.GET, "/api/mission").hasAuthority("ROLE_CLIENT")
@@ -50,8 +50,7 @@ public class SecurityConfig {
 				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 				.csrf(csrf -> csrf.disable())
 				.headers(headers -> headers
-						.frameOptions(frameOptions -> frameOptions.disable())
-				)
+						.frameOptions(frameOptions -> frameOptions.disable()))
 				.logout(logout -> logout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/public")
