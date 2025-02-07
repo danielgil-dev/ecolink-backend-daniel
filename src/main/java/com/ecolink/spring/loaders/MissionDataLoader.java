@@ -24,19 +24,19 @@ public class MissionDataLoader implements CommandLineRunner {
         List<Mission> missions = Arrays.asList(
             new Mission("Park Cleanup Crew", 
                     "Help keep your local park clean by collecting litter and properly disposing of waste.", 
-                    MissionType.DAILY, 5, false),
+                    MissionType.DAILY, 5),
     
             new Mission("Tree Guardians", 
                     "Join a tree-planting initiative and contribute to reforesting green areas in your city.", 
-                    MissionType.WEEKLY, 10, false), 
+                    MissionType.WEEKLY, 10), 
     
             new Mission("Community Recycling Hero", 
                     "Organize or participate in a local recycling campaign to encourage proper waste management.", 
-                    MissionType.WEEKLY, 15, false),
+                    MissionType.WEEKLY, 15),
     
             new Mission("Car-Free Challenge", 
                     "Ditch your car for a week! Walk, bike, or use public transport for short trips and reduce your carbon footprint.", 
-                    MissionType.WEEKLY, 80, false)
+                    MissionType.WEEKLY, 80)
     );
     
 

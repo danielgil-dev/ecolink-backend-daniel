@@ -23,7 +23,7 @@ public class Mission {
     private Integer points;
     
     
-    public Mission(String name, String description, MissionType type, Integer points, Boolean completed){
+    public Mission(String name, String description, MissionType type, Integer points){
         this.name = name;
         this.description = description;
         this.type = type;
