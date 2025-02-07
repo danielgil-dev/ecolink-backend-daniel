@@ -1,7 +1,9 @@
 package com.ecolink.spring.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -166,7 +168,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
         ResponseCookie jwtCookie = ResponseCookie.from("jwt", "")
                 .httpOnly(true)
                 .secure(true)
@@ -177,7 +179,10 @@ public class AuthenticationController {
 
         response.addHeader("Set-Cookie", jwtCookie.toString());
 
-        return ResponseEntity.ok("Sesión cerrada exitosamente");
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "Sesión cerrada exitosamente");
+
+        return ResponseEntity.ok(responseBody);
     }
 
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(UserBase user, String jwtToken) {
