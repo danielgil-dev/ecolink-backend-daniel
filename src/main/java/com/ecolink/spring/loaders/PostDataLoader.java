@@ -58,18 +58,13 @@ public class PostDataLoader implements CommandLineRunner {
                 Startup ecoCharge = startupService.findByName("EcoCharge");
                 Startup waterWise = startupService.findByName("WaterWise");
                 Startup greenTransport = startupService.findByName("GreenTransport");
-                Startup ecoPackaging = startupService.findByName("EcoPackaging");
-                Startup sustainableFashion = startupService.findByName("SustainableFashion");
 
                 // Sustainable Development Goals (SDGs)
-                Ods noPoverty = odsService.findByName("End of Poverty");
                 Ods zeroHunger = odsService.findByName("Zero Hunger");
                 Ods goodHealthWellBeing = odsService.findByName("Good Health and Well-being");
                 Ods qualityEducation = odsService.findByName("Quality Education");
-                Ods genderEquality = odsService.findByName("Gender Equality");
                 Ods cleanWaterSanitation = odsService.findByName("Clean Water and Sanitation");
                 Ods affordableCleanEnergy = odsService.findByName("Affordable and Clean Energy");
-                Ods decentWorkEconomicGrowth = odsService.findByName("Decent Work and Economic Growth");
                 Ods industryInnovation = odsService.findByName("Industry, Innovation, and Infrastructure");
                 Ods reducedInequalities = odsService.findByName("Reduced Inequalities");
                 Ods sustainableCities = odsService.findByName("Sustainable Cities and Communities");
@@ -77,8 +72,6 @@ public class PostDataLoader implements CommandLineRunner {
                 Ods climateAction = odsService.findByName("Climate Action");
                 Ods lifeBelowWater = odsService.findByName("Life Below Water");
                 Ods lifeOnLand = odsService.findByName("Life on Land");
-                Ods peaceJusticeStrongInstitutions = odsService.findByName("Peace, Justice, and Strong Institutions");
-                Ods partnershipsForTheGoals = odsService.findByName("Partnerships for the Goals");
 
                 List<Post> posts = Arrays.asList(
                                 new Post(
