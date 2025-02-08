@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,14 +15,11 @@ import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.UserBase;
-import com.ecolink.spring.entity.UserType;
 import com.ecolink.spring.exception.CommentNotValidException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.service.CommentService;
 import com.ecolink.spring.service.PostService;
-import com.ecolink.spring.service.UserBaseService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/api/comment")
@@ -32,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 public class CommentController {
     private final CommentService service;
     private final PostService postService;
-    private final UserBaseService userService;
 
     @PostMapping("/new")
     public ResponseEntity<?> newComment(@AuthenticationPrincipal UserBase user,
@@ -152,7 +147,7 @@ public class CommentController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
 
-            
+
             post.removeComment(commentToDelete);
             postService.save(post);
 

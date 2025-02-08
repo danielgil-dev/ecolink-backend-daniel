@@ -3,7 +3,6 @@ package com.ecolink.spring.service;
 
 import java.util.List;
 
-import org.hibernate.sql.ast.tree.expression.Star;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
