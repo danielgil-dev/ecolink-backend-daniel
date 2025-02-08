@@ -1,6 +1,7 @@
 package com.ecolink.spring.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -23,16 +24,26 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     private UserBase user;
-    
+
+    private OrderStatus status;
+
     private LocalDate purchaseDate;
-    
-    @OneToMany(mappedBy="order") 
+
+    @OneToMany(mappedBy = "order")
     List<OrderLine> orderLines;
-    
-    public void addOrderLine(OrderLine orderLine) {
-    	this.orderLines.add(orderLine);
+
+    public Order(UserBase user, OrderStatus status, LocalDate purchaseDate) {
+        this.user = user;
+        this.status = status;
+        this.purchaseDate = purchaseDate;
+        this.orderLines = new ArrayList<>();
     }
+
+    public void addOrderLine(OrderLine orderLine) {
+        this.orderLines.add(orderLine);
+    }
+
 }

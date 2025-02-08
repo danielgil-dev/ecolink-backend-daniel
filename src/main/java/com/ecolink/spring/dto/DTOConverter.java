@@ -1,5 +1,8 @@
 package com.ecolink.spring.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +11,8 @@ import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Ods;
+import com.ecolink.spring.entity.Order;
+import com.ecolink.spring.entity.OrderLine;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Proposal;
@@ -51,6 +56,7 @@ public class DTOConverter {
     public StartupHomeDTO convertStartupHomeToDto(Startup startup) {
         return modelMapper.map(startup, StartupHomeDTO.class);
     }
+
     public CompanyForChallengeDTO convertCompanyHomeToDto(Company company) {
         return modelMapper.map(company, CompanyForChallengeDTO.class);
     }
@@ -79,7 +85,7 @@ public class DTOConverter {
         return modelMapper.map(mission, MissionDTO.class);
     }
 
-    public ClientMissionDTO convertClientMissionDTO (Mission mission, boolean completed ){
+    public ClientMissionDTO convertClientMissionDTO(Mission mission, boolean completed) {
         ClientMissionDTO clientMissionDto = modelMapper.map(mission, ClientMissionDTO.class);
         clientMissionDto.setCompleted(completed);
         return clientMissionDto;
@@ -88,16 +94,17 @@ public class DTOConverter {
     public ChallengeDTO converChallengeToDto(Challenge challenge) {
         ChallengeDTO challengeDto = modelMapper.map(challenge, ChallengeDTO.class);
         Integer numberOfParticipants = challenge.getNumberOfParticipants();
-        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0 );
+        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0);
         return challengeDto;
     }
+
     public ChallengeFindDTO converChallengeToChallengeFindDto(Challenge challenge) {
         ChallengeFindDTO challengeDto = modelMapper.map(challenge, ChallengeFindDTO.class);
         Company company = challenge.getCompany();
         CompanyForChallengeDTO companyDto = modelMapper.map(company, CompanyForChallengeDTO.class);
         challengeDto.setCompany(companyDto);
         Integer numberOfParticipants = challenge.getNumberOfParticipants();
-        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0 );
+        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0);
         return challengeDto;
     }
 
@@ -105,7 +112,7 @@ public class DTOConverter {
     public ChallengeBasicDTO converChallengeBasicToDTO(Challenge challenge) {
         ChallengeBasicDTO challengeDto = modelMapper.map(challenge, ChallengeBasicDTO.class);
         Integer numberOfParticipants = challenge.getNumberOfParticipants();
-        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0 );
+        challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0);
         return challengeDto;
     }
 
@@ -131,6 +138,20 @@ public class DTOConverter {
 
     public GetUserFrontDTO convertCompanypBaseToDto(Company company) {
         return modelMapper.map(company, GetUserFrontDTO.class);
+    }
+
+    public OrderDTO convertOrderToDTO(Order order) {
+        List<OrderLineDTO> orderLinesDTO = order.getOrderLines().stream()
+                .map(this::convertOrderLineToDTO)
+                .collect(Collectors.toList());
+
+        OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+        orderDTO.setOrderLines(orderLinesDTO);
+        return orderDTO;
+    }
+
+    public OrderLineDTO convertOrderLineToDTO(OrderLine orderLine) {
+        return modelMapper.map(orderLine, OrderLineDTO.class);
     }
 
 }

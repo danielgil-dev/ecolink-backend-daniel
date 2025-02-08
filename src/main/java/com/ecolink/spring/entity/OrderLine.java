@@ -17,14 +17,13 @@ public class OrderLine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     private Product product;
-    
+
     private Integer amount;
-    
+
     @ManyToOne
     private Order order;
-    
-    
+
 }
