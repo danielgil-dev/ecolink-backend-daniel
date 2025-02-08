@@ -6,17 +6,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.OrderDTO;
 import com.ecolink.spring.entity.Order;
+import com.ecolink.spring.entity.OrderLine;
 import com.ecolink.spring.entity.OrderStatus;
+import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.exception.ProductNotFoundException;
+import com.ecolink.spring.service.OrderLineService;
 import com.ecolink.spring.service.OrderService;
+import com.ecolink.spring.service.ProductService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,6 +31,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/order")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderLineService orderLineService;
+    private final ProductService productService;
     private final DTOConverter dtoConverter;
 
     @GetMapping("/cart")
@@ -49,4 +58,57 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
+
+    @PostMapping("/add-product")
+    public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserBase user, @RequestBody Long id_product,
+            @RequestBody Integer amount) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            Order cart = orderService.getCart(user);
+
+            if (cart == null) {
+                cart = new Order(user, OrderStatus.CART, LocalDate.now());
+                orderService.save(cart);
+            }
+            Product product = productService.findById(id_product);
+
+            if (product == null) {
+                throw new ProductNotFoundException("Product not found");
+            }
+
+            OrderLine orderLine = orderLineService.findByOrderAndProduct(cart, product);
+            if (amount == null || amount <= 0) {
+                amount = 1;
+            }
+            if (orderLine == null) {
+                orderLine = new OrderLine();
+                orderLine.setOrder(cart);
+                orderLine.setProduct(product);
+                orderLine.setAmount(amount);
+            } else {
+                orderLine.setAmount(orderLine.getAmount() + amount);
+            }
+
+            cart.addOrderLine(orderLine);
+            orderLineService.save(orderLine);
+            orderService.save(cart);
+
+            OrderDTO orderDTO = dtoConverter.convertOrderToDTO(cart);
+
+            return ResponseEntity.ok(orderDTO);
+        } catch (ProductNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        }
+
+        catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
 }
