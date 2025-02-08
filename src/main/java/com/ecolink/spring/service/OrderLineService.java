@@ -19,6 +19,17 @@ public class OrderLineService {
         }
 
         public void save(OrderLine orderLine) {
-            repository.save(orderLine);
+                repository.save(orderLine);
+        }
+
+        public OrderLine findById(Long id) {
+                return repository.findById(id).orElse(null);
+        }
+        public OrderLine findByIdAndOrder(Long id, Order order) {
+                return repository.findByIdAndOrder(id, order);
+        }
+
+        public void delete(OrderLine orderLine) {
+                repository.delete(orderLine);
         }
 }

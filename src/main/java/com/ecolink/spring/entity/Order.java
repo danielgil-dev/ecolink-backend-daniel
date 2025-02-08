@@ -46,4 +46,10 @@ public class Order {
         this.orderLines.add(orderLine);
     }
 
+    public void removeOrderLine(OrderLine orderLine) {
+        orderLine.setOrder(null);
+        orderLine.setProduct(null);
+        this.orderLines.remove(orderLine);
+    }
+
 }

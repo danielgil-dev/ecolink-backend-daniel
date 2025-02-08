@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.ecolink.spring.entity.OrderStatus;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.exception.OrderLineNotFoundException;
 import com.ecolink.spring.exception.ProductNotFoundException;
 import com.ecolink.spring.service.OrderLineService;
 import com.ecolink.spring.service.OrderService;
@@ -101,6 +103,46 @@ public class OrderController {
 
             return ResponseEntity.ok(orderDTO);
         } catch (ProductNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        }
+
+        catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+    @DeleteMapping("/remove-product")
+    public ResponseEntity<?> removeProductFromCart(@AuthenticationPrincipal UserBase user,
+            @RequestBody Long id_orderLine) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            Order cart = orderService.getCart(user);
+
+            if (cart == null) {
+                throw new Exception("Cart not found");
+            }
+
+            OrderLine orderLine = orderLineService.findByIdAndOrder(id_orderLine, cart);
+            if (orderLine == null) {
+                throw new OrderLineNotFoundException("OrderLine not found");
+            }
+
+            cart.removeOrderLine(orderLine);
+
+            orderLineService.delete(orderLine);
+
+            orderService.save(cart);
+
+            OrderDTO orderDTO = dtoConverter.convertOrderToDTO(cart);
+
+            return ResponseEntity.ok(orderDTO);
+        } catch (ProductNotFoundException | OrderLineNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         }
