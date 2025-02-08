@@ -61,12 +61,10 @@ public class Post {
     private List<Comment> comments;
     
 
-    // Metodos helpers LIKE
     public void addLike(Like like) {
         this.likes.add(like);
     }
 
-    // Post
     public void addOds(Ods ods) {
         this.odsList.add(ods);
         ods.addPost(this);
@@ -75,5 +73,15 @@ public class Post {
     public void removeOds(Ods ods) {
         this.odsList.remove(ods);
         ods.removePost(this);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void removeComment(Comment comment) {
+        this.comments.remove(comment);
+        comment.setPost(null);
     }
 }

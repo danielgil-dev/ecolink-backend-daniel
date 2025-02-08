@@ -152,11 +152,9 @@ public class CommentController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
 
-            post.getComments().remove(commentToDelete);
-            user.getComments().remove(commentToDelete);
-            service.delete(commentToDelete);
+            
+            post.removeComment(commentToDelete);
             postService.save(post);
-            userService.save(user);
 
             return ResponseEntity.status(HttpStatus.OK).body(commentToDelete);
 

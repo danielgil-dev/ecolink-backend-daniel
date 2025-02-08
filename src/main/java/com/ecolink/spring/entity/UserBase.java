@@ -53,4 +53,5 @@ public abstract class UserBase implements UserDetails {
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Comment> comments;
+
 }

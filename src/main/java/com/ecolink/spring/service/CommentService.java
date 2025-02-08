@@ -8,8 +8,6 @@ import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.repository.CommentRepository;
 
-import jakarta.transaction.Transactional;
-
 @Service
 public class CommentService {
     @Autowired
@@ -29,6 +27,5 @@ public class CommentService {
 
     public void delete(Comment comment) {
         repository.delete(comment);
-        
     }
 }
