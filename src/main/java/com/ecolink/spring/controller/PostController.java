@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.PostDTO;
+import com.ecolink.spring.dto.PostRelevantDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.exception.ErrorDetails;
@@ -34,8 +35,6 @@ public class PostController {
     private final OdsService odsService;
     private final DTOConverter postDTOConverter;
 
-
-
     @GetMapping
     public ResponseEntity<?> getPosts(
             @RequestParam(required = false) String startupName,
@@ -48,14 +47,14 @@ public class PostController {
 
             List<Ods> odsList = new ArrayList<>();
             if (odsIdList != null && !odsIdList.isEmpty()) {
-                odsIdList.forEach(odsId->{
-                   Ods ods =  odsService.findById(odsId);
-                   if (ods != null) {
+                odsIdList.forEach(odsId -> {
+                    Ods ods = odsService.findById(odsId);
+                    if (ods != null) {
                         odsList.add(ods);
-                   }
+                    }
                 });
             }
-        
+
             Page<Post> posts = postService.findByFilterAndPagination(startupName, title, odsList, page, size);
 
             if (posts.isEmpty()) {
@@ -133,4 +132,48 @@ public class PostController {
         }
     }
 
+    @GetMapping("/relevant/{id}")
+    public ResponseEntity<?> getRelevantPost(@PathVariable Long id) {
+
+        try {
+            Post post = postService.findById(id);
+            if (post == null) {
+                throw new PostNotFoundException("No existe un post por el id " + id);
+            }
+            List<Ods> odsList = post.getOdsList();
+            List<Post> posts = postService.getRelevantPost(odsList, post.getId());
+
+            if (posts.size() < 4) {
+                int size = 4 - posts.size();
+                if (size > 0) {
+                    List<Post> otherPosts = postService.getRecentPostIngoringPosts(post.getId());
+                    int index = 0;
+                    while (posts.size() < 4 && index < otherPosts.size()) {
+                        System.out.println("Entrado en el bucle");
+                        Post otherPost = otherPosts.get(index);
+                        if (!posts.contains(otherPost) && !otherPost.getId().equals(post.getId())) {
+                            posts.add(otherPost);
+                        }
+                        index++;
+                    }
+                } else {
+                    posts = postService.getRecentPostIngoringPosts(post.getId());
+                }
+            }
+
+            List<PostRelevantDTO> dtoList = posts.stream().map(postDTOConverter::convertPostRelevantToDTO)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(dtoList);
+
+        } catch (PostNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
 }

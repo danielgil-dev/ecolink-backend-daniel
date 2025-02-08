@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
-import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Ods;
@@ -58,6 +57,10 @@ public class DTOConverter {
 
     public StartupProfileDTO convertStartupProfileToDto(Startup startup) {
         return modelMapper.map(startup, StartupProfileDTO.class);
+    }
+
+    public PostRelevantDTO convertPostRelevantToDTO(Post post) {
+        return modelMapper.map(post, PostRelevantDTO.class);
     }
 
     public PostDTO convertPostToDto(Post post) {

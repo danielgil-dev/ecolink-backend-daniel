@@ -45,5 +45,12 @@ public class PostService {
 
         return repository.findById(id).orElse(null);
     }
+    public List<Post> getRelevantPost(List<Ods> odsList, Long id) {
+        return repository.findTop4ByOdsListInAndIdNotOrderByPostDateDesc(odsList, id);
+    }
+
+    public List<Post> getRecentPostIngoringPosts(Long id) {
+        return repository.findTop10ByIdNotOrderByPostDateDesc(id);
+    }
 }
 
