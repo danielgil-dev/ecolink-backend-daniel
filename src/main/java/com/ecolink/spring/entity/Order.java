@@ -1,5 +1,6 @@
 package com.ecolink.spring.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,4 +53,11 @@ public class Order {
         this.orderLines.remove(orderLine);
     }
 
+    public BigDecimal getTotal() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (OrderLine orderLine : orderLines) {
+            total = total.add(orderLine.getTotal());
+        }
+        return total;
+    }
 }
