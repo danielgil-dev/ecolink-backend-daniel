@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.ClientMissionDTO;
+import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.MissionPostDTO;
 import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Client;
@@ -42,6 +43,7 @@ public class MissionController {
     public final MissionService missionService;
     public final ClientService clientService;
     private final ClientMissionService clientMissionService;
+    private final DTOConverter dtoConverter;
 
     @GetMapping
     public ResponseEntity<?> getAllMissions(@AuthenticationPrincipal UserBase user ) {
@@ -71,6 +73,8 @@ public class MissionController {
                 mission.getPoints(),
                 completedMissionIds.contains(mission.getId()))
             ).collect(Collectors.toList());
+
+             //List<ClientMissionDTO> missionsDto = missions.stream().map(mission -> con)
           
             return ResponseEntity.ok(missionsDto);
 
@@ -99,8 +103,9 @@ public class MissionController {
             if (client == null) {
                 throw new ClientNotFoundException("No se encontro ningun cliente con el id " + user.getId());
             }
-                clientMissionService.completeMissionForClient(mission, client);
-                return ResponseEntity.ok(HttpStatus.OK);
+                ClientMission missionClient = clientMissionService.completeMissionForClient(mission, client);
+                ClientMissionDTO missionClientDto = dtoConverter.convertClientMissionDTO(missionClient.getMission(), true);
+                return ResponseEntity.ok(missionClientDto);
         } catch (MissionNotFoundException | ClientNotFoundException  | ClientMissionAssingmentException e) {
             e.printStackTrace();
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
