@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
+import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Ods;
@@ -69,10 +70,19 @@ public class DTOConverter {
     public PostRelevantDTO convertPostRelevantToDTO(Post post) {
         return modelMapper.map(post, PostRelevantDTO.class);
     }
+    public CommentDTO convertCommentToDTO(Comment comment) {
+        CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
+        UserBase user = comment.getUser();
+        commentDTO.setImageUrl(user.getImageUrl());
+        commentDTO.setName(user.getName());        
+
+        return commentDTO;
+    }
 
     public PostItemPageDTO convertPostItemPageToDTO(Post post) {
 
         PostItemPageDTO postDto = modelMapper.map(post, PostItemPageDTO.class);
+
         postDto.setNumberComents(post.getNumberComments());
         postDto.setLikesCount(post.getNumberLikes());
 
@@ -82,6 +92,13 @@ public class DTOConverter {
     public PostDTO convertPostToDto(Post post) {
 
         PostDTO postDto = modelMapper.map(post, PostDTO.class);
+
+        List<CommentDTO> commentsDTO = post.getComments().stream()
+        .map(this::convertCommentToDTO)
+        .collect(Collectors.toList());
+        
+        postDto.setComments(commentsDTO);
+
         postDto.setLikesCount(post.getNumberLikes());
 
         return postDto;

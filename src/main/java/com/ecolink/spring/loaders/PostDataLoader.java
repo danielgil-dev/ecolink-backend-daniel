@@ -20,6 +20,7 @@ import com.ecolink.spring.service.CommentService;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.PostService;
 import com.ecolink.spring.service.StartupService;
+import com.ecolink.spring.service.UserBaseService;
 
 @Component
 @Order(5)
@@ -30,9 +31,6 @@ public class PostDataLoader implements CommandLineRunner {
 
         @Autowired
         private StartupService startupService;
-
-        @Autowired
-        private ClientService clientService;
 
         @Autowired
         private OdsService odsService;
@@ -83,7 +81,6 @@ public class PostDataLoader implements CommandLineRunner {
                 Ods lifeBelowWater = odsService.findByName("Life Below Water");
                 Ods lifeOnLand = odsService.findByName("Life on Land");
 
-                Client client = clientService.findByEmail("alice@example.com");
 
                 List<Post> posts = Arrays.asList(
                                 new Post(
@@ -262,8 +259,7 @@ public class PostDataLoader implements CommandLineRunner {
                                                 LocalDate.now().minusWeeks(6)));
 
                 posts.forEach(post -> {
-                        Comment comment = new Comment("I love "+post.getTitle(), post, client);
-                        
+
                         switch (post.getStartup().getName()) {
                                 case "VhAT":
                                         post.addOds(industryInnovation);
@@ -357,8 +353,18 @@ public class PostDataLoader implements CommandLineRunner {
                         }
 
                         if (service.findByTitle(post.getTitle()) == null) {
-                                post.addComment(comment);
-                                commentService.save(comment);
+                                service.save(post);
+
+                                Comment newComment = new Comment();
+
+                                newComment.setComment("I love " + post.getTitle());
+                                newComment.setPost(post);
+                                newComment.setUser(vhat);
+
+                                vhat.addComment(newComment);
+
+                                commentService.save(newComment);
+                                startupService.save(vhat);
                                 service.save(post);
                         }
 

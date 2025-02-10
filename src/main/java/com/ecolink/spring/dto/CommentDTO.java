@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CommentDTO {
     private Long id;
-    private String message;
+    private String comment;
     private String imageUrl;
     private String name;
 }

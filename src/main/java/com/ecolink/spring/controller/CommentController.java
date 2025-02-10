@@ -19,6 +19,7 @@ import com.ecolink.spring.exception.CommentNotValidException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.service.CommentService;
 import com.ecolink.spring.service.PostService;
+import com.ecolink.spring.service.UserBaseService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class CommentController {
     private final CommentService service;
     private final PostService postService;
+    private final UserBaseService userBaseService;
 
     @PostMapping("/new")
     public ResponseEntity<?> newComment(@AuthenticationPrincipal UserBase user,
@@ -38,14 +40,12 @@ public class CommentController {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                         "The user is not authenticated");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
-
             }
 
             if (comment == null || comment.isEmpty() || idPost == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
                         "The comment is not valid");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
-
             }
 
             Post post = postService.findById(idPost);
@@ -62,10 +62,14 @@ public class CommentController {
             }
 
             Comment newComment = new Comment();
+
             newComment.setComment(comment);
             newComment.setPost(post);
             newComment.setUser(user);
 
+            user.addComment(newComment);
+
+            userBaseService.save(user);
             service.save(newComment);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(newComment);
@@ -146,7 +150,6 @@ public class CommentController {
                         "The post is not valid");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
-
 
             post.removeComment(commentToDelete);
             postService.save(post);
