@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter 
+@Getter
 @Setter
 public class PostDTO {
     private Long id;
@@ -15,7 +15,7 @@ public class PostDTO {
     private String shortDescription;
     private String description;
     private String imageUrl;
-    private Integer likesCount; 
+    private Integer likesCount;
     List<OdsDTO> odsList;
     private LocalDate postDate;
     private List<CommentDTO> comments;

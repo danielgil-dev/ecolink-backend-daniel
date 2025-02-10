@@ -69,8 +69,8 @@ public class CommentController {
 
             user.addComment(newComment);
 
-            userBaseService.save(user);
             service.save(newComment);
+            userBaseService.save(user); 
 
             return ResponseEntity.status(HttpStatus.CREATED).body(newComment);
 
