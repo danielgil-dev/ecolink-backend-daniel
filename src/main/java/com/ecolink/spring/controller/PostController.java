@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.PostDTO;
+import com.ecolink.spring.dto.PostItemPageDTO;
 import com.ecolink.spring.dto.PostRelevantDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
@@ -62,7 +63,7 @@ public class PostController {
                         "No se encontraron post en la página especificada"));
             }
 
-            List<PostDTO> dtoList = posts.getContent().stream().map(postDTOConverter::convertPostToDto)
+            List<PostItemPageDTO> dtoList = posts.getContent().stream().map(postDTOConverter::convertPostItemPageToDTO)
                     .collect(Collectors.toList());
 
             var response = new PaginationResponse<>(

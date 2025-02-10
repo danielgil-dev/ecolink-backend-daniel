@@ -84,4 +84,8 @@ public class Post {
         this.comments.remove(comment);
         comment.setPost(null);
     }
+
+    public Integer getNumberComments(){
+        return this.comments.size();
+    }
 }

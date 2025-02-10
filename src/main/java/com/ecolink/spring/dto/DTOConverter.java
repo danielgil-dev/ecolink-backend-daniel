@@ -69,6 +69,14 @@ public class DTOConverter {
         return modelMapper.map(post, PostRelevantDTO.class);
     }
 
+    public PostItemPageDTO convertPostItemPageToDTO(Post post) {
+
+        PostItemPageDTO postDto = modelMapper.map(post, PostItemPageDTO.class);
+        postDto.setNumberComents(post.getNumberComments());
+
+        return postDto;
+    }
+
     public PostDTO convertPostToDto(Post post) {
 
         PostDTO postDto = modelMapper.map(post, PostDTO.class);
