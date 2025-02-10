@@ -37,26 +37,7 @@ public class ClientController {
     private final LikeService likeService;
     private final ClientMissionService clientMissionService;
 
-    // @GetMapping()
-    // public ResponseEntity<?> getMethodName(@PathVariable Long id) {
-    //     try {
-    //         Client client = service.findById(id);
-    //         if (client == null) {
-    //             throw new ClientNotFoundException("No existe el cliente con id =" + id);
-    //         }
-
-    //        //client.getLikes()
-    //         return ResponseEntity.ok(client);
-    //     } catch (ClientNotFoundException e) {
-    //         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-    //     } catch (Exception e) {
-    //         System.out.println(e.getMessage());
-    //         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-    //                 "Ocurrió un error interno en el servidor");
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-    //     }
-    // }
+   
     @GetMapping("/profile/{id}")
     public ResponseEntity<?> getProfileClient(@PathVariable Long id){
 
