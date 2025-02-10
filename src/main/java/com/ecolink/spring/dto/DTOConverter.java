@@ -121,6 +121,10 @@ public class DTOConverter {
         ChallengeDTO challengeDto = modelMapper.map(challenge, ChallengeDTO.class);
         Integer numberOfParticipants = challenge.getNumberOfParticipants();
         challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0);
+        List<OdsWithoutIdDTO> odsDto = challenge.getOdsList().stream()
+                .map(this::convertOdsWithoutIdToDto)
+                .collect(Collectors.toList());
+        challengeDto.setOdsList(odsDto);
         return challengeDto;
     }
 
@@ -131,6 +135,11 @@ public class DTOConverter {
         challengeDto.setCompany(companyDto);
         Integer numberOfParticipants = challenge.getNumberOfParticipants();
         challengeDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0);
+        List<OdsWithoutIdDTO> odsDto = challenge.getOdsList().stream()
+                .map(this::convertOdsWithoutIdToDto)
+                .collect(Collectors.toList());
+        challengeDto.setOdsList(odsDto);
+        
         return challengeDto;
     }
 
@@ -148,6 +157,9 @@ public class DTOConverter {
 
     public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
+    }
+    public OdsWithoutIdDTO convertOdsWithoutIdToDto(Ods ods) {
+        return modelMapper.map(ods, OdsWithoutIdDTO.class);
     }
 
     public GetUserDTO convertUserDTO(UserBase user) {

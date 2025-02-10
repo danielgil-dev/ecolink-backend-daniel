@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ChallengeBasicDTO {
     Long id;
-    String description;
+    String shortDescription;
     BigDecimal budget;
     private Integer numberOfParticipans;
 }

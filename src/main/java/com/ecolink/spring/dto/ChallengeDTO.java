@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.ecolink.spring.entity.Ods;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +14,9 @@ public class ChallengeDTO {
     Long id;
     String companyName;
     String title;
-    String description;
+    String shortDescription;
     BigDecimal budget;
     LocalDate endDate;
-    List<Ods> odsList;
+    List<OdsWithoutIdDTO> odsList;
     private Integer numberOfParticipans;
 }
