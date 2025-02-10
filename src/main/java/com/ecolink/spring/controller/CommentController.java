@@ -17,6 +17,7 @@ import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.CommentNotValidException;
 import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.CommentService;
 import com.ecolink.spring.service.PostService;
 import com.ecolink.spring.service.UserBaseService;
@@ -72,7 +73,9 @@ public class CommentController {
             service.save(newComment);
             userBaseService.save(user); 
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(newComment);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(), "Comment created successfully");
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(successDetails);
 
         } catch (CommentNotValidException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage());
@@ -111,7 +114,9 @@ public class CommentController {
             commentToUpdate.setComment(comment);
             service.save(commentToUpdate);
 
-            return ResponseEntity.status(HttpStatus.OK).body(commentToUpdate);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Comment updated successfully");
+
+            return ResponseEntity.status(HttpStatus.OK).body(successDetails);
 
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -154,7 +159,9 @@ public class CommentController {
             post.removeComment(commentToDelete);
             postService.save(post);
 
-            return ResponseEntity.status(HttpStatus.OK).body(commentToDelete);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Comment deleted successfully");
+
+            return ResponseEntity.status(HttpStatus.OK).body(successDetails);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

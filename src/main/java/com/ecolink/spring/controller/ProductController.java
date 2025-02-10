@@ -116,7 +116,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/home")
+    @GetMapping("/relevant")
     public ResponseEntity<?> getRelevantProducts() {
         List<Product> products = service.findTop4ByOrderByCreationDateDesc();
         if (products.isEmpty()) {
