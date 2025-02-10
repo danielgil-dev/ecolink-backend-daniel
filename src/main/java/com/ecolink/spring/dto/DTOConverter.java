@@ -93,10 +93,6 @@ public class DTOConverter {
 
     public ClientMissionDTO convertClientMissionDTO(Mission mission, boolean completed) {
         ClientMissionDTO clientMissionDto = modelMapper.map(mission, ClientMissionDTO.class);
-        // Mission missionClient = mission.getMission();
-        // clientMissionDto.setDescription(missionClient.getDescription());
-        // clientMissionDto.setPoints(missionClient.getPoints());
-        // clientMissionDto.setType(missionClient.getType().toString());
         clientMissionDto.setCompleted(completed);
         return clientMissionDto;
     }
