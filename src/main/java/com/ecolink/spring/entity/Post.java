@@ -90,4 +90,8 @@ public class Post {
     public Integer getNumberComments(){
         return this.comments.size();
     }
+
+    public Integer getNumberLikes(){
+        return this.likes.size();
+    }
 }

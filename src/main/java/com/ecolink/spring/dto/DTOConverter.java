@@ -73,6 +73,7 @@ public class DTOConverter {
 
         PostItemPageDTO postDto = modelMapper.map(post, PostItemPageDTO.class);
         postDto.setNumberComents(post.getNumberComments());
+        postDto.setLikesCount(post.getNumberLikes());
 
         return postDto;
     }
@@ -80,11 +81,7 @@ public class DTOConverter {
     public PostDTO convertPostToDto(Post post) {
 
         PostDTO postDto = modelMapper.map(post, PostDTO.class);
-        if (post.getLikes() != null && post.getLikes().size() > 0) {
-            postDto.setLikesCount(post.getLikes().size());
-        } else {
-            postDto.setLikesCount(0);
-        }
+        postDto.setLikesCount(post.getNumberLikes());
 
         return postDto;
     }
