@@ -11,6 +11,6 @@ public class MissionPostDTO {
    
     private String name;
     private String description;
-    private MissionType type;
+    private String type;
     private Integer points;
 }
