@@ -213,10 +213,9 @@ public class MissionController {
     // Editar una mission
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> editMission(@AuthenticationPrincipal UserBase user, @PathVariable Long id,
-    @RequestPart("mission") String missionJson) {
+            @RequestPart("mission") String missionJson) {
 
         try {
-            System.out.println("Esto es lo que me llega de missionJson" + missionJson);
             if (!(user instanceof Admin)) {
                 throw new AccessDeniedException("User not have  permissions to delete a mission");
             }
@@ -249,10 +248,14 @@ public class MissionController {
             missionService.save(missionToEdit);
 
             return ResponseEntity.ok(missionToEdit);
+        } catch (MissionNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Ocurrió un error interno en el servidor");
-                    System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
