@@ -9,6 +9,5 @@ public class CompanyForChallengeDTO {
     private Long id;
     private String name;
     private String email;
-    private String image;
     private String imageUrl;
 }
