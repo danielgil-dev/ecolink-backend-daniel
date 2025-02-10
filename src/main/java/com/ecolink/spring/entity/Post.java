@@ -49,6 +49,8 @@ public class Post {
         this.description = description;
         this.shortDescription = shortDescription;
         this.postDate = postDate;
+        this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     @JsonIgnore

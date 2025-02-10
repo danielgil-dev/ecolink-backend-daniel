@@ -7,5 +7,7 @@ import com.ecolink.spring.entity.Client;
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
     boolean existsByEmail(String email);
+
+    Client findByEmail(String email);
     
 }

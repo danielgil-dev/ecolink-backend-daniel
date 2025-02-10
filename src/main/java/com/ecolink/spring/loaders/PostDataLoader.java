@@ -10,9 +10,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ecolink.spring.entity.Client;
+import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.service.ClientService;
+import com.ecolink.spring.service.CommentService;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.PostService;
 import com.ecolink.spring.service.StartupService;
@@ -28,7 +32,13 @@ public class PostDataLoader implements CommandLineRunner {
         private StartupService startupService;
 
         @Autowired
+        private ClientService clientService;
+
+        @Autowired
         private OdsService odsService;
+
+        @Autowired
+        private CommentService commentService;
 
         @Transactional
         @Override
@@ -72,6 +82,8 @@ public class PostDataLoader implements CommandLineRunner {
                 Ods climateAction = odsService.findByName("Climate Action");
                 Ods lifeBelowWater = odsService.findByName("Life Below Water");
                 Ods lifeOnLand = odsService.findByName("Life on Land");
+
+                Client client = clientService.findByEmail("alice@example.com");
 
                 List<Post> posts = Arrays.asList(
                                 new Post(
@@ -250,6 +262,8 @@ public class PostDataLoader implements CommandLineRunner {
                                                 LocalDate.now().minusWeeks(6)));
 
                 posts.forEach(post -> {
+                        Comment comment = new Comment("I love "+post.getTitle(), post, client);
+                        
                         switch (post.getStartup().getName()) {
                                 case "VhAT":
                                         post.addOds(industryInnovation);
@@ -343,7 +357,8 @@ public class PostDataLoader implements CommandLineRunner {
                         }
 
                         if (service.findByTitle(post.getTitle()) == null) {
-                                System.out.println("Agregamos el post " + post.getTitle());
+                                post.addComment(comment);
+                                commentService.save(comment);
                                 service.save(post);
                         }
 

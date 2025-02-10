@@ -31,4 +31,9 @@ public class Comment {
     @JsonIgnore
     private UserBase user;
 
+    public Comment(String comment, Post post, UserBase user){
+        this.comment = comment;
+        this.post  =post;
+        this.user = user;
+    }
 }
