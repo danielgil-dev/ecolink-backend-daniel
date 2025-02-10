@@ -73,6 +73,7 @@ public class DTOConverter {
     public CommentDTO convertCommentToDTO(Comment comment) {
         CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
         UserBase user = comment.getUser();
+        commentDTO.setId_user(user.getId());
         commentDTO.setImageUrl(user.getImageUrl());
         commentDTO.setName(user.getName());        
 
