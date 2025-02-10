@@ -106,7 +106,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<GetUserFrontDTO> newUser(
+    public ResponseEntity<?> newUser(
             @RequestPart("user") String userJson,
             @RequestPart("image") MultipartFile image) {
         String urlImage = null;
@@ -153,12 +153,17 @@ public class AuthenticationController {
             service.newUser(user);
             dto.setId(user.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(dto);
-        } catch (DataIntegrityViolationException | ImageNotValidExtension | ImageSubmitError e) {
+        } catch (ImageNotValidExtension | ImageSubmitError e) {
             if (urlImage != null && !urlImage.isEmpty()) {
                 images.deleteFile(urlImage, uploadUserDir);
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
+        } 
+        catch(DataIntegrityViolationException e){
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN, "User or email alredy exists");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+        }
+        catch (Exception e) {
             if (urlImage != null && !urlImage.isEmpty()) {
                 images.deleteFile(urlImage, uploadUserDir);
             }
