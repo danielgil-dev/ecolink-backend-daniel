@@ -38,6 +38,7 @@ public class Challenge {
 
     private String title;
     private String description;
+    private String shortDescription;
     private BigDecimal budget;
     private LocalDate endDate;
     private LocalDate startDate;
@@ -48,11 +49,12 @@ public class Challenge {
     List<String> requirements;
     List<String> benefits;
 
-    public Challenge(Company company, String title, String description, BigDecimal budget, LocalDate endDate,
+    public Challenge(Company company, String title, String description, String shortDescription,BigDecimal budget, LocalDate endDate,
             List<Ods> odsList) {
         this.company = company;
         this.title = title;
         this.description = description;
+        this.shortDescription  = shortDescription;
         this.budget = budget;
         this.startDate = LocalDate.now();
         this.endDate = endDate;
