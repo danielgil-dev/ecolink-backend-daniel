@@ -79,7 +79,7 @@ public class ChallengeController {
         }
     }
 
-    @GetMapping("/relevant")
+    @GetMapping("/home")
     public ResponseEntity<?> getRelevantChallenges() {
 
         try {

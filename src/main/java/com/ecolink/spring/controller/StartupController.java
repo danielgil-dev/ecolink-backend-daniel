@@ -107,7 +107,7 @@ public class StartupController {
         }
     }
 
-    @GetMapping("/relevant")
+    @GetMapping("/home")
     public ResponseEntity<?> getRelevantStartups() {
 
         try {
