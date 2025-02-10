@@ -18,7 +18,6 @@ public class ClientProfileDTO {
     private List<ClientMissionDTO> completedMissions;
     private List<PostRelevantDTO> listLikePost;
 
-    //3 post de los que le haya dado like utilizar la propiedad like que tiene el usaurio
 
 
 }
