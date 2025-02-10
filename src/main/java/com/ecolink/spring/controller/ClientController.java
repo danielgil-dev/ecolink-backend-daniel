@@ -3,6 +3,8 @@ package com.ecolink.spring.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecolink.spring.dto.ClientProfileDTO;
+import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.exception.ClientNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 public class ClientController {
     private final ClientService service;
+    private final DTOConverter dtoConverter;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMethodName(@PathVariable Long id) {
@@ -41,4 +44,22 @@ public class ClientController {
         }
     }
 
+    public ResponseEntity<?> getProfileClient(@PathVariable Long id){
+
+        try {
+            
+            Client client = service.findById(id);
+            if (client == null) {
+                throw new ClientNotFoundException("No se encontro un cliente con el id " + id);
+            }
+
+            ClientProfileDTO profileClient = new ClientProfileDTO();
+            
+        } catch (ClientNotFoundException e) {
+            // TODO: handle exception
+        }catch (Exception e){
+            
+        }
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 }
