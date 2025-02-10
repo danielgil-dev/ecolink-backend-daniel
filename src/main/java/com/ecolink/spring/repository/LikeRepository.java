@@ -1,5 +1,7 @@
 package com.ecolink.spring.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +13,5 @@ import com.ecolink.spring.entity.UserBase;
 public interface LikeRepository extends JpaRepository<Like, Long> {
     boolean existsByPostAndUser(Post post, UserBase user);
     Long countByPostId(Long postId);
+    List<Like> findByUser(UserBase user);
 }

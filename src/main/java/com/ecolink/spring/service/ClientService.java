@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ public class ClientService {
     @Autowired
     private ClientRepository repository;
 
+    
     public Client findById(Long id){
         return repository.findById(id).orElse(null);
     }
@@ -24,6 +27,12 @@ public class ClientService {
     }
 
     public Client findByEmail(String email) {
-       return repository.findByEmail(email);
+    return repository.findByEmail(email);
     }
+
+    public List<Client> getAllClients(){
+        return repository.findAll();
+    }
+
+
 }
