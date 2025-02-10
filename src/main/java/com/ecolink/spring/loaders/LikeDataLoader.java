@@ -1,17 +1,22 @@
 package com.ecolink.spring.loaders;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Like;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.entity.UserBase;
+import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.CompanyService;
 import com.ecolink.spring.service.LikeService;
 import com.ecolink.spring.service.PostService;
@@ -33,36 +38,34 @@ public class LikeDataLoader implements CommandLineRunner {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private ClientService clientService;
+
     @Override
     public void run(String... args) throws Exception {
-        Post post1 = postService.findByTitle("Revolutionizing industrial automation");
-        Post post2 = postService.findByTitle("GamingBuddy: Learning through play");
-        Post post3 = postService.findByTitle("Nørs: Enhancing personal health");
-        Post post4 = postService.findByTitle("IM Hub: Supporting fair influencer marketing");
-        
-        Company ecoVision = companyService.findByName("EcoVision");
-        Company greenHorizon = companyService.findByName("GreenHorizon");
-        Startup vhat = startupService.findByName("VhAT");
-        Startup gamingBuddy = startupService.findByName("GamingBuddy");
-        
-        List<Like> likes = Arrays.asList(
-            new Like(post1, ecoVision), // EcoVision supports innovations in industrial automation  
-            new Like(post1, greenHorizon), // GreenHorizon is interested in AI-driven automation improvements  
-            new Like(post2, gamingBuddy), // GamingBuddy endorses educational gaming initiatives  
-            new Like(post2, vhat), // VhAT recognizes GamingBuddy’s impact on inclusive education  
-            new Like(post3, ecoVision), // EcoVision supports health-focused wearable technology  
-            new Like(post4, greenHorizon) // GreenHorizon values ethical influencer marketing strategies  
-    );
-    
-        
+        List<Post> postList = postService.getAllPosts();
+        List<UserBase> possibleLikers = new ArrayList<>();
+        List<Company> companyList = companyService.getAllCompanies();
+        possibleLikers.addAll(companyList);
+        List<Client> clientList = clientService.getAllClients();
+        possibleLikers.addAll(clientList);
+        List<Startup> startupList = startupService.findAll();
+        possibleLikers.addAll(startupList);
+        Random random = new Random();
 
-        likes.forEach(like -> {
-            if (!service.existsByPostAndUser(like.getPost(), like.getUser())) {
+        for(Post post : postList){
+
+            int index = random.nextInt(possibleLikers.size());
+            UserBase randomLiker = possibleLikers.get(index);
+
+            if ( post != null && randomLiker != null && !service.existsByPostAndUser(post, randomLiker)) {
+                Like like = new Like(post, randomLiker);
                 service.save(like);
             } else {
                 System.out.println("Ya existe !!!");
             }
-        });
+        }
+    
     }
 
 }

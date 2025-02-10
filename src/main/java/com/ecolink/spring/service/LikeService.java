@@ -1,5 +1,8 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +28,12 @@ public class LikeService {
     public void save(Like like) {
        repository.save(like);
     }
+
+    public List<Post> getPostLikedByUser(UserBase user){
+
+        return repository.findByUser(user).stream().filter(like -> like.getPost() != null)
+        .map(Like::getPost)
+        .collect(Collectors.toList());
+    }
+
 }

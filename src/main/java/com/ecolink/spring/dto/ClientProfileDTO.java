@@ -14,7 +14,7 @@ import lombok.Setter;
 public class ClientProfileDTO {
 
     private String name;
-    private Integer level;
+    private Long level;
     private List<ClientMissionDTO> completedMissions;
     private List<PostRelevantDTO> listLikePost;
 
