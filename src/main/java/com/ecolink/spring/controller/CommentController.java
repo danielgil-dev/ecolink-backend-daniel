@@ -39,7 +39,7 @@ public class CommentController {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
-                        "The user is not authenticated");
+                        "The user must be logged in");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
             }
 
@@ -71,10 +71,11 @@ public class CommentController {
             user.addComment(newComment);
 
             service.save(newComment);
-            userBaseService.save(user); 
+            userBaseService.save(user);
 
-            SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(), "Comment created successfully");
-            
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(),
+                    "Comment created successfully");
+
             return ResponseEntity.status(HttpStatus.CREATED).body(successDetails);
 
         } catch (CommentNotValidException e) {
@@ -94,7 +95,7 @@ public class CommentController {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
-                        "The user is not authenticated");
+                        "The user must be logged in");;
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
 
             }
@@ -130,7 +131,7 @@ public class CommentController {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
-                        "The user is not authenticated");
+                        "The user must be logged in");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
 
             }
