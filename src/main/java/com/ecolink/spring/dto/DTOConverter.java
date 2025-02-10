@@ -96,6 +96,8 @@ public class DTOConverter {
         List<CommentDTO> commentsDTO = post.getComments().stream()
         .map(this::convertCommentToDTO)
         .collect(Collectors.toList());
+
+        postDto.setImageStartup(post.getStartup().getImageUrl());
         
         postDto.setComments(commentsDTO);
 

@@ -15,6 +15,7 @@ public class PostDTO {
     private String shortDescription;
     private String description;
     private String imageUrl;
+    private String imageStartup;
     private Integer likesCount;
     List<OdsDTO> odsList;
     private LocalDate postDate;
