@@ -8,7 +8,7 @@ import com.ecolink.spring.entity.Comment;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+@Getter 
 @Setter
 public class PostDTO {
     private Long id;

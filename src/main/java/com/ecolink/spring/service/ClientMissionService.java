@@ -22,7 +22,7 @@ public class ClientMissionService {
         return clientMissionRepository.findByClient(client);
     }
 
-    public void completeMissionForClient(Mission mission, Client client) {
+    public ClientMission completeMissionForClient(Mission mission, Client client) {
         ClientMission clientMission = findByMissionAndClient (mission, client);
         if (clientMission == null) {
             clientMission = new ClientMission(client, mission);
@@ -30,6 +30,7 @@ public class ClientMissionService {
         }else{
             throw new ClientMissionAssingmentException("La mission ya ha sido asignada al usuario");
         }
+        return clientMission;
     }
 
     public ClientMission findByMissionAndClient (Mission mission, Client client){

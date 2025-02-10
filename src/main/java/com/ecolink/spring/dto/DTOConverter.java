@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
+import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Ods;
@@ -92,6 +93,10 @@ public class DTOConverter {
 
     public ClientMissionDTO convertClientMissionDTO(Mission mission, boolean completed) {
         ClientMissionDTO clientMissionDto = modelMapper.map(mission, ClientMissionDTO.class);
+        // Mission missionClient = mission.getMission();
+        // clientMissionDto.setDescription(missionClient.getDescription());
+        // clientMissionDto.setPoints(missionClient.getPoints());
+        // clientMissionDto.setType(missionClient.getType().toString());
         clientMissionDto.setCompleted(completed);
         return clientMissionDto;
     }

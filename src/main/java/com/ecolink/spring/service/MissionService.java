@@ -39,5 +39,11 @@ public class MissionService {
 		return repository.findAll();
 	}
 
+	public void delete(Mission mission){
+		repository.delete(mission);
+	}
+
+
+
 
 }

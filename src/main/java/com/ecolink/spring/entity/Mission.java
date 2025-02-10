@@ -1,6 +1,8 @@
 package com.ecolink.spring.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,11 +21,12 @@ public class Mission {
     private Long id;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
     private MissionType type;
     private Integer points;
     
     
-    public Mission(String name, String description, MissionType type, Integer points, Boolean completed){
+    public Mission(String name, String description, MissionType type, Integer points){
         this.name = name;
         this.description = description;
         this.type = type;
