@@ -14,6 +14,7 @@ public class PostItemPageDTO {
     private String title;
     private String shortDescription;
     private Integer likesCount; 
+    private String imageUrl;
     List<OdsDTO> odsList;
     private LocalDate postDate;
     private Integer numberComents;
