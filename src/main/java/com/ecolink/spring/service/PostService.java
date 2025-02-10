@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
+import com.ecolink.spring.entity.SortType;
 import com.ecolink.spring.repository.PostRepository;
 import com.ecolink.spring.specification.PostSpecification;
 
@@ -35,8 +36,8 @@ public class PostService {
         return repository.findByTitle(title);
     }
 
-    public Page<Post> findByFilterAndPagination(String startupName , String title, List<Ods> ods, int page, int size) {
-        Specification<Post> spec = PostSpecification.filters(startupName, title, ods);
+    public Page<Post> findByFilterAndPagination(String startupName , String title, List<Ods> ods, int page, int size, SortType sortLikesBy, SortType sortCreatedBy) {
+        Specification<Post> spec = PostSpecification.filters(startupName, title, ods, sortLikesBy, sortCreatedBy);
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(spec, pageable);
     }

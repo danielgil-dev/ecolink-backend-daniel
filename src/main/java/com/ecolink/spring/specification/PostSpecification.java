@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
+import com.ecolink.spring.entity.SortType;
 
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
@@ -15,7 +16,7 @@ public class PostSpecification {
 
     public static Specification<Post> filters(String startupName,
             String title,
-            List<Ods> odsList) {
+            List<Ods> odsList, SortType sortLikesBy, SortType sortCreatedBy) {
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -48,16 +49,33 @@ public class PostSpecification {
             }
 
             // 3) Filtro por 'odsList'
-            //Verificamos que nos hayan pasado una lista con los id de las ods (Esta parte del codigo se puede mejorar)
+            // Verificamos que nos hayan pasado una lista con los id de las ods (Esta parte
+            // del codigo se puede mejorar)
             if (odsList != null && !odsList.isEmpty()) {
                 // Hacemos JOIN con la lista de ODS en Post
                 Join<Post, Ods> odsJoin = root.join("odsList");
-                //Esto se puede traducir en lenguaje SQL como WHERE ods.id IN (x,y,z)
+                // Esto se puede traducir en lenguaje SQL como WHERE ods.id IN (x,y,z)
                 predicates.add(odsJoin.in(odsList));
             }
 
+            if (sortLikesBy != null) {
+                if (sortLikesBy == SortType.ASC) {
+                    query.orderBy(criteriaBuilder.asc(root.get("likes")));
+                } else {
+                    query.orderBy(criteriaBuilder.desc(root.get("likes")));
+                }
+            }
+
+            if (sortCreatedBy != null) {
+                if (sortCreatedBy == SortType.ASC) {
+                    query.orderBy(criteriaBuilder.asc(root.get("postDate")));
+                } else {
+                    query.orderBy(criteriaBuilder.desc(root.get("postDate")));
+                }
+            }
+
             // 4) Unir todos los predicados con un AND
-            // 
+            //
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

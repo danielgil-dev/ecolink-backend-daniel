@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.internal.bytebuddy.TypeCache.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import com.ecolink.spring.dto.PostItemPageDTO;
 import com.ecolink.spring.dto.PostRelevantDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
+import com.ecolink.spring.entity.SortType;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.PostNotFoundException;
 import com.ecolink.spring.service.OdsService;
@@ -42,7 +44,10 @@ public class PostController {
             @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) List<Long> odsIdList) {
+            @RequestParam(required = false) List<Long> odsIdList,
+            @RequestParam(required =  false) SortType sortLikesBy,
+            @RequestParam(required =  false) SortType sortCreatedBy
+            ) {
 
         try {
 
@@ -56,7 +61,14 @@ public class PostController {
                 });
             }
 
-            Page<Post> posts = postService.findByFilterAndPagination(startupName, title, odsList, page, size);
+            if (sortLikesBy == null) {
+                sortLikesBy = SortType.DESC;
+            }
+            if (sortCreatedBy == null) {
+                sortCreatedBy = SortType.DESC;
+            }
+
+            Page<Post> posts = postService.findByFilterAndPagination(startupName, title, odsList, page, size, sortLikesBy, sortCreatedBy);
 
             if (posts.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
@@ -79,6 +91,7 @@ public class PostController {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
