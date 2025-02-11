@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import com.ecolink.spring.entity.Category;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
@@ -172,6 +173,11 @@ public class DTOConverter {
     public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
     }
+    public CategoryDTO convertCategoryToDto(Category category) {
+        return modelMapper.map(category, CategoryDTO.class);
+    }
+
+
     public OdsWithoutIdDTO convertOdsWithoutIdToDto(Ods ods) {
         return modelMapper.map(ods, OdsWithoutIdDTO.class);
     }
