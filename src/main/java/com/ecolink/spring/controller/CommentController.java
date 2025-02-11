@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecolink.spring.dto.CommentDTO;
+import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Post;
@@ -34,6 +36,7 @@ public class CommentController {
     private final CommentService service;
     private final PostService postService;
     private final UserBaseService userBaseService;
+    private final DTOConverter dtoConverter;
 
     @PostMapping("/new")
     public ResponseEntity<?> newComment(@AuthenticationPrincipal UserBase user,
@@ -76,12 +79,14 @@ public class CommentController {
             service.save(newComment);
             userBaseService.save(user);
 
+            CommentDTO commentDTO = dtoConverter.convertCommentToDTO(newComment);
+
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(),
                     "Comment created successfully");
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", successDetails);
-            response.put("comment", newComment);
+            response.put("comment", commentDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
         } catch (CommentNotValidException e) {
@@ -122,10 +127,15 @@ public class CommentController {
             commentToUpdate.setComment(comment);
             service.save(commentToUpdate);
 
+            CommentDTO commentDTO = dtoConverter.convertCommentToDTO(commentToUpdate);
+
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Comment updated successfully");
 
-            return ResponseEntity.status(HttpStatus.OK).body(successDetails);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", successDetails);
+            response.put("comment", commentDTO);
 
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Ocurrió un error interno en el servidor");
