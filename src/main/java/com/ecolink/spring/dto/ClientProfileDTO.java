@@ -1,7 +1,6 @@
 package com.ecolink.spring.dto;
 
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +13,9 @@ import lombok.Setter;
 public class ClientProfileDTO {
 
     private String name;
+    private String email;
     private Long level;
-    private List<ClientMissionDTO> completedMissions;
-    private List<PostRelevantDTO> listLikePost;
-
-
+    private List<MissionProfileDTO> completedMissions;
+    private List<PostProfileUser> listLikePost;
 
 }
