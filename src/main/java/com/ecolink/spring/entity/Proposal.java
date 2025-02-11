@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Data
 @Getter
@@ -34,10 +35,13 @@ public class Proposal {
 	private Startup startup;
 
 	private String description;
+
+	private String link;
+
 	private LocalDate date;
 	private Status status;
 
-	public Proposal(Startup startup,Challenge challenge,  String description, LocalDate date, Status status){
+	public Proposal(Startup startup, Challenge challenge, String description, LocalDate date, Status status) {
 
 		this.challenge = challenge;
 		this.startup = startup;

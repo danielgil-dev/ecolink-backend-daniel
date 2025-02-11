@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,8 @@ public class ProposalService {
     }
     public void save (Proposal proposal){
          repository.save(proposal);
+    }
+    public List<Proposal> findByChallenge(Challenge challenge) {
+        return repository.findByChallenge(challenge);
     }
 }

@@ -65,7 +65,7 @@ public class Challenge {
         this.benefits = new ArrayList<>();
     }
 
-    public void addChallenge(Proposal proposal) {
+    public void addProposal(Proposal proposal) {
         this.proposals.add(proposal);
     }
 
