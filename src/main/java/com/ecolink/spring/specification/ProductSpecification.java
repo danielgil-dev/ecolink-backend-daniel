@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.ecolink.spring.entity.Category;
+import com.ecolink.spring.entity.Ods;
+import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 
@@ -16,6 +19,7 @@ public class ProductSpecification {
     public static Specification<Product> filters(
             Long id_startup,
             String name,
+            List<Category> categories,
             BigDecimal pricemin,
             BigDecimal pricemax) {
 
@@ -34,6 +38,11 @@ public class ProductSpecification {
 
                 predicates.add(criteriaBuilder.or(namePredicate, descriptionPredicate));
             }
+            if (categories != null && !categories.isEmpty()) {
+                Join<Product, Category> categoriesJoin = root.join("categories");
+                predicates.add(categoriesJoin.in(categories));
+            }
+
 
             if (pricemin != null) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), pricemin));

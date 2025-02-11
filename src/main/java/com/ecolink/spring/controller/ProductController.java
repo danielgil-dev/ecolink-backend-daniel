@@ -9,6 +9,8 @@ import com.ecolink.spring.dto.ProductRelevantDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.entity.Admin;
+import com.ecolink.spring.entity.Category;
+import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.UserBase;
@@ -16,6 +18,7 @@ import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ImageNotValidExtension;
 import com.ecolink.spring.exception.ImageSubmitError;
 import com.ecolink.spring.exception.ProductNotFoundException;
+import com.ecolink.spring.service.CategoryService;
 import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
 import com.ecolink.spring.utils.Images;
@@ -27,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +57,7 @@ public class ProductController {
     private final ProductService service;
     private final StartupService startupService;
     private final Images images;
+    private final CategoryService categoryService;
 
     @Value("${spring.products.upload.dir}")
     private String uploadProductDir;
@@ -61,17 +66,30 @@ public class ProductController {
     public ResponseEntity<?> getProducts(
             @RequestParam(required = false) Long startup,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) List<Long> id_categoriesList,
             @RequestParam(required = false) BigDecimal pricemin,
             @RequestParam(required = false) BigDecimal pricemax,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size) {
 
         try {
-            Page<Product> products = service.findByPaginationAndFilter(startup, name, pricemin, pricemax, page, size);
+
+            List<Category> categoryList = new ArrayList<>();
+            if (id_categoriesList != null && !id_categoriesList.isEmpty()) {
+                id_categoriesList.forEach(categoryId -> {
+                    Category category = categoryService.findById(categoryId);
+                    if (category != null) {
+                        categoryList.add(category);
+                    }
+                });
+            }
+
+            Page<Product> products = service.findByPaginationAndFilter(startup, name, categoryList, pricemin, pricemax,
+                    page, size);
 
             if (products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
-                        "No se encontraron productos en la página especificada"));
+                        "No se encontraron productos con el filtro especifico"));
             }
 
             List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
@@ -229,7 +247,7 @@ public class ProductController {
                             .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
                                     "No tienes permisos para editar este producto"));
                 }
-                
+
                 ObjectMapper objectMapper = new ObjectMapper();
                 ProductPostDTO productDto = objectMapper.readValue(productJson, ProductPostDTO.class);
                 if (productDto.getName() == null || productDto.getName().isEmpty() || productDto.getPrice() == null

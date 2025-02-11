@@ -28,4 +28,8 @@ public class CategoryService {
     public List<Category> findAll() {
         return repository.findAll();
     }
+
+    public Category findById(Long categoryId) {
+        return repository.findById(categoryId).orElse(null);
+    }
 }

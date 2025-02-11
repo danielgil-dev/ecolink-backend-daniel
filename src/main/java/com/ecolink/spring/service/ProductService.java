@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.ecolink.spring.entity.Category;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.ProductRepository;
@@ -45,20 +46,16 @@ public class ProductService {
         return repository.findAll(pageable);
     }
 
-    public List<Product> getProductsByFilter(Long id_startup, String name, BigDecimal pricemin,
-            BigDecimal pricemax) {
-        Specification<Product> spec = ProductSpecification.filters(id_startup, name, pricemin, pricemax);
-        return repository.findAll(spec);
-    }
 
     public Product findById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    public Page<Product> findByPaginationAndFilter(Long startup, String name, BigDecimal pricemin, BigDecimal pricemax,
+    public Page<Product> findByPaginationAndFilter(Long startup, String name, List<Category> categories,
+            BigDecimal pricemin, BigDecimal pricemax,
             int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Specification<Product> spec = ProductSpecification.filters(startup, name, pricemin, pricemax);
+        Specification<Product> spec = ProductSpecification.filters(startup, name, categories, pricemin, pricemax);
         return repository.findAll(spec, pageable);
     }
 
