@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.ClientMissionDTO;
 import com.ecolink.spring.dto.ClientProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
+import com.ecolink.spring.dto.MissionProfileDTO;
+import com.ecolink.spring.dto.PostProfileUser;
 import com.ecolink.spring.dto.PostRelevantDTO;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
@@ -52,21 +54,22 @@ public class ClientController {
             //Asiganmos el perfil y el nivel del usaurio mediante el usuario que encontramos
             profileClient.setName(client.getName());
             profileClient.setLevel(client.getLevel());
+            profileClient.setEmail(client.getEmail());
 
             //Obtenemos todas las missiones que ha completaado el usuario
             List<ClientMission> completedMission = clientMissionService.getClientMission(client);
 
             //Convertimos todas estas misiones en un DTO para hacer la vista mas sencilla 
-            List<ClientMissionDTO> completedMissionDto = completedMission.stream()
-            .map(clientMission -> dtoConverter.convertClientMissionDTO(clientMission.getMission(), clientMission.getCompleted()))
+            List<MissionProfileDTO> completedMissionDto = completedMission.stream()
+            .map(clientMission -> dtoConverter.convertMissionToMissionProfileDTO(clientMission.getMission()))
             .collect(Collectors.toList());
             profileClient.setCompletedMissions(completedMissionDto);
 
             //Obtenemos todos los post a los que un usuario le ha dado like
             List<Post> likedPostByTheUser = likeService.getPostLikedByUser(client);
             //Convertimos todos los post al DTO para mandar solo los campos que queremos
-            List<PostRelevantDTO> listLikedPost = likedPostByTheUser.stream()
-            .map(dtoConverter::convertPostRelevantToDTO)
+            List<PostProfileUser> listLikedPost = likedPostByTheUser.stream()
+            .map(dtoConverter::convertPostToPostProfileDto)
             .collect(Collectors.toList());
 
             //Asigamos esa lista a nuestro DTO
