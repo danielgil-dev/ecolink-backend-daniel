@@ -1,5 +1,8 @@
 package com.ecolink.spring.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -76,7 +79,10 @@ public class CommentController {
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(),
                     "Comment created successfully");
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(successDetails);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", successDetails);
+            response.put("comment", newComment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
         } catch (CommentNotValidException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage());
@@ -95,7 +101,8 @@ public class CommentController {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
-                        "The user must be logged in");;
+                        "The user must be logged in");
+                ;
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
 
             }
