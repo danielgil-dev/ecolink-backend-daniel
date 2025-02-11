@@ -38,4 +38,7 @@ public class ProposalService {
     public Proposal findByIdAndStartup(Long id, Startup startup) {
         return repository.findByIdAndStartup(id, startup);
     }
+    public void delete(Proposal userProposal) {
+        repository.delete(userProposal);
+    }
 }

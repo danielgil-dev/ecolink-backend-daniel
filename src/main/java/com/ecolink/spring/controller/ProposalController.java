@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ProposalAlredyExistsException;
 import com.ecolink.spring.exception.ProposalNotFoundException;
 import com.ecolink.spring.exception.ProposalNotValidException;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.ChallengeService;
 import com.ecolink.spring.service.ProposalService;
 
@@ -81,7 +83,7 @@ public class ProposalController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
             }
 
-            if (user instanceof Client) {
+            if (!(user instanceof Startup)) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                         "The user does not have permission to view proposals");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
@@ -109,6 +111,7 @@ public class ProposalController {
             Proposal newProposal = new Proposal(startup, challenge, proposal.getDescription(), LocalDate.now(),
                     Status.PENDING);
 
+            newProposal.setTitle(proposal.getTitle());
             newProposal.setLink(proposal.getLink());
 
             service.save(newProposal);
@@ -134,7 +137,7 @@ public class ProposalController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
             }
 
-            if (user instanceof Client) {
+            if (!(user instanceof Startup)) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                         "The user does not have permission to view proposals");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
@@ -165,6 +168,46 @@ public class ProposalController {
             service.save(userProposal);
 
             return ResponseEntity.ok(userProposal);
+        } catch (ChallengeNotFoundException | ProposalNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity<?> deleteProposal(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The user must be logged in");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            if (!(user instanceof Startup)) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The user does not have permission to view proposals");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+
+            Startup startup = (Startup) user;
+
+            boolean proposalExist = service.existsByIdAndStartup(id, startup);
+
+            if (!proposalExist) {
+                throw new ProposalNotFoundException("The user has not created a proposal");
+            }
+
+            Proposal userProposal = service.findByIdAndStartup(id, startup);
+
+            
+            service.delete(userProposal);
+            
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Proposal deleted successfully");
+            return ResponseEntity.ok(successDetails);
         } catch (ChallengeNotFoundException | ProposalNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
