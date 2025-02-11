@@ -1,0 +1,26 @@
+package com.ecolink.spring.dto;
+
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class CompanyProfileDTO {
+
+    private String imageCompany;
+    private String name;
+    private String status;
+    private String description;
+    private List<OdsWithoutIdDTO> odsList;
+    private List<PostProfileUser> listLikePost;
+
+    
+
+
+}
