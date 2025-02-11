@@ -18,6 +18,6 @@ public class StartupProfileDTO {
     String description;
     List<OdsWithoutIdDTO> odsList;
     List<ProposalStartupProfileDTO> proposals;
-    List<StartupProductProfile> products;
-    List<PostProfileUser> listLikePost;
+    List<StartupProductProfileDTO> products;
+    List<PostProfileUserDTO> listLikePost;
 }

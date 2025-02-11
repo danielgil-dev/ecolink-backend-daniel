@@ -16,6 +16,6 @@ public class ClientProfileDTO {
     private String email;
     private Long level;
     private List<MissionProfileDTO> completedMissions;
-    private List<PostProfileUser> listLikePost;
+    private List<PostProfileUserDTO> listLikePost;
 
 }

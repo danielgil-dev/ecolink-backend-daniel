@@ -7,7 +7,7 @@ import com.ecolink.spring.dto.ClientMissionDTO;
 import com.ecolink.spring.dto.ClientProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.MissionProfileDTO;
-import com.ecolink.spring.dto.PostProfileUser;
+import com.ecolink.spring.dto.PostProfileUserDTO;
 import com.ecolink.spring.dto.PostRelevantDTO;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
@@ -68,7 +68,7 @@ public class ClientController {
             //Obtenemos todos los post a los que un usuario le ha dado like
             List<Post> likedPostByTheUser = likeService.getPostLikedByUser(client);
             //Convertimos todos los post al DTO para mandar solo los campos que queremos
-            List<PostProfileUser> listLikedPost = likedPostByTheUser.stream()
+            List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
             .map(dtoConverter::convertPostToPostProfileDto)
             .collect(Collectors.toList());
 

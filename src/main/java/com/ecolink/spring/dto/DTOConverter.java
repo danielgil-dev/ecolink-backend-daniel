@@ -62,9 +62,9 @@ public class DTOConverter {
         return modelMapper.map(proposal, ProposalStartupProfileDTO.class);
     }
 
-    public StartupProductProfile convertProductTStartupProductProfile(Product product){
+    public StartupProductProfileDTO convertProductTStartupProductProfile(Product product){
 
-        return modelMapper.map(product, StartupProductProfile.class);
+        return modelMapper.map(product, StartupProductProfileDTO.class);
     }
     public StartupDTO convertStartupToDto(Startup startup) {
 
@@ -83,8 +83,8 @@ public class DTOConverter {
         return modelMapper.map(startup, StartupProfileDTO.class);
     }
 
-    public PostProfileUser convertPostToPostProfileDto(Post post){
-        return modelMapper.map(post, PostProfileUser.class);
+    public PostProfileUserDTO convertPostToPostProfileDto(Post post){
+        return modelMapper.map(post, PostProfileUserDTO.class);
     }
     public PostRelevantDTO convertPostRelevantToDTO(Post post) {
         return modelMapper.map(post, PostRelevantDTO.class);

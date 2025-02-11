@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StartupProductProfile {
+public class StartupProductProfileDTO {
 
     private String name;
     private String description;

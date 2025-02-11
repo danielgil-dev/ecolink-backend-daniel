@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostProfileUser {
+public class PostProfileUserDTO {
 
     private String title;
 }
