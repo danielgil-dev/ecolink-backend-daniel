@@ -26,6 +26,8 @@ public class Proposal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String title;
+
 	@ManyToOne
 	@JsonIgnore
 	private Challenge challenge;

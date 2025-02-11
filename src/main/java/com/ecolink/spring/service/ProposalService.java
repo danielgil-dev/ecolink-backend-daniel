@@ -29,4 +29,13 @@ public class ProposalService {
     public List<Proposal> findByChallenge(Challenge challenge) {
         return repository.findByChallenge(challenge);
     }
+    public Proposal findByIdAndStartupAndChallenge(Long id, Startup startup, Challenge challenge) {
+        return repository.findByIdAndStartupAndChallenge(id, startup, challenge);
+    }
+    public boolean existsByIdAndStartup(Long id, Startup startup) {
+        return repository.existsByIdAndStartup(id, startup);
+    }
+    public Proposal findByIdAndStartup(Long id, Startup startup) {
+        return repository.findByIdAndStartup(id, startup);
+    }
 }
