@@ -67,6 +67,9 @@ public class DTOConverter {
         return modelMapper.map(startup, StartupProfileDTO.class);
     }
 
+    public PostProfileUser convertPostToPostProfileDto(Post post){
+        return modelMapper.map(post, PostProfileUser.class);
+    }
     public PostRelevantDTO convertPostRelevantToDTO(Post post) {
         return modelMapper.map(post, PostRelevantDTO.class);
     }
@@ -111,6 +114,11 @@ public class DTOConverter {
         return modelMapper.map(mission, MissionDTO.class);
     }
 
+    public MissionProfileDTO convertMissionToMissionProfileDTO(Mission mission){
+
+        return modelMapper.map(mission, MissionProfileDTO.class);
+    }
+    
     public ClientProfileDTO convertClientTodto(Client client){
 
         ClientProfileDTO clientProfileDto = modelMapper.map(client, ClientProfileDTO.class);

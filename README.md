@@ -4,7 +4,7 @@
 -  eliminar id de la ods endpoint
 -  id y fecha eliminar de proposals
 - Creation date de producto
-- Enviar imagen del producto
+- Enviar nombre de la imagen del producto
 - Eliminar el id del la categoría del producto
 
 # Products
