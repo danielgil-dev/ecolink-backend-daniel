@@ -52,8 +52,12 @@ public class Startup extends UserBase {
         this.status = Status.PENDING;
     }
 
-    public void addChallenge(Proposal proposal) {
+    public void addProposal(Proposal proposal) {
         this.proposals.add(proposal);
+
+        if (proposal.getStartup() == null) {
+            proposal.setStartup(this);
+        }
     }
 
     public void addProduct(Product product) {

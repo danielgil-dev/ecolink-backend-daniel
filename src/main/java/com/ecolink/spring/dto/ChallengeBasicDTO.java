@@ -9,5 +9,5 @@ public class ChallengeBasicDTO {
     Long id;
     String shortDescription;
     BigDecimal budget;
-    private Integer numberOfParticipans;
+    Integer numberOfParticipans;
 }

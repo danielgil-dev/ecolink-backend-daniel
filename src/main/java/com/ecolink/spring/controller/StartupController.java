@@ -18,6 +18,7 @@ import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.StartupHomeDTO;
 import com.ecolink.spring.dto.StartupProfileDTO;
 import com.ecolink.spring.entity.Ods;
+import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.StartupNotFoundException;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/startup")
+@RequestMapping("/api/startup") 
 public class StartupController {
     private final DTOConverter dtoConverter;
     private final StartupService service;
@@ -93,6 +94,15 @@ public class StartupController {
             Startup startup = service.findById(id);
             if (startup == null) {
                 throw new StartupNotFoundException("No existe la startup con id=" + id);
+            }
+            List<Proposal> startupProposal = startup.getProposals();
+            if (startupProposal != null) {
+                startupProposal.forEach(proposal -> {
+
+                    System.out.println("Propuestas de startup: " + proposal.getDescription());
+                });
+            }else{
+                System.out.println("No tiene ");
             }
             StartupProfileDTO dto = dtoConverter.convertStartupProfileToDto(startup);
             

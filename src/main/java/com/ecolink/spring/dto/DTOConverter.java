@@ -51,7 +51,21 @@ public class DTOConverter {
     public ProposalStartupDTO convertProposalStartupToDto(Proposal proposal) {
         return modelMapper.map(proposal, ProposalStartupDTO.class);
     }
+    public ProposalStartupProfileDTO convertProposalToProposalStartupProfileDTO(Proposal proposal){
+        ProposalStartupProfileDTO proposalStartupProfileDTO = modelMapper.map(proposal, ProposalStartupProfileDTO.class);
+        proposalStartupProfileDTO.setChallengeTitle(proposal.getChallenge().getTitle());
+        return proposalStartupProfileDTO;
+    }
 
+    public ProposalStartupProfileDTO convertProposaToProposalStartupProfileDTO(Proposal proposal){
+
+        return modelMapper.map(proposal, ProposalStartupProfileDTO.class);
+    }
+
+    public StartupProductProfile convertProductTStartupProductProfile(Product product){
+
+        return modelMapper.map(product, StartupProductProfile.class);
+    }
     public StartupDTO convertStartupToDto(Startup startup) {
 
         return modelMapper.map(startup, StartupDTO.class);
@@ -94,7 +108,7 @@ public class DTOConverter {
 
         return postDto;
     }
-
+    
     public PostDTO convertPostToDto(Post post) {
 
         PostDTO postDto = modelMapper.map(post, PostDTO.class);
