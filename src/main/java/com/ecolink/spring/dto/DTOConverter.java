@@ -12,6 +12,7 @@ import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Company;
+import com.ecolink.spring.entity.Like;
 import com.ecolink.spring.entity.Mission;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Order;
@@ -102,6 +103,11 @@ public class DTOConverter {
         .map(this::convertCommentToDTO)
         .collect(Collectors.toList());
 
+        List<LikeDTO> likesDTO = post.getLikes().stream()
+        .map(this::convertLikeToDto)
+        .collect(Collectors.toList());
+
+        postDto.setLikes(likesDTO);
         postDto.setImageStartup(post.getStartup().getImageUrl());
         
         postDto.setComments(commentsDTO);
@@ -180,6 +186,13 @@ public class DTOConverter {
 
     public OdsWithoutIdDTO convertOdsWithoutIdToDto(Ods ods) {
         return modelMapper.map(ods, OdsWithoutIdDTO.class);
+    }
+
+    public LikeDTO convertLikeToDto(Like like) {
+        LikeDTO likeDTO = modelMapper.map(like, LikeDTO.class);
+        likeDTO.setId(like.getId());
+        likeDTO.setId_user(like.getUser().getId());
+        return likeDTO;
     }
 
     public GetUserDTO convertUserDTO(UserBase user) {
