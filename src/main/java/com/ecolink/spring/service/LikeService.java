@@ -36,4 +36,12 @@ public class LikeService {
         .collect(Collectors.toList());
     }
 
+    public Like findByPostAndUser(Post post, UserBase user) {
+       return repository.findByPostAndUser(post, user);
+    }
+
+    public void delete(Like like) {
+        repository.delete(like);
+    }
+
 }
