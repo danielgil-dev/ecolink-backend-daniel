@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.ecolink.spring.entity.Category;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
-import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Like;
@@ -106,6 +105,17 @@ public class DTOConverter {
         postDto.setNumberComents(post.getNumberComments());
         postDto.setLikesCount(post.getNumberLikes());
 
+        List<CommentDTO> commentsDTO = post.getComments().stream()
+        .map(this::convertCommentToDTO)
+        .collect(Collectors.toList());
+
+        List<LikeDTO> likesDTO = post.getLikes().stream()
+        .map(this::convertLikeToDto)
+        .collect(Collectors.toList());
+
+        postDto.setLikes(likesDTO);
+        postDto.setComments(commentsDTO);
+
         return postDto;
     }
     
@@ -122,9 +132,10 @@ public class DTOConverter {
         .collect(Collectors.toList());
 
         postDto.setLikes(likesDTO);
+        postDto.setComments(commentsDTO);
+
         postDto.setImageStartup(post.getStartup().getImageUrl());
         
-        postDto.setComments(commentsDTO);
 
         postDto.setLikesCount(post.getNumberLikes());
 

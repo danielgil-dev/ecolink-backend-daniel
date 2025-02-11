@@ -18,4 +18,6 @@ public class PostItemPageDTO {
     List<OdsDTO> odsList;
     private LocalDate postDate;
     private Integer numberComents;
+    List<LikeDTO> likes; 
+    private List<CommentDTO> comments;
 }
