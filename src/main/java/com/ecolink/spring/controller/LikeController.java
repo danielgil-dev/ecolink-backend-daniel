@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.UserBase;
-import com.ecolink.spring.exception.ClientNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.service.LikeService;
 import com.ecolink.spring.service.PostService;
@@ -15,10 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/api/like")
 @RequiredArgsConstructor
