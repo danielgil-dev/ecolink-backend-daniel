@@ -51,24 +51,24 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getMethodName(@PathVariable Long id) {
-        try {
-            Ods ods = service.findById(id);
-            if (ods == null) {
-                throw new OdsNotFoundException("No existe una ods con id=" + id);
-            }
-            OdsDTO dto = odsDTOConverter.convertOdsToDto(ods);
+    // @GetMapping("/{id}")
+    // public ResponseEntity<?> getMethodName(@PathVariable Long id) {
+    //     try {
+    //         Ods ods = service.findById(id);
+    //         if (ods == null) {
+    //             throw new OdsNotFoundException("No existe una ods con id=" + id);
+    //         }
+    //         OdsDTO dto = odsDTOConverter.convertOdsToDto(ods);
 
-            return ResponseEntity.ok(dto);
-        } catch (OdsNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Ocurrió un error interno en el servidor");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
-    }
+    //         return ResponseEntity.ok(dto);
+    //     } catch (OdsNotFoundException e) {
+    //         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+    //     } catch (Exception e) {
+    //         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+    //                 "Ocurrió un error interno en el servidor");
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+    //     }
+    // }
 
 }
