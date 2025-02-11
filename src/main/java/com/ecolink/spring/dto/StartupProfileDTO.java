@@ -1,20 +1,23 @@
 package com.ecolink.spring.dto;
 
 import java.util.List;
-
-import com.ecolink.spring.entity.Ods;
-import com.ecolink.spring.entity.Product;
-import com.ecolink.spring.entity.Proposal;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class StartupProfileDTO {
+
+    String imageStartup;
     String status;
     String name;
     String description;
-    List<Ods> odsList;
-    List<Proposal> proposals;
-    List<Product> products;
+    List<OdsWithoutIdDTO> odsList;
+    List<ProposalStartupProfileDTO> proposals;
+    List<StartupProductProfile> products;
+    List<PostProfileUser> listLikePost;
 }

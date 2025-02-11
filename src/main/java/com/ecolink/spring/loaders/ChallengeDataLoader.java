@@ -19,7 +19,7 @@ import com.ecolink.spring.service.OdsService;
 import jakarta.transaction.Transactional;
 
 @Component
-@Order(11)
+@Order(8)
 public class ChallengeDataLoader implements CommandLineRunner {
 
     @Autowired
