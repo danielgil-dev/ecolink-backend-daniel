@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.ecolink.spring.entity.Challenge;
+import com.ecolink.spring.entity.Company;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,5 +21,6 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long>, Jpa
     List<Challenge> findByBudgetBetween(BigDecimal minBudget, BigDecimal maxBudget);
     List<Challenge> findTop4ByEndDateGreaterThanEqualOrderByEndDateAsc(LocalDate todayDay);
     List<Challenge> findByendDateGreaterThanEqual(LocalDate todayDay);
+    Challenge findByIdAndCompany(Long id, Company company);
 
 }

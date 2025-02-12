@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ecolink.spring.entity.Challenge;
+import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.repository.ChallengeRepository;
 import com.ecolink.spring.specification.ChallengeSpecification;
@@ -64,6 +65,10 @@ public class ChallengeService {
     public List<Challenge> getActiveChallenges(){
 
         return repository.findByendDateGreaterThanEqual(LocalDate.now());
+    }
+
+    public Challenge findByIdAndCompany(Long id, Company company) {
+        return repository.findByIdAndCompany(id, company);
     }
     
 }
