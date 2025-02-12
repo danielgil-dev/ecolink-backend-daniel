@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.response.SuccessDetails;
+import com.ecolink.spring.service.EmailServiceImpl;
 import com.ecolink.spring.service.UserBaseService;
 import com.ecolink.spring.service.VerificationCodeService;
 
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class VerificationController {
     private final VerificationCodeService verificationCodeService;
     private final UserBaseService userBaseService;
+    private final EmailServiceImpl emailService;
 
     @PostMapping
     public ResponseEntity<?> verifyCode(@AuthenticationPrincipal UserBase user,
@@ -49,6 +51,7 @@ public class VerificationController {
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK, "User has been successfully verified");
             user.setVerified(true);
             userBaseService.save(user);
+            emailService.accountVerified(user.getEmail());
             return ResponseEntity.ok(successDetails);
         }
 

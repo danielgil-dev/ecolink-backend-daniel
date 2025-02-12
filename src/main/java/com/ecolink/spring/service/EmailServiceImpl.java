@@ -47,4 +47,20 @@ public class EmailServiceImpl {
 			System.err.println("Error to send email: " + e.getMessage());
 		}
 	}
+
+	public void accountVerified(String email) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+			helper.setTo(email);
+			helper.setSubject("Account Verified");
+			helper.setText("<h1>Your account has been successfully verified</h1>", true);
+
+			mailSender.send(mimeMessage);
+
+		} catch (MessagingException e) {
+			System.err.println("Error to send email: " + e.getMessage());
+		}
+	}
 }
