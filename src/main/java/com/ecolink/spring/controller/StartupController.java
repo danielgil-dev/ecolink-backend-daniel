@@ -126,15 +126,8 @@ public class StartupController {
             if (startup == null) {
                 throw new StartupNotFoundException("No existe la startup con id=" + id);
             }
-            List<Proposal> startupProposal = startup.getProposals();
-            if (startupProposal != null) {
-                startupProposal.forEach(proposal -> {
-
-                    System.out.println("Propuestas de startup: " + proposal.getDescription());
-                });
-            }else{
-                System.out.println("No tiene ");
-            }
+            
+    
             StartupPrivateProfileDTO dto = dtoConverter.convertStartupToStartupPrivateProfile(startup);
             
             return ResponseEntity.ok(dto);
