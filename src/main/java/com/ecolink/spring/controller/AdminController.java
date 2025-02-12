@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.DTOConverter;
-import com.ecolink.spring.dto.StartupProfileDTO;
+import com.ecolink.spring.dto.StartupPublicProfileDTO;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.Status;
 import com.ecolink.spring.exception.ErrorDetails;
@@ -38,7 +38,7 @@ public class AdminController {
                 throw new StartupNotFoundException("No se encontro una startup con el id " + id);
             }
             startupService.changeStartupState(startup, state);
-            StartupProfileDTO startupDto = dtoConverter.convertStartupProfileToDto(startup);
+            StartupPublicProfileDTO startupDto = dtoConverter.convertStartupProfileToDto(startup);
     
             return ResponseEntity.ok(startupDto);
         } catch (StartupNotFoundException  e) {

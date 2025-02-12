@@ -46,7 +46,7 @@ public class Challenge {
     private LocalDate startDate;
 
     @OneToMany(mappedBy = "challenge")
-    List<Proposal> proposals;
+    List<Proposal> proposals = new ArrayList<>();
 
     List<String> requirements;
     List<String> benefits;
@@ -67,6 +67,11 @@ public class Challenge {
 
     public void addProposal(Proposal proposal) {
         this.proposals.add(proposal);
+        if (proposal.getChallenge() == null) {
+            
+            proposal.setChallenge(this);
+        }
+     
     }
 
     public Integer getNumberOfParticipants() {

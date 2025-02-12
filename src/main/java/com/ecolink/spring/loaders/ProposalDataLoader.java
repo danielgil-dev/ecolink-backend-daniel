@@ -136,11 +136,22 @@ public class ProposalDataLoader implements CommandLineRunner {
                     System.out.println("Startup actual :" + proposal.getStartup().getEmail() );
                     System.out.println("Challenge titulo :" + proposal.getChallenge().getTitle());
 
-                    Startup startup = proposal.getStartup();
+                Startup startup = proposal.getStartup();
+                Challenge challenge = proposal.getChallenge();
                 startup.addProposal(proposal);
+                challenge.addProposal(proposal);
                 service.save(proposal);
             }
         });
+        
+        List<Challenge> listChallenge = challengeService.getAllChallenges();
+        listChallenge.forEach(challenge ->{
+                Integer size = challenge.getProposals().size();
+                Integer participantes = challenge.getNumberOfParticipants();
+                System.out.println("El numero de participantes es: " + size + "en el reto " + challenge.getTitle() + "y el id es " + challenge.getId());
+                System.out.println("El numero de participantes es: " + participantes );
 
+        });
+      
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.StartupHomeDTO;
-import com.ecolink.spring.dto.StartupProfileDTO;
+import com.ecolink.spring.dto.StartupPublicProfileDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
@@ -104,7 +104,7 @@ public class StartupController {
             }else{
                 System.out.println("No tiene ");
             }
-            StartupProfileDTO dto = dtoConverter.convertStartupProfileToDto(startup);
+            StartupPublicProfileDTO dto = dtoConverter.convertStartupProfileToDto(startup);
             
             return ResponseEntity.ok(dto);
         } catch (StartupNotFoundException e) {
@@ -116,6 +116,37 @@ public class StartupController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
+
+    
+    @GetMapping("profile/{id}")
+    public ResponseEntity<?> getStartupProfile(@PathVariable Long id) {
+        try {
+            Startup startup = service.findById(id);
+            if (startup == null) {
+                throw new StartupNotFoundException("No existe la startup con id=" + id);
+            }
+            List<Proposal> startupProposal = startup.getProposals();
+            if (startupProposal != null) {
+                startupProposal.forEach(proposal -> {
+
+                    System.out.println("Propuestas de startup: " + proposal.getDescription());
+                });
+            }else{
+                System.out.println("No tiene ");
+            }
+            StartupPublicProfileDTO dto = dtoConverter.convertStartupProfileToDto(startup);
+            
+            return ResponseEntity.ok(dto);
+        } catch (StartupNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
 
     @GetMapping("/home")
     public ResponseEntity<?> getRelevantStartups() {

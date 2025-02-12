@@ -17,10 +17,10 @@ import lombok.Setter;
 
 @Entity
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Proposal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +29,9 @@ public class Proposal {
 	private String title;
 
 	@ManyToOne
-	@JsonIgnore
 	private Challenge challenge;
 
 	@ManyToOne
-	@JsonIgnore
 	private Startup startup;
 
 	private String description;

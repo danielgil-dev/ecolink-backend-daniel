@@ -3,12 +3,10 @@ package com.ecolink.spring.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecolink.spring.dto.ClientMissionDTO;
 import com.ecolink.spring.dto.ClientProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.MissionProfileDTO;
 import com.ecolink.spring.dto.PostProfileUserDTO;
-import com.ecolink.spring.dto.PostRelevantDTO;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Post;
@@ -17,12 +15,10 @@ import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.service.ClientMissionService;
 import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.LikeService;
-import com.ecolink.spring.service.MissionService;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;

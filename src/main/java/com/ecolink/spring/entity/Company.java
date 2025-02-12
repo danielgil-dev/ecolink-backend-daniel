@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +22,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Company extends UserBase {
+
     private String description;
-    private Boolean accepted;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToMany(mappedBy = "company")
     List<Challenge> challenges;
 
@@ -32,6 +38,7 @@ public class Company extends UserBase {
         this.email = email;
         this.description = description;
         this.challenges = new ArrayList<>();
+        this.status = Status.PENDING;
     }
 
       //Metodos Helpers

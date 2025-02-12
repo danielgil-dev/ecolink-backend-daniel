@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.CompanyDTO;
+import com.ecolink.spring.dto.CompanyProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.exception.CompanyNotFoundException;
@@ -53,7 +54,7 @@ public class CompanyController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/profile/{id}")
     public ResponseEntity<?> getCompany(@PathVariable Long id) {
 
         try {
@@ -62,7 +63,7 @@ public class CompanyController {
                 throw new CompanyNotFoundException("No se encontro ninguna empresa por el id: " + id);
             }
 
-            CompanyDTO dtoCompany = dtoConverter.convertCompanyDTO(company);
+            CompanyProfileDTO dtoCompany = dtoConverter.convetCompanyToCompanyProfileDTO(company);
             return ResponseEntity.ok(dtoCompany);
         } catch (CompanyNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());

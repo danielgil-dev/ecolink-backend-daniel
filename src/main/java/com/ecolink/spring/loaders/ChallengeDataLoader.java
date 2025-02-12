@@ -180,22 +180,31 @@ public class ChallengeDataLoader implements CommandLineRunner {
         });
 
         if (ecoVision != null) {
+                System.out.println("Eno es nula");
             ecoVision.addChallenge(ecoVisionChallenge1);
             ecoVision.addChallenge(ecoVisionChallenge2);
         }
         if (greenHorizon != null) {
+                System.out.println("Eno es nula");
+
             greenHorizon.addChallenge(greenHorizonChallenge1);
             greenHorizon.addChallenge(greenHorizonChallenge2);
         }
         if (solarPioneer != null) {
+                System.out.println("Eno es nula");
+
             solarPioneer.addChallenge(solarPioneerChallenge1);
             solarPioneer.addChallenge(solarPioneerChallenge2);
         }
         if (bioCraft != null) {
+                System.out.println("Eno es nula");
+
             bioCraft.addChallenge(bioCraftChallenge1);
             bioCraft.addChallenge(bioCraftChallenge2);
         }
         if (urbanFlow != null) {
+                System.out.println("Eno es nula");
+
             urbanFlow.addChallenge(urbanFlowChallenge1);
             urbanFlow.addChallenge(urbanFlowChallenge2);
         }
