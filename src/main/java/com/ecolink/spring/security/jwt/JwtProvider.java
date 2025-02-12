@@ -13,6 +13,7 @@ import io.jsonwebtoken.security.Keys;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import lombok.extern.java.Log;
 
@@ -22,7 +23,9 @@ public class JwtProvider {
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String TOKEN_TYPE = "JWT ";
-    private String jwtSecreto = "aP9s8d7f6g5h4j3k2l1m0n9b8v7c6x5z4a3s2d1f0g9h8j7k6l5m4n3b2v1c0x9z8";
+    
+    @Value("${spring.jwt.private-token}")
+    private String jwtSecreto;
 
     private int jwtDurationTokenEnSegundos = 864000; // ! Son 10 dias en segundos
 
