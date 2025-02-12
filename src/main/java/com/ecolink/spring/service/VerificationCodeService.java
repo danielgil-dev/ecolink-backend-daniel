@@ -15,13 +15,24 @@ public class VerificationCodeService {
         this.redisTemplate = redisTemplate;
     }
 
-    public void saveVerificationCode(String email, String code, long expirationMinutes) {
-        String key = "verification: " + email;
+    public void saveVerificationCode(UserBase user, String code, long expirationMinutes) {
+        String key = "verification" + user.getEmail();
         redisTemplate.opsForValue().set(key, code, expirationMinutes, TimeUnit.MINUTES);
+
+        String storedCode = redisTemplate.opsForValue().get(key);
+
+        if (storedCode != null) {
+            System.out.println("El código fue guardado correctamente: " + storedCode);
+        } else {
+            System.out.println("No se pudo recuperar el código.");
+        }
+
     }
 
     public String getVerificationCode(UserBase user) {
-        return redisTemplate.opsForValue().get("verification:" + user.getEmail());
+        String key = "verification" + user.getEmail();
+        String storedCode = redisTemplate.opsForValue().get(key);
+        return storedCode;
     }
 
     public void deleteVerificationCode(UserBase user) {

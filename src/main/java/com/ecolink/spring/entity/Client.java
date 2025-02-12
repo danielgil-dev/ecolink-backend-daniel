@@ -32,6 +32,7 @@ public class Client extends UserBase {
         this.level = 0L;
         this.userType = UserType.CLIENT;
         this.email = email;
+        this.isVerified = false;
     }
 
     @ManyToMany
@@ -57,5 +58,8 @@ public class Client extends UserBase {
     public Client(String name, String email) {
         this.name = name;
         this.email = email;
+        this.userType = UserType.CLIENT;
+        this.level = 0L;
+        this.isVerified = false;
     }
 }
