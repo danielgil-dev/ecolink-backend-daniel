@@ -29,6 +29,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -253,4 +254,39 @@ public class ChallengeController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteChallenge(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The user must be logged in");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            if (!(user instanceof Company)) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The user must be a company");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            Company company = (Company) user;
+            Challenge actuaChallenge = challengeService.findByIdAndCompany(id, company);
+
+            if (actuaChallenge == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(),
+                        "The challenge does not exist or does not belong to the company");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+            }
+
+            challengeService.delete(actuaChallenge);
+
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Challenge deleted successfully");
+
+            return ResponseEntity.status(HttpStatus.OK).body(successDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
 }

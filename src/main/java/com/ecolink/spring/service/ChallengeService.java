@@ -70,5 +70,9 @@ public class ChallengeService {
     public Challenge findByIdAndCompany(Long id, Company company) {
         return repository.findByIdAndCompany(id, company);
     }
+
+    public void delete(Challenge actuaChallenge) {
+        repository.delete(actuaChallenge);
+    }
     
 }
