@@ -149,6 +149,7 @@ public class StartupController {
     }
 
 
+
     @GetMapping("/home")
     public ResponseEntity<?> getRelevantStartups() {
 

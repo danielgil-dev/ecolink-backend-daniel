@@ -222,7 +222,28 @@ public class DTOConverter {
         companyProfileDTO.setListChallengesCompany(listChallenges);
         return companyProfileDTO;
     }
+    public ChallengeCompanyProfileDTO convertChallengeToChallengeCompanyProfileDTO(Challenge challenge){
+        ChallengeCompanyProfileDTO challengeProfileDto = modelMapper.map(challenge, ChallengeCompanyProfileDTO.class);
+        Integer numberOfParticipants = challenge.getNumberOfParticipants();
+        challengeProfileDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0);
+        return challengeProfileDto;
+    }
+
+    public CompanyProfileDTO convetCompanyToCompanyProfileDTO(Company company){
+       
+        CompanyProfileDTO companyProfileDTO = modelMapper.map(company, CompanyProfileDTO.class);
+        List<ChallengeCompanyProfileDTO>  listChallenges = company.getChallenges().stream()
+        .map(this::convertChallengeToChallengeCompanyProfileDTO)
+        .collect(Collectors.toList());
+        companyProfileDTO.setListChallengesCompany(listChallenges);
+        return companyProfileDTO;
+    }
     public CompanyDTO convertCompanyDTO(Company company) {
+        CompanyDTO companyDto =  modelMapper.map(company, CompanyDTO.class);
+        List<ChallengeBasicDTO> challengeCompany = company.getChallenges().stream()
+        .map(this::converChallengeBasicToDTO).collect(Collectors.toList());
+        companyDto.setChallenges(challengeCompany);
+        return companyDto;
         CompanyDTO companyDto =  modelMapper.map(company, CompanyDTO.class);
         List<ChallengeBasicDTO> challengeCompany = company.getChallenges().stream()
         .map(this::converChallengeBasicToDTO).collect(Collectors.toList());
