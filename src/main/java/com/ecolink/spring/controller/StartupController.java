@@ -117,32 +117,7 @@ public class StartupController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
-
     
-    @GetMapping("/profile/{id}")
-    public ResponseEntity<?> getStartupProfile(@PathVariable Long id) {
-        try {
-            Startup startup = service.findById(id);
-            if (startup == null) {
-                throw new StartupNotFoundException("No existe la startup con id=" + id);
-            }
-            
-    
-            StartupPrivateProfileDTO dto = dtoConverter.convertStartupToStartupPrivateProfile(startup);
-            
-            return ResponseEntity.ok(dto);
-        } catch (StartupNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Ocurrió un error interno en el servidor");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
-    }
-
-
-
     @GetMapping("/home")
     public ResponseEntity<?> getRelevantStartups() {
 

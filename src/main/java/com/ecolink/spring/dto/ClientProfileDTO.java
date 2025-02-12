@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientProfileDTO {
-
+    
     private String name;
     private String email;
     private Long level;

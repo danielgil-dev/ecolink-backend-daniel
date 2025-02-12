@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CompanyProfileDTO {
 
-    private String imageCompany;
     private String name;
+    private String email;
     private String status;
     private String description;
     private List<ChallengeCompanyProfileDTO> listChallengesCompany;

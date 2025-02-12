@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StartupPublicProfileDTO {
 
-    String imageStartup;
     String status;
     String name;
     String description;

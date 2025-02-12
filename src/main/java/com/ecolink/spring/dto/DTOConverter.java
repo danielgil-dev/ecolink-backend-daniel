@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.ecolink.spring.entity.Category;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
+import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Like;
@@ -50,21 +51,24 @@ public class DTOConverter {
     public ProposalStartupDTO convertProposalStartupToDto(Proposal proposal) {
         return modelMapper.map(proposal, ProposalStartupDTO.class);
     }
-    public ProposalStartupProfileDTO convertProposalToProposalStartupProfileDTO(Proposal proposal){
-        ProposalStartupProfileDTO proposalStartupProfileDTO = modelMapper.map(proposal, ProposalStartupProfileDTO.class);
+
+    public ProposalStartupProfileDTO convertProposalToProposalStartupProfileDTO(Proposal proposal) {
+        ProposalStartupProfileDTO proposalStartupProfileDTO = modelMapper.map(proposal,
+                ProposalStartupProfileDTO.class);
         proposalStartupProfileDTO.setChallengeTitle(proposal.getChallenge().getTitle());
         return proposalStartupProfileDTO;
     }
 
-    public ProposalStartupProfileDTO convertProposaToProposalStartupProfileDTO(Proposal proposal){
+    public ProposalStartupProfileDTO convertProposaToProposalStartupProfileDTO(Proposal proposal) {
 
         return modelMapper.map(proposal, ProposalStartupProfileDTO.class);
     }
 
-    public StartupProductPublicProfileDTO convertProductTStartupProductProfile(Product product){
+    public StartupProductPublicProfileDTO convertProductTStartupProductProfile(Product product) {
 
         return modelMapper.map(product, StartupProductPublicProfileDTO.class);
     }
+
     public StartupDTO convertStartupToDto(Startup startup) {
 
         return modelMapper.map(startup, StartupDTO.class);
@@ -82,27 +86,34 @@ public class DTOConverter {
         return modelMapper.map(startup, StartupPublicProfileDTO.class);
     }
 
-    public StartupPrivateProfileDTO convertStartupToStartupPrivateProfile(Startup startup){
-
-        return modelMapper.map(startup, StartupPrivateProfileDTO.class);
+    public StartupPrivateProfileDTO convertStartupToStartupPrivateProfile(Startup startup,List<Post> likedPostByTheUser) {
+        StartupPrivateProfileDTO startupProfile = modelMapper.map(startup, StartupPrivateProfileDTO.class);
+        List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
+        .map(this::convertPostToPostProfileDto)
+        .collect(Collectors.toList());
+        startupProfile.setListLikePost(listLikedPost); 
+        return startupProfile;
     }
-    public StartupProductPrivateProfileDTO convertStartupProductToStartupProductPrivateProfileDTO (Startup startup){
-        
-        return modelMapper.map(startup,  StartupProductPrivateProfileDTO.class);
+
+    public StartupProductPrivateProfileDTO convertStartupProductToStartupProductPrivateProfileDTO(Startup startup) {
+
+        return modelMapper.map(startup, StartupProductPrivateProfileDTO.class);
     }
 
-    public PostProfileUserDTO convertPostToPostProfileDto(Post post){
+    public PostProfileUserDTO convertPostToPostProfileDto(Post post) {
         return modelMapper.map(post, PostProfileUserDTO.class);
     }
+
     public PostRelevantDTO convertPostRelevantToDTO(Post post) {
         return modelMapper.map(post, PostRelevantDTO.class);
     }
+
     public CommentDTO convertCommentToDTO(Comment comment) {
         CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
         UserBase user = comment.getUser();
         commentDTO.setId_user(user.getId());
         commentDTO.setImageUrl(user.getImageUrl());
-        commentDTO.setName(user.getName());        
+        commentDTO.setName(user.getName());
 
         return commentDTO;
     }
@@ -115,36 +126,35 @@ public class DTOConverter {
         postDto.setLikesCount(post.getNumberLikes());
 
         List<CommentDTO> commentsDTO = post.getComments().stream()
-        .map(this::convertCommentToDTO)
-        .collect(Collectors.toList());
+                .map(this::convertCommentToDTO)
+                .collect(Collectors.toList());
 
         List<LikeDTO> likesDTO = post.getLikes().stream()
-        .map(this::convertLikeToDto)
-        .collect(Collectors.toList());
+                .map(this::convertLikeToDto)
+                .collect(Collectors.toList());
 
         postDto.setLikes(likesDTO);
         postDto.setComments(commentsDTO);
 
         return postDto;
     }
-    
+
     public PostDTO convertPostToDto(Post post) {
 
         PostDTO postDto = modelMapper.map(post, PostDTO.class);
 
         List<CommentDTO> commentsDTO = post.getComments().stream()
-        .map(this::convertCommentToDTO)
-        .collect(Collectors.toList());
+                .map(this::convertCommentToDTO)
+                .collect(Collectors.toList());
 
         List<LikeDTO> likesDTO = post.getLikes().stream()
-        .map(this::convertLikeToDto)
-        .collect(Collectors.toList());
+                .map(this::convertLikeToDto)
+                .collect(Collectors.toList());
 
         postDto.setLikes(likesDTO);
         postDto.setComments(commentsDTO);
 
         postDto.setImageStartup(post.getStartup().getImageUrl());
-        
 
         postDto.setLikesCount(post.getNumberLikes());
 
@@ -155,14 +165,23 @@ public class DTOConverter {
         return modelMapper.map(mission, MissionDTO.class);
     }
 
-    public MissionProfileDTO convertMissionToMissionProfileDTO(Mission mission){
+    public MissionProfileDTO convertMissionToMissionProfileDTO(Mission mission) {
 
         return modelMapper.map(mission, MissionProfileDTO.class);
     }
-    
-    public ClientProfileDTO convertClientTodto(Client client){
+
+    public ClientProfileDTO convertClientToClientProfileDTO(Client client, List<ClientMission> completedMission,
+            List<Post> likedPostByTheUser) {
 
         ClientProfileDTO clientProfileDto = modelMapper.map(client, ClientProfileDTO.class);
+        List<MissionProfileDTO> completedMissionDto = completedMission.stream()
+                .map(clientMission -> this.convertMissionToMissionProfileDTO(clientMission.getMission()))
+                .collect(Collectors.toList());
+        List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
+                .map(this::convertPostToPostProfileDto)
+                .collect(Collectors.toList());
+        clientProfileDto.setListLikePost(listLikedPost);
+        clientProfileDto.setCompletedMissions(completedMissionDto);
         return clientProfileDto;
     }
 
@@ -194,7 +213,7 @@ public class DTOConverter {
                 .map(this::convertOdsWithoutIdToDto)
                 .collect(Collectors.toList());
         challengeDto.setOdsList(odsDto);
-        
+
         return challengeDto;
     }
 
@@ -206,28 +225,32 @@ public class DTOConverter {
         return challengeDto;
     }
 
-
-    public ChallengeCompanyProfileDTO convertChallengeToChallengeCompanyProfileDTO(Challenge challenge){
+    public ChallengeCompanyProfileDTO convertChallengeToChallengeCompanyProfileDTO(Challenge challenge) {
         ChallengeCompanyProfileDTO challengeProfileDto = modelMapper.map(challenge, ChallengeCompanyProfileDTO.class);
         Integer numberOfParticipants = challenge.getNumberOfParticipants();
         challengeProfileDto.setNumberOfParticipans(numberOfParticipants > 0 ? numberOfParticipants : 0);
         return challengeProfileDto;
     }
 
-    public CompanyProfileDTO convetCompanyToCompanyProfileDTO(Company company){
-       
+    public CompanyProfileDTO convetCompanyToCompanyProfileDTO(Company company, List<Post> likedPostByTheUser) {
+
         CompanyProfileDTO companyProfileDTO = modelMapper.map(company, CompanyProfileDTO.class);
-        List<ChallengeCompanyProfileDTO>  listChallenges = company.getChallenges().stream()
-        .map(this::convertChallengeToChallengeCompanyProfileDTO)
-        .collect(Collectors.toList());
+        List<ChallengeCompanyProfileDTO> listChallenges = company.getChallenges().stream()
+                .map(this::convertChallengeToChallengeCompanyProfileDTO)
+                .collect(Collectors.toList());
+                List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
+                .map(this::convertPostToPostProfileDto)
+                .collect(Collectors.toList());
+                companyProfileDTO.setListLikePost(listLikedPost);
         companyProfileDTO.setListChallengesCompany(listChallenges);
         return companyProfileDTO;
     }
+
     public CompanyDTO convertCompanyDTO(Company company) {
-        
-        CompanyDTO companyDto =  modelMapper.map(company, CompanyDTO.class);
+
+        CompanyDTO companyDto = modelMapper.map(company, CompanyDTO.class);
         List<ChallengeBasicDTO> challengeCompany = company.getChallenges().stream()
-        .map(this::converChallengeBasicToDTO).collect(Collectors.toList());
+                .map(this::converChallengeBasicToDTO).collect(Collectors.toList());
         companyDto.setChallenges(challengeCompany);
         return companyDto;
     }
@@ -235,10 +258,10 @@ public class DTOConverter {
     public OdsDTO convertOdsToDto(Ods ods) {
         return modelMapper.map(ods, OdsDTO.class);
     }
+
     public CategoryDTO convertCategoryToDto(Category category) {
         return modelMapper.map(category, CategoryDTO.class);
     }
-
 
     public OdsWithoutIdDTO convertOdsWithoutIdToDto(Ods ods) {
         return modelMapper.map(ods, OdsWithoutIdDTO.class);
