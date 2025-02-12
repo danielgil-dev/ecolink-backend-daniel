@@ -33,3 +33,5 @@ build/
 .vscode/
 #Folder data#
 data/** 
+
+.env
