@@ -18,5 +18,5 @@ public class ChallengeDTO {
     BigDecimal budget;
     LocalDate endDate;
     List<OdsWithoutIdDTO> odsList;
-    private Integer numberOfParticipans;
+    Integer numberOfParticipans;
 }

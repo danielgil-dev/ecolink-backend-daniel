@@ -17,9 +17,8 @@ public class CompanyProfileDTO {
     private String name;
     private String status;
     private String description;
-    private List<OdsWithoutIdDTO> odsList;
-    private List<PostProfileUser> listLikePost;
-
+    private List<ChallengeCompanyProfileDTO> listChallengesCompany;
+    private List<PostProfileUserDTO> listLikePost;
     
 
 

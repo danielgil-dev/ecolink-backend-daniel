@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StartupProfileDTO {
+public class StartupPublicProfileDTO {
 
     String imageStartup;
     String status;
