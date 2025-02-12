@@ -23,6 +23,7 @@ public class Admin extends UserBase {
         this.userType = UserType.ADMIN;
         this.email = email;
         this.password = password;
+        this.isVerified = true;
     }
 
     @Override

@@ -36,9 +36,11 @@ import com.ecolink.spring.exception.ImageSubmitError;
 import com.ecolink.spring.security.jwt.JwtProvider;
 import com.ecolink.spring.security.jwt.model.JwtUserResponse;
 import com.ecolink.spring.security.jwt.model.LoginRequest;
+import com.ecolink.spring.service.EmailVerificationService;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.StartupService;
 import com.ecolink.spring.service.UserBaseService;
+import com.ecolink.spring.service.VerificationCodeService;
 import com.ecolink.spring.utils.Images;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -63,6 +65,7 @@ public class AuthenticationController {
     private final DTOConverter converter;
     private final UserBaseService service;
     private final StartupService startupService;
+    private final EmailVerificationService emailVerificationService;
 
     private final OdsService odsService;
     private final Images images;
@@ -148,6 +151,8 @@ public class AuthenticationController {
                                 .collect(Collectors.toList()));
                 client.setPreferences(preferences);
                 dto = converter.convertClientBaseToDto(client);
+                emailVerificationService.sendVerificationEmail(user);
+                
             }
 
             service.newUser(user);
