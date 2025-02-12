@@ -27,7 +27,7 @@ public class Client extends UserBase {
     @OneToMany(mappedBy = "client")
     private List<ClientMission> clientMissions = new ArrayList<>();
 
-    public Client(String name, List<Ods> odsList, String email, String description) {
+    public Client(String name, List<Ods> odsList, String email) {
         this.name = name;
         this.level = 0L;
         this.userType = UserType.CLIENT;
@@ -38,7 +38,7 @@ public class Client extends UserBase {
     @JoinTable(name = "user_preferences", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> preferences;
 
-    public void addMission (Mission mission){
+    public void addMission(Mission mission) {
 
         ClientMission clientMission = new ClientMission(this, mission);
         this.clientMissions.add(clientMission);
@@ -52,5 +52,10 @@ public class Client extends UserBase {
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    public Client(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 }

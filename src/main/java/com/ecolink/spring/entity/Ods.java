@@ -50,6 +50,9 @@ public class Ods {
     public void addStartup(Startup startup) {
         this.startups.add(startup);
     }
+    public void addPreference(Client client) {
+        this.userPreferences.add(client);
+    }
 
     //POST
     public void addPost(Post post){
