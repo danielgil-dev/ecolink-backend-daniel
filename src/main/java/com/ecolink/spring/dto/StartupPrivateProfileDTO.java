@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StartupProfile {
+public class StartupPrivateProfileDTO {
 
     String imageStartup;
     String status;
@@ -19,6 +19,6 @@ public class StartupProfile {
     String description;
     List<OdsWithoutIdDTO> odsList;
     List<ProposalStartupProfileDTO> proposals;
-    List<StartupProductProfileDTO> products;
+    List<StartupProductPrivateProfileDTO> products;
     List<PostProfileUserDTO> listLikePost;
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.StartupHomeDTO;
+import com.ecolink.spring.dto.StartupPrivateProfileDTO;
 import com.ecolink.spring.dto.StartupPublicProfileDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Proposal;
@@ -118,7 +119,7 @@ public class StartupController {
     }
 
     
-    @GetMapping("profile/{id}")
+    @GetMapping("/profile/{id}")
     public ResponseEntity<?> getStartupProfile(@PathVariable Long id) {
         try {
             Startup startup = service.findById(id);
@@ -134,7 +135,7 @@ public class StartupController {
             }else{
                 System.out.println("No tiene ");
             }
-            StartupPublicProfileDTO dto = dtoConverter.convertStartupProfileToDto(startup);
+            StartupPrivateProfileDTO dto = dtoConverter.convertStartupToStartupPrivateProfile(startup);
             
             return ResponseEntity.ok(dto);
         } catch (StartupNotFoundException e) {

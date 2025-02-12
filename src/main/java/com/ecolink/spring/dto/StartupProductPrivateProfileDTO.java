@@ -2,7 +2,6 @@ package com.ecolink.spring.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +12,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StartupProductProfileDTO {
+public class StartupProductPrivateProfileDTO {
 
     private String name;
     private String description;
     private String imageUrl;
     private BigDecimal price;
-    private LocalDate creationDate;
-    private String startupName;
-    private List<CategoryDTO> categories;
 }
