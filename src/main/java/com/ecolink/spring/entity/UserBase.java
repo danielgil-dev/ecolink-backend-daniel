@@ -46,17 +46,17 @@ public abstract class UserBase implements UserDetails {
     String imageUrl;
     Long level;
     LocalDate registerDate;
+    boolean isVerified = false;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Like> likes;
 
-    
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Comment> comments;
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
         comment.setUser(this);
         this.comments.add(comment);
     }
-    
+
 }
