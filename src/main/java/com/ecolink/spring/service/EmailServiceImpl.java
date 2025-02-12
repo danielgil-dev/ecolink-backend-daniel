@@ -21,11 +21,7 @@ public class EmailServiceImpl {
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
 			helper.setTo(email);
-<<<<<<< HEAD
 			helper.setSubject(code + "| Account Verification");
-=======
-			helper.setSubject("Account Verification");
->>>>>>> 9b166f22174d8c8e1bb49a582409329b249ab0ed
 			helper.setText("<h1>Thank you for registering with EcoLink</h1>" +
 					"<p>Your verification code is: <strong>" + code + "</strong></p>", true);
 
