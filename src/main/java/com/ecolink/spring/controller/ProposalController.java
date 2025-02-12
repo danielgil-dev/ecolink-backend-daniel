@@ -91,8 +91,7 @@ public class ProposalController {
 
             Startup startup = (Startup) user;
 
-            if (proposal.getDescription() == null || proposal.getDescription().isEmpty() || proposal.getTitle() == null
-                    || proposal.getLink().isEmpty()) {
+            if (proposal.getDescription() == null || proposal.getDescription().isEmpty() || proposal.getTitle() == null) {
                 throw new ProposalNotValidException("Fields are missing to create a proposal");
             }
 
