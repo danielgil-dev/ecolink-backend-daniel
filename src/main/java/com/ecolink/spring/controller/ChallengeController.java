@@ -23,6 +23,7 @@ import com.ecolink.spring.service.OdsService;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -194,24 +195,24 @@ public class ChallengeController {
 
             if (challenge.getTitle() == null || challenge.getTitle().isEmpty()
                     || challenge.getShortDescription() == null || challenge.getShortDescription().isEmpty()
-                    || challenge.getBudget() == null || challenge.getEndDate() == null || challenge.getOdsList() == null
+                    || challenge.getBudget() == null || challenge.getEndDate() == null ||challenge.getEndDate() <= 0 || challenge.getOdsList() == null
                     || challenge.getOdsList().isEmpty()) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
                         "All fields are required");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
-
+            LocalDate endDate = LocalDate.now().plusDays(challenge.getEndDate());
             List<Ods> odsList = odsService.findAllById(challenge.getOdsList());
 
-            // Challenge newChallenge = new Challenge(company, challenge.getTitle(),
-            // challenge.getDescription(),
-            // challenge.getShortDescription(), challenge.getBudget(),
-            // challenge.getEndDate(), odsList);
+            Challenge newChallenge = new Challenge(company, challenge.getTitle(),
+            challenge.getDescription(),
+            challenge.getShortDescription(), challenge.getBudget(),
+            endDate, odsList);
 
-            // newChallenge.setRequirements(challenge.getRequirements());
-            // newChallenge.setBenefits(challenge.getBenefits());
+            newChallenge.setRequirements(challenge.getRequirements());
+            newChallenge.setBenefits(challenge.getBenefits());
 
-            // challengeService.save(newChallenge);
+            challengeService.save(newChallenge);
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(),
                     "Challenge created successfully");
