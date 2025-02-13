@@ -28,7 +28,7 @@ public class VerificationController {
 
     @PostMapping
     public ResponseEntity<?> verifyCode(
-            @RequestParam String code, @RequestBody String email) {
+            @RequestParam String code, @RequestParam String email) {
         UserBase user = userBaseService.findByEmail(email).orElse(null);
                 
         if (user == null) {

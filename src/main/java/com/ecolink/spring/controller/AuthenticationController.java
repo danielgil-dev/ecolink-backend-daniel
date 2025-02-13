@@ -169,11 +169,11 @@ public class AuthenticationController {
             GetUserFrontDTO dto;
             if (user instanceof Startup startup) {
                 user.setUserType(UserType.STARTUP);
-                startupService.changeStartupState(startup, null);
+                startupService.changeStartupState(startup, Status.PENDING);
                 startup.setProposals(new ArrayList<>());
                 startup.setProducts(new ArrayList<>());
                 startup.setOdsList(odsService.findAllById(
-                        startup.getOdsList().stream().map(Ods::getId).collect(Collectors.toList())));
+                    startup.getOdsList().stream().map(Ods::getId).collect(Collectors.toList())));
                 dto = converter.convertStartupBaseToDto(startup);
             } else if (user instanceof Company company) {
                 user.setUserType(UserType.COMPANY);
