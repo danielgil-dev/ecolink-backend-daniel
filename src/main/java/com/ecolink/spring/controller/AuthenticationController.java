@@ -28,6 +28,7 @@ import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.entity.Status;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.entity.UserType;
 import com.ecolink.spring.exception.ErrorDetails;
@@ -84,6 +85,39 @@ public class AuthenticationController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             UserBase user = (UserBase) authentication.getPrincipal();
+
+            if (!user.isVerified()) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The user is not verified");
+            }
+
+            if (user instanceof Startup startup) {
+                if (startup.getStatus().equals(Status.REJECTED)) {
+                    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                            "The startup is rejected");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+                }
+
+                if (startup.getStatus().equals(Status.PENDING)) {
+                    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                            "The startup is pending");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+                }
+
+            } else if (user instanceof Company company) {
+                if (company.getStatus().equals(Status.REJECTED)) {
+                    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                            "The company is rejected");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+                }
+
+                if (company.getStatus().equals(Status.PENDING)) {
+                    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                            "The company is pending");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+                }
+            }
+
             String jwtToken = tokenProvider.generateToken(authentication);
 
             ResponseCookie jwtCookie = ResponseCookie.from("jwt", jwtToken)
@@ -152,7 +186,7 @@ public class AuthenticationController {
                 client.setPreferences(preferences);
                 dto = converter.convertClientBaseToDto(client);
                 emailVerificationService.sendVerificationEmail(user);
-                
+
             }
 
             service.newUser(user);
@@ -163,12 +197,10 @@ public class AuthenticationController {
                 images.deleteFile(urlImage, uploadUserDir);
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } 
-        catch(DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN, "User or email alredy exists");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             if (urlImage != null && !urlImage.isEmpty()) {
                 images.deleteFile(urlImage, uploadUserDir);
             }
