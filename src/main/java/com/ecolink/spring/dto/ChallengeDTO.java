@@ -19,4 +19,6 @@ public class ChallengeDTO {
     LocalDate endDate;
     List<OdsWithoutIdDTO> odsList;
     Integer numberOfParticipans;
+    List<String> requirements;
+    List<String> benefits;
 }
