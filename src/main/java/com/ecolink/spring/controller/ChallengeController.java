@@ -137,7 +137,8 @@ public class ChallengeController {
             Company company = companyService.findById(user.getId());
 
             if (company == null) {
-                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), "The company does not exist");
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(),
+                        "The company does not exist");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
             }
 
@@ -195,7 +196,8 @@ public class ChallengeController {
 
             if (challenge.getTitle() == null || challenge.getTitle().isEmpty()
                     || challenge.getShortDescription() == null || challenge.getShortDescription().isEmpty()
-                    || challenge.getBudget() == null || challenge.getEndDate() == null ||challenge.getEndDate() <= 0 || challenge.getOdsList() == null
+                    || challenge.getBudget() == null || challenge.getEndDate() == null || challenge.getEndDate() <= 0
+                    || challenge.getOdsList() == null
                     || challenge.getOdsList().isEmpty()) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
                         "All fields are required");
@@ -205,9 +207,9 @@ public class ChallengeController {
             List<Ods> odsList = odsService.findAllById(challenge.getOdsList());
 
             Challenge newChallenge = new Challenge(company, challenge.getTitle(),
-            challenge.getDescription(),
-            challenge.getShortDescription(), challenge.getBudget(),
-            endDate, odsList);
+                    challenge.getDescription(),
+                    challenge.getShortDescription(), challenge.getBudget(),
+                    endDate, odsList);
 
             newChallenge.setRequirements(challenge.getRequirements());
             newChallenge.setBenefits(challenge.getBenefits());
@@ -266,9 +268,9 @@ public class ChallengeController {
                 actuaChallenge.setBudget(challenge.getBudget());
             }
 
-            // if (challenge.getEndDate() != null) {
-            // actuaChallenge.setEndDate(challenge.getEndDate());
-            // }
+            if (challenge.getEndDate() != null && challenge.getEndDate() > 0) {
+                actuaChallenge.setEndDate(LocalDate.now().plusDays(challenge.getEndDate()));
+            }
 
             if (challenge.getOdsList() != null && !challenge.getOdsList().isEmpty()) {
                 List<Ods> odsList = odsService.findAllById(challenge.getOdsList());
