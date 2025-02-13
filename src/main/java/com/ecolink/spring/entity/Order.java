@@ -37,6 +37,7 @@ public class Order {
     private String shippingCity = "";
     private String shippingZipCode = "";
     private String shippingCountry = "";
+    private String shippingPhone = "";
 
 
     @OneToMany(mappedBy = "order")

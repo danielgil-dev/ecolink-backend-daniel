@@ -43,8 +43,6 @@ public class VerificationController {
 
         String storedCode = verificationCodeService.getVerificationCode(user).trim();
         String inputCode = code.trim();
-        System.out.println(storedCode);
-        System.out.println(inputCode);
 
         if (storedCode != null && storedCode.equals(inputCode)) {
             verificationCodeService.deleteVerificationCode(user);
