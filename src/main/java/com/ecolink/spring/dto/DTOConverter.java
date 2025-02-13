@@ -1,5 +1,6 @@
 package com.ecolink.spring.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -297,6 +298,14 @@ public class DTOConverter {
 
         OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
         orderDTO.setOrderLines(orderLinesDTO);
+
+        BigDecimal total = BigDecimal.ZERO;
+        for (OrderLineDTO orderLineDTO : orderLinesDTO) {
+            BigDecimal lineAmount = orderLineDTO.getProduct().getPrice().multiply(new BigDecimal(orderLineDTO.getAmount()));
+            total = total.add(lineAmount);
+        }
+        orderDTO.setTotal(total);
+        
         return orderDTO;
     }
 

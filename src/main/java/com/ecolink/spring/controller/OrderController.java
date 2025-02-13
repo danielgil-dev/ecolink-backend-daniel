@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import com.ecolink.spring.dto.CheckoutDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.OrderDTO;
 import com.ecolink.spring.dto.PayDTO;
+import com.ecolink.spring.dto.UpdateLineDTO;
 import com.ecolink.spring.entity.Order;
 import com.ecolink.spring.entity.OrderLine;
 import com.ecolink.spring.entity.OrderStatus;
@@ -134,9 +136,9 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("/remove-product")
+    @DeleteMapping("/remove-product/{id_orderLine}")
     public ResponseEntity<?> removeProductFromCart(@AuthenticationPrincipal UserBase user,
-            @RequestBody Long id_orderLine) {
+            @PathVariable Long id_orderLine) {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
@@ -175,13 +177,21 @@ public class OrderController {
     }
 
     @PutMapping("/update-product")
-    public ResponseEntity<?> updateProductInCart(@AuthenticationPrincipal UserBase user, @RequestBody Long id_orderLine,
-            @RequestBody Integer amount) {
+    public ResponseEntity<?> updateProductInCart(@AuthenticationPrincipal UserBase user,
+            @RequestBody UpdateLineDTO updateLineDTO) {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
             }
+
+            if (updateLineDTO.getId_orderLine() == null || updateLineDTO.getAmount() == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, "Missing fields");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+
+            Long id_orderLine = updateLineDTO.getId_orderLine();
+            Integer amount = updateLineDTO.getAmount();
 
             Order cart = orderService.getCart(user);
 
@@ -295,11 +305,10 @@ public class OrderController {
             order.setStatus(OrderStatus.CANCELLED);
 
             orderService.save(order);
-            
+
             emailService.sendPaymentCancelled(user.getEmail());
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK, "Order cancelled successfully");
-
 
             return ResponseEntity.ok(successDetails);
 

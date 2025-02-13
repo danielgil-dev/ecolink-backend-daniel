@@ -1,5 +1,6 @@
 package com.ecolink.spring.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,6 +17,8 @@ public class OrderDTO {
     private OrderStatus status;
 
     private LocalDate purchaseDate;
+
+    private BigDecimal total;
 
     List<OrderLineDTO> orderLines;
 }
