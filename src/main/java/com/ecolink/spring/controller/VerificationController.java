@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecolink.spring.dto.VerificationRequestDTO;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.response.SuccessDetails;
@@ -27,10 +28,18 @@ public class VerificationController {
     private final EmailServiceImpl emailService;
 
     @PostMapping
-    public ResponseEntity<?> verifyCode(
-            @RequestParam String code, @RequestParam String email) {
+    public ResponseEntity<?> verifyCode(@RequestBody VerificationRequestDTO request) {
+        
+        if (request.getEmail() == null ||request.getEmail().isEmpty() || request.getCode() == null || request.getCode().isEmpty()) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Email and code must be provided");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            
+        }
+
+        String email = request.getEmail();
+        String code = request.getCode();
+        
         UserBase user = userBaseService.findByEmail(email).orElse(null);
-                
         if (user == null) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                     "The user must be logged in");

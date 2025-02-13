@@ -77,7 +77,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         try {
-
+            System.out.println(loginRequest.getPassword() + " | " + loginRequest.getUsername());
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(), loginRequest.getPassword()));
@@ -85,7 +85,6 @@ public class AuthenticationController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             UserBase user = (UserBase) authentication.getPrincipal();
-
             if (!user.isVerified()) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                         "The user is not verified");
@@ -151,7 +150,9 @@ public class AuthenticationController {
         String urlImage = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            System.out.println("PASO 1");
             UserBase user = objectMapper.readValue(userJson, UserBase.class);
+            System.out.println("PASO 2");
 
             user.setLikes(new ArrayList<>());
             user.setRegisterDate(java.time.LocalDate.now());
@@ -189,7 +190,18 @@ public class AuthenticationController {
                 dto = converter.convertClientBaseToDto(client);
             }
 
+            if (service.existsByEmail(user.getEmail())) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN, "Email already exists");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+            }
+
+            if (service.existsByName(user.getName())) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN, "Name already exists");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+            }
+
             emailVerificationService.sendVerificationEmail(user);
+
 
             service.newUser(user);
             dto.setId(user.getId());

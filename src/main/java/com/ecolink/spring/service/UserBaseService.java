@@ -43,4 +43,8 @@ public class UserBaseService {
     public void save(UserBase user){
         repository.save(user);
     }
+
+    public boolean existsByName(String name) {
+        return repository.existsByName(name);
+    }
 }
