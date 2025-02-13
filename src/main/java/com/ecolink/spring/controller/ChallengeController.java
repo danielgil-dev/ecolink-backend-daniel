@@ -17,6 +17,7 @@ import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.PostNotFoundException;
 import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.ChallengeService;
+import com.ecolink.spring.service.CompanyService;
 import com.ecolink.spring.service.OdsService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,7 @@ public class ChallengeController {
     private final ChallengeService challengeService;
     private final DTOConverter challengeDtoConverter;
     private final OdsService odsService;
+    private final CompanyService companyService;
 
     @GetMapping
     public ResponseEntity<?> getFilteredChallenges(
@@ -114,6 +116,41 @@ public class ChallengeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
 
+    }
+
+    @GetMapping("/company")
+    public ResponseEntity<?> getChallengesByCompany(@AuthenticationPrincipal UserBase user) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The user must be logged in");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            if (!(user instanceof Company)) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The user must be a company");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            Company company = companyService.findById(user.getId());
+
+            if (company == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), "The company does not exist");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+            }
+
+            List<ChallengeDTO> dtoList = company.getChallenges().stream()
+                    .map(challengeDtoConverter::converChallengeToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(dtoList);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
     }
 
     @GetMapping("/{id}")
