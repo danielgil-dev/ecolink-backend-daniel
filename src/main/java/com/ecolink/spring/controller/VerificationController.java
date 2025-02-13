@@ -27,8 +27,10 @@ public class VerificationController {
     private final EmailServiceImpl emailService;
 
     @PostMapping
-    public ResponseEntity<?> verifyCode(@AuthenticationPrincipal UserBase user,
-            @RequestParam String code) {
+    public ResponseEntity<?> verifyCode(
+            @RequestParam String code, @RequestBody String email) {
+        UserBase user = userBaseService.findByEmail(email).orElse(null);
+                
         if (user == null) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                     "The user must be logged in");
