@@ -1,5 +1,6 @@
 package com.ecolink.spring.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class PostService {
     }
     
     public void save(Post post) {
+
+        if ( post.getComments() == null || post.getComments().size() == 0 ) {
+            post.setComments(new ArrayList<>());  
+        }
         repository.save(post);
     }
 

@@ -11,11 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class PostTemplateDTO {
 
     private String title;
     private String shortDescription;
     private String description;
-    private String imageUrl;
+    //private String imageUrl;
 }

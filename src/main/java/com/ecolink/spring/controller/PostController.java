@@ -214,29 +214,34 @@ public class PostController {
 
     @PostMapping( value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createPost(@AuthenticationPrincipal UserBase user, 
-     @RequestBody PostTemplateDTO postDTO, @RequestPart("image") MultipartFile image) {
+     @RequestPart("post") String postJson, @RequestPart("image") MultipartFile image) {
         
+        System.out.println("Entamos en el controlador");
+        System.out.println("Estos son los datos que me llegan " + postJson);
+
         String urlImage = null;
         try {
             if(!(user instanceof Startup startup)){
                 throw new AccessDeniedException("Only startups can create posts");
             }
+            ObjectMapper mapper = new ObjectMapper();
+            PostTemplateDTO postDTO = mapper.readValue(postJson, PostTemplateDTO.class);
         
-            if(postDTO.getTitle() == null || postDTO.getShortDescription() == null || postDTO.getDescription() == null){
+            if(postDTO.getTitle().isEmpty() || postDTO.getShortDescription().isEmpty() || postDTO.getDescription().isEmpty()){
 
                 throw new ImageNotValidExtension("Title, short description and description are required");
             }
 
-            if(images.isExtensionImageValid(image)){
-                throw new ImageSubmitError("The extension is invalid");
-            }
+            // if(images.isExtensionImageValid(image)){
+            //     throw new ImageSubmitError("The extension is invalid");
+            // }
 
-            urlImage = images.uploadFile(image, urlImage);
-            if(urlImage == null){
-                throw new ImageSubmitError("Error uploading image");
-            }
+            // urlImage = images.uploadFile(image, uploadUserDir);
+            // if(urlImage == null){
+            //     throw new ImageSubmitError("Error uploading image");
+            // }
             Post newPost = new Post();
-            newPost.setImageUrl(urlImage);
+            //newPost.setImageUrl(urlImage);
             newPost.setTitle(postDTO.getTitle());
             newPost.setShortDescription(postDTO.getShortDescription());
             newPost.setDescription(postDTO.getDescription());
@@ -249,15 +254,16 @@ public class PostController {
 
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
-        } catch(ImageNotValidExtension | ImageSubmitError e){
+        // } catch(ImageNotValidExtension | ImageSubmitError e){
 
-            if(urlImage == null && !urlImage.isEmpty()){
-                images.deleteFile(urlImage, uploadUserDir);
-            }
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+        //     if(urlImage == null && !urlImage.isEmpty()){
+        //         images.deleteFile(urlImage, uploadUserDir);
+        //     }
+        //     ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error");
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
 
