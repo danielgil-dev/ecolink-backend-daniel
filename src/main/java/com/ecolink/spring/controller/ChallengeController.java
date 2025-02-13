@@ -177,6 +177,7 @@ public class ChallengeController {
     public ResponseEntity<?> createChallenge(@AuthenticationPrincipal UserBase user,
             @RequestBody ChallengePostDTO challenge) {
         try {
+            System.out.println("Dentro");
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                         "The user must be logged in");
@@ -202,13 +203,15 @@ public class ChallengeController {
 
             List<Ods> odsList = odsService.findAllById(challenge.getOdsList());
 
-            Challenge newChallenge = new Challenge(company, challenge.getTitle(), challenge.getDescription(),
-                    challenge.getShortDescription(), challenge.getBudget(), challenge.getEndDate(), odsList);
+            // Challenge newChallenge = new Challenge(company, challenge.getTitle(),
+            // challenge.getDescription(),
+            // challenge.getShortDescription(), challenge.getBudget(),
+            // challenge.getEndDate(), odsList);
 
-            newChallenge.setRequirements(challenge.getRequirements());
-            newChallenge.setBenefits(challenge.getBenefits());
+            // newChallenge.setRequirements(challenge.getRequirements());
+            // newChallenge.setBenefits(challenge.getBenefits());
 
-            challengeService.save(newChallenge);
+            // challengeService.save(newChallenge);
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(),
                     "Challenge created successfully");
@@ -262,9 +265,9 @@ public class ChallengeController {
                 actuaChallenge.setBudget(challenge.getBudget());
             }
 
-            if (challenge.getEndDate() != null) {
-                actuaChallenge.setEndDate(challenge.getEndDate());
-            }
+            // if (challenge.getEndDate() != null) {
+            // actuaChallenge.setEndDate(challenge.getEndDate());
+            // }
 
             if (challenge.getOdsList() != null && !challenge.getOdsList().isEmpty()) {
                 List<Ods> odsList = odsService.findAllById(challenge.getOdsList());
