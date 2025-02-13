@@ -14,7 +14,7 @@ public class ChallengePostDTO {
     String description;
     String shortDescription;
     BigDecimal budget;
-    LocalDate endDate;
+    Integer endDate;
     List<Long> odsList;
     List<String> requirements;
     List<String> benefits;
