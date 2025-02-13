@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.entity.Status;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.StartupService;
 
@@ -204,6 +205,8 @@ public class StartupDataLoader implements CommandLineRunner {
                 startups.forEach(startup -> {
                         if (!service.existsByName(startup.getName())) {
                                 startup.setPassword(passwordEncoder.encode(defaultPassword));
+                                startup.setVerified(true);
+                                startup.setStatus(Status.ACCEPTED);
                                 service.save(startup);
                         }
                 });

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ecolink.spring.entity.Company;
+import com.ecolink.spring.entity.Status;
 import com.ecolink.spring.service.CompanyService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,8 @@ public class CompanyDataLoader implements CommandLineRunner {
                 companyList.forEach(company -> {
                         if (!service.existsByName(company.getName())) {
                                 company.setPassword(passwordEncoder.encode(defaultPassword));
+                                company.setVerified(true);
+                                company.setStatus(Status.ACCEPTED);
                                 service.save(company);
                         }
                 });
