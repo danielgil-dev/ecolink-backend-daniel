@@ -22,7 +22,6 @@ import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 @RestController
@@ -33,10 +32,10 @@ public class AdminController {
     private final DTOConverter dtoConverter;
 
     @PostMapping("/validate-startup/{id}")
-    public ResponseEntity<?> validateAnStartup(@PathVariable Long id, @RequestParam(required = true) Status state){
+    public ResponseEntity<?> validateAnStartup(@PathVariable Long id, @RequestParam(required = true) Status state) {
 
         try {
-            
+
             Startup startup = startupService.findById(id);
             if (startup == null) {
                 throw new StartupNotFoundException("No startup found with the id " + id);
@@ -44,13 +43,13 @@ public class AdminController {
 
             startupService.changeStartupState(startup, state);
             StartupPublicProfileDTO startupDto = dtoConverter.convertStartupProfileToDto(startup);
-    
+
             return ResponseEntity.ok(startupDto);
-        } catch (StartupNotFoundException  e) {
+        } catch (StartupNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Ocurrió un error interno en el servidor");
@@ -58,26 +57,26 @@ public class AdminController {
 
         }
     }
+
     @PostMapping("/validate-company/{id}")
-    public ResponseEntity<?> validateCompany(@PathVariable Long id, @RequestParam(required = true) Status state){
+    public ResponseEntity<?> validateCompany(@PathVariable Long id, @RequestParam(required = true) Status state) {
 
         try {
-            
+
             Company company = companyService.findById(id);
             if (company == null) {
-                // devolver comentario en ingles
                 throw new CompanyNotFoundException("No company found with the id" + id);
             }
             companyService.changeCompanyState(company, state);
 
             CompanyDTO companyDto = dtoConverter.convertCompanyDTO(company);
-    
+
             return ResponseEntity.ok(companyDto);
-        } catch (CompanyNotFoundException  e) {
+        } catch (CompanyNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Ocurrió un error interno en el servidor");

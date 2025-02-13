@@ -2,7 +2,7 @@ package com.ecolink.spring.entity;
 
 public enum OrderStatus {
     CART,
-    PENDING,
+    PENDING, 
     PROCESSING,
     SHIPPED,
     DELIVERED,

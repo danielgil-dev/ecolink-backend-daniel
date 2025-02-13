@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecolink.spring.dto.AddProductDTO;
 import com.ecolink.spring.dto.CheckoutDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.OrderDTO;
@@ -23,11 +25,10 @@ import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.OrderLineNotFoundException;
 import com.ecolink.spring.exception.ProductNotFoundException;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.OrderLineService;
 import com.ecolink.spring.service.OrderService;
 import com.ecolink.spring.service.ProductService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -64,13 +65,21 @@ public class OrderController {
     }
 
     @PostMapping("/add-product")
-    public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserBase user, @RequestBody Long id_product,
-            @RequestBody Integer amount) {
+    public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserBase user, @RequestBody AddProductDTO addProductDTO) {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
             }
+
+            if (addProductDTO.getId_product() == null || addProductDTO.getAmount() == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, "Missing fields");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+                
+            }
+
+            Long id_product = addProductDTO.getId_product();
+            Integer amount = addProductDTO.getAmount();
 
             Order cart = orderService.getCart(user);
 
@@ -201,7 +210,7 @@ public class OrderController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<?> checkout(@AuthenticationPrincipal UserBase user, CheckoutDTO checkoutDTO) {
+    public ResponseEntity<?> checkout(@AuthenticationPrincipal UserBase user, @RequestBody CheckoutDTO checkoutDTO) {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
@@ -219,18 +228,33 @@ public class OrderController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
 
-            // if (checkoutDTO.get) {
-                
-            // }
-            
+            if (checkoutDTO.getFirstName() == null || checkoutDTO.getFirstName().isEmpty()
+                    || checkoutDTO.getLastName() == null || checkoutDTO.getLastName().isEmpty()
+                    || checkoutDTO.getShippingPhone() == null || checkoutDTO.getShippingPhone().isEmpty()
+                    || checkoutDTO.getShippingAddress() == null || checkoutDTO.getShippingAddress().isEmpty()
+                    || checkoutDTO.getShippingCity() == null || checkoutDTO.getShippingCity().isEmpty()
+                    || checkoutDTO.getShippingCountry() == null || checkoutDTO.getShippingCountry().isEmpty()
+                    || checkoutDTO.getShippingZipCode() == null || checkoutDTO.getShippingZipCode().isEmpty()) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, "Missing fields");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+
+            cart.setFirstName(checkoutDTO.getFirstName());
+            cart.setLastName(checkoutDTO.getLastName());
+            cart.setShippingPhone(checkoutDTO.getShippingPhone());
+            cart.setShippingAddress(checkoutDTO.getShippingAddress());
+            cart.setShippingCity(checkoutDTO.getShippingCity());
+            cart.setShippingCountry(checkoutDTO.getShippingCountry());
+            cart.setShippingZipCode(checkoutDTO.getShippingZipCode());
 
             cart.setStatus(OrderStatus.PENDING);
 
             orderService.save(cart);
 
-            OrderDTO orderDTO = dtoConverter.convertOrderToDTO(cart);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK, "Order placed successfully");
 
-            return ResponseEntity.ok(orderDTO);
+            return ResponseEntity.ok(successDetails);
+
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);

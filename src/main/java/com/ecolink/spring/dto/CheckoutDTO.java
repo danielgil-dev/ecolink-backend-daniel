@@ -6,9 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CheckoutDTO {
+    private String firstName = "";
+    private String lastName = "";
+    private String shippingPhone = "";
     private String shippingAddress = "";
     private String shippingCity = "";
-    private String shippingZipCode = "";
     private String shippingCountry = "";
-    private String shippingPhone = "";
+    private String shippingZipCode = "";
 }
