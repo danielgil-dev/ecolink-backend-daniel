@@ -8,4 +8,6 @@ import com.ecolink.spring.entity.UserBase;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Order findByUserAndStatus(UserBase user, OrderStatus status);
+
+    boolean existsByUserAndStatus(UserBase user, OrderStatus status);
 }

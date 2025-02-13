@@ -17,6 +17,14 @@ public class OrderService {
         return repository.findByUserAndStatus(user, OrderStatus.CART);
     }
 
+    public Order findByUserAndStatus(UserBase user, OrderStatus status) {
+        return repository.findByUserAndStatus(user, status);
+    }
+
+    public boolean existsByUserAndStatus(UserBase user, OrderStatus status) {
+        return repository.existsByUserAndStatus(user, status);
+    }
+
     public void save(Order order) {
         repository.save(order);
     }

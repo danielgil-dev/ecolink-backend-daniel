@@ -1,10 +1,14 @@
 package com.ecolink.spring.controller;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +21,7 @@ import com.ecolink.spring.dto.AddProductDTO;
 import com.ecolink.spring.dto.CheckoutDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.OrderDTO;
+import com.ecolink.spring.dto.PayDTO;
 import com.ecolink.spring.entity.Order;
 import com.ecolink.spring.entity.OrderLine;
 import com.ecolink.spring.entity.OrderStatus;
@@ -26,9 +31,12 @@ import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.OrderLineNotFoundException;
 import com.ecolink.spring.exception.ProductNotFoundException;
 import com.ecolink.spring.response.SuccessDetails;
+import com.ecolink.spring.service.EmailServiceImpl;
 import com.ecolink.spring.service.OrderLineService;
 import com.ecolink.spring.service.OrderService;
 import com.ecolink.spring.service.ProductService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -39,6 +47,7 @@ public class OrderController {
     private final OrderLineService orderLineService;
     private final ProductService productService;
     private final DTOConverter dtoConverter;
+    private final EmailServiceImpl emailService;
 
     @GetMapping("/cart")
     public ResponseEntity<?> getCart(@AuthenticationPrincipal UserBase user) {
@@ -65,7 +74,8 @@ public class OrderController {
     }
 
     @PostMapping("/add-product")
-    public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserBase user, @RequestBody AddProductDTO addProductDTO) {
+    public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserBase user,
+            @RequestBody AddProductDTO addProductDTO) {
         try {
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
@@ -75,7 +85,7 @@ public class OrderController {
             if (addProductDTO.getId_product() == null || addProductDTO.getAmount() == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, "Missing fields");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
-                
+
             }
 
             Long id_product = addProductDTO.getId_product();
@@ -217,6 +227,12 @@ public class OrderController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
             }
 
+            if (orderService.existsByUserAndStatus(user, OrderStatus.PENDING)) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST,
+                        "You already have a pending order");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+
             Order cart = orderService.getCart(user);
 
             if (cart == null) {
@@ -253,6 +269,76 @@ public class OrderController {
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK, "Order placed successfully");
 
+            return ResponseEntity.ok(successDetails);
+
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+    @PostMapping("/cancel")
+    public ResponseEntity<?> cancelOrder(@AuthenticationPrincipal UserBase user) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            Order order = orderService.findByUserAndStatus(user, OrderStatus.PENDING);
+
+            if (order == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND, "Order not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+            }
+
+            order.setStatus(OrderStatus.CANCELLED);
+
+            orderService.save(order);
+            
+            emailService.sendPaymentCancelled(user.getEmail());
+
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK, "Order cancelled successfully");
+
+
+            return ResponseEntity.ok(successDetails);
+
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+    @PostMapping("/pay")
+    public ResponseEntity<?> payOrder(@AuthenticationPrincipal UserBase user,
+            @Valid @RequestBody PayDTO payDTO,
+            BindingResult bindingResult) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            if (bindingResult.hasErrors()) {
+                Map<String, String> errors = new HashMap<>();
+                for (FieldError error : bindingResult.getFieldErrors()) {
+                    errors.put(error.getField(), error.getDefaultMessage());
+                }
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+            }
+
+            Order order = orderService.findByUserAndStatus(user, OrderStatus.PENDING);
+
+            if (order == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND, "Order not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+            }
+
+            emailService.sendPaymentSuccess(user.getEmail());
+            order.setStatus(OrderStatus.PROCESSING);
+
+            orderService.save(order);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK, "Payment processed successfully");
             return ResponseEntity.ok(successDetails);
 
         } catch (Exception e) {
