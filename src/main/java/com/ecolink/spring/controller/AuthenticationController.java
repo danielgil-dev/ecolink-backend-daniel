@@ -89,6 +89,8 @@ public class AuthenticationController {
             if (!user.isVerified()) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                         "The user is not verified");
+
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
             }
 
             if (user instanceof Startup startup) {
@@ -185,9 +187,9 @@ public class AuthenticationController {
                                 .collect(Collectors.toList()));
                 client.setPreferences(preferences);
                 dto = converter.convertClientBaseToDto(client);
-                emailVerificationService.sendVerificationEmail(user);
-
             }
+
+            emailVerificationService.sendVerificationEmail(user);
 
             service.newUser(user);
             dto.setId(user.getId());
