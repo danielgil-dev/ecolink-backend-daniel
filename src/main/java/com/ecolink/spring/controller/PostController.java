@@ -1,32 +1,49 @@
 package com.ecolink.spring.controller;
 
+import java.nio.file.AccessDeniedException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.PostDTO;
 import com.ecolink.spring.dto.PostItemPageDTO;
 import com.ecolink.spring.dto.PostRelevantDTO;
+import com.ecolink.spring.dto.PostTemplateDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.SortType;
+import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.exception.ImageNotValidExtension;
+import com.ecolink.spring.exception.ImageSubmitError;
 import com.ecolink.spring.exception.PostNotFoundException;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.PostService;
+import com.ecolink.spring.utils.Images;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +53,11 @@ public class PostController {
     private final PostService postService;
     private final OdsService odsService;
     private final DTOConverter postDTOConverter;
+    private final Images images;
+
+
+     @Value("${spring.users.upload.dir}")
+    private String uploadUserDir;
 
     @GetMapping
     public ResponseEntity<?> getPosts(
@@ -189,4 +211,56 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
+
+    @PostMapping( value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createPost(@AuthenticationPrincipal UserBase user, 
+     @RequestBody PostTemplateDTO postDTO, @RequestPart("image") MultipartFile image) {
+        
+        String urlImage = null;
+        try {
+            if(!(user instanceof Startup startup)){
+                throw new AccessDeniedException("Only startups can create posts");
+            }
+        
+            if(postDTO.getTitle() == null || postDTO.getShortDescription() == null || postDTO.getDescription() == null){
+
+                throw new ImageNotValidExtension("Title, short description and description are required");
+            }
+
+            if(images.isExtensionImageValid(image)){
+                throw new ImageSubmitError("The extension is invalid");
+            }
+
+            urlImage = images.uploadFile(image, urlImage);
+            if(urlImage == null){
+                throw new ImageSubmitError("Error uploading image");
+            }
+            Post newPost = new Post();
+            newPost.setImageUrl(urlImage);
+            newPost.setTitle(postDTO.getTitle());
+            newPost.setShortDescription(postDTO.getShortDescription());
+            newPost.setDescription(postDTO.getDescription());
+            newPost.setStartup(startup);
+            newPost.setPostDate(LocalDate.now());
+            postService.save(newPost);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
+
+        }catch (AccessDeniedException e){
+
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+        } catch(ImageNotValidExtension | ImageSubmitError e){
+
+            if(urlImage == null && !urlImage.isEmpty()){
+                images.deleteFile(urlImage, uploadUserDir);
+            }
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+
+    }
+    
 }
