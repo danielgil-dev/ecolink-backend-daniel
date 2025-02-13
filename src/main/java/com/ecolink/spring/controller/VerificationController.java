@@ -55,5 +55,4 @@ public class VerificationController {
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid or expired code");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
-
 }
