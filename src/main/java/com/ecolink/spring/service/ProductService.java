@@ -51,6 +51,9 @@ public class ProductService {
         return repository.findById(id).orElse(null);
     }
 
+    public List<Product> getStartupProducts(Startup startup) {
+        return repository.findByStartup(startup);
+    }
     public Page<Product> findByPaginationAndFilter(Long startup, String name, List<Category> categories,
             BigDecimal pricemin, BigDecimal pricemax,
             int page, int size) {
