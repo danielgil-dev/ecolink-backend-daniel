@@ -10,17 +10,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Comment;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Startup;
-import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.CommentService;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.PostService;
 import com.ecolink.spring.service.StartupService;
-import com.ecolink.spring.service.UserBaseService;
 
 @Component
 @Order(5)

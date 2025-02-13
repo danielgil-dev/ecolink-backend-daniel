@@ -41,7 +41,6 @@ import com.ecolink.spring.service.EmailVerificationService;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.StartupService;
 import com.ecolink.spring.service.UserBaseService;
-import com.ecolink.spring.service.VerificationCodeService;
 import com.ecolink.spring.utils.Images;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

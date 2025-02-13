@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.CompanyDTO;
-import com.ecolink.spring.dto.CompanyProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.StartupPublicProfileDTO;
 import com.ecolink.spring.entity.Company;

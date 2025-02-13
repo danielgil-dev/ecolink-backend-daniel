@@ -10,7 +10,6 @@ import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Category;
-import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.UserBase;

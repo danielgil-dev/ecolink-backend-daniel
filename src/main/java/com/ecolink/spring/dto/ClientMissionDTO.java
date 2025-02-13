@@ -1,9 +1,5 @@
 package com.ecolink.spring.dto;
 
-
-
-import com.ecolink.spring.entity.MissionType;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

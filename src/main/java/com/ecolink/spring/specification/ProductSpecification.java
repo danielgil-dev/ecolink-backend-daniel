@@ -7,8 +7,6 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.ecolink.spring.entity.Category;
-import com.ecolink.spring.entity.Ods;
-import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Startup;
 

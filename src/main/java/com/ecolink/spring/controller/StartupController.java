@@ -19,7 +19,6 @@ import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.ProductDTO;
 import com.ecolink.spring.dto.StartupHomeDTO;
-import com.ecolink.spring.dto.StartupPrivateProfileDTO;
 import com.ecolink.spring.dto.StartupPublicProfileDTO;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Product;

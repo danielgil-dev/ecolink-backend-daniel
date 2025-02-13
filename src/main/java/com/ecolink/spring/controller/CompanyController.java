@@ -6,12 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.CompanyDTO;
-import com.ecolink.spring.dto.CompanyProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.exception.CompanyNotFoundException;
