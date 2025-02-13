@@ -27,8 +27,10 @@ public class VerificationController {
     private final EmailServiceImpl emailService;
 
     @PostMapping
-    public ResponseEntity<?> verifyCode(@AuthenticationPrincipal UserBase user,
-            @RequestParam String code) {
+    public ResponseEntity<?> verifyCode(
+            @RequestParam String code, @RequestParam String email) {
+        UserBase user = userBaseService.findByEmail(email).orElse(null);
+                
         if (user == null) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                     "The user must be logged in");
@@ -43,8 +45,6 @@ public class VerificationController {
 
         String storedCode = verificationCodeService.getVerificationCode(user).trim();
         String inputCode = code.trim();
-        System.out.println(storedCode);
-        System.out.println(inputCode);
 
         if (storedCode != null && storedCode.equals(inputCode)) {
             verificationCodeService.deleteVerificationCode(user);
@@ -58,5 +58,4 @@ public class VerificationController {
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid or expired code");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
-
 }

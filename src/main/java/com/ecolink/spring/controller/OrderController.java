@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecolink.spring.dto.CheckoutDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.OrderDTO;
 import com.ecolink.spring.entity.Order;
@@ -194,6 +195,43 @@ public class OrderController {
         }
 
         catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<?> checkout(@AuthenticationPrincipal UserBase user, CheckoutDTO checkoutDTO) {
+        try {
+            if (user == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED, "Not authorized");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+            }
+
+            Order cart = orderService.getCart(user);
+
+            if (cart == null) {
+                throw new Exception("Cart not found");
+            }
+
+            if (cart.getOrderLines() == null || cart.getOrderLines().isEmpty()) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, "Cart is empty");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+
+            // if (checkoutDTO.get) {
+                
+            // }
+            
+
+            cart.setStatus(OrderStatus.PENDING);
+
+            orderService.save(cart);
+
+            OrderDTO orderDTO = dtoConverter.convertOrderToDTO(cart);
+
+            return ResponseEntity.ok(orderDTO);
+        } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }

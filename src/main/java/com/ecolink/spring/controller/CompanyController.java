@@ -53,29 +53,4 @@ public class CompanyController {
 
         }
     }
-
-    @GetMapping("/profile/{id}")
-    public ResponseEntity<?> getCompany(@PathVariable Long id) {
-
-        try {
-            Company company = companyService.getCompanyById(id);
-            if (company == null) {
-                throw new CompanyNotFoundException("No se encontro ninguna empresa por el id: " + id);
-            }
-
-            CompanyProfileDTO dtoCompany = dtoConverter.convetCompanyToCompanyProfileDTO(company);
-            return ResponseEntity.ok(dtoCompany);
-        } catch (CompanyNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Ocurrió un error interno en el servidor");
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-        }
-
-    }
-
 }

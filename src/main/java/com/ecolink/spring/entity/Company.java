@@ -24,7 +24,6 @@ import lombok.ToString;
 public class Company extends UserBase {
 
     private String description;
-
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -39,6 +38,8 @@ public class Company extends UserBase {
         this.description = description;
         this.challenges = new ArrayList<>();
         this.status = Status.PENDING;
+        // ! Eliminar mas tarde
+        this.setVerified(true);
     }
 
       //Metodos Helpers

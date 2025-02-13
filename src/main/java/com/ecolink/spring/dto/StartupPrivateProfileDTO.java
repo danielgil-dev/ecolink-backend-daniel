@@ -13,9 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StartupPrivateProfileDTO {
 
-    String imageStartup;
     String status;
     String name;
+    String email;
     String description;
     List<OdsWithoutIdDTO> odsList;
     List<ProposalStartupProfileDTO> proposals;

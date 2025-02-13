@@ -33,6 +33,13 @@ public class Order {
 
     private LocalDate purchaseDate;
 
+    private String shippingAddress = "";
+    private String shippingCity = "";
+    private String shippingZipCode = "";
+    private String shippingCountry = "";
+    private String shippingPhone = "";
+
+
     @OneToMany(mappedBy = "order")
     List<OrderLine> orderLines;
 

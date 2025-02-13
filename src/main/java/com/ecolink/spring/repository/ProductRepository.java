@@ -12,6 +12,7 @@ import com.ecolink.spring.entity.Startup;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     Product findByNameAndStartup(String name, Startup startup);
+    List<Product> findByStartup(Startup startup);
     Boolean existsByNameAndStartup(String name, Startup startup);
     List<Product> findTop4ByOrderByCreationDateDesc();
 }
