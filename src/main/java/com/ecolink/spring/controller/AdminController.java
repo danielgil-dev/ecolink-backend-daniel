@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecolink.spring.dto.CompanyDTO;
 import com.ecolink.spring.dto.CompanyProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.StartupPublicProfileDTO;
@@ -70,7 +71,7 @@ public class AdminController {
             }
             companyService.changeCompanyState(company, state);
 
-            CompanyProfileDTO companyDto = dtoConverter.convetCompanyToCompanyProfileDTO(company);
+            CompanyDTO companyDto = dtoConverter.convertCompanyDTO(company);
     
             return ResponseEntity.ok(companyDto);
         } catch (CompanyNotFoundException  e) {
