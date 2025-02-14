@@ -40,8 +40,10 @@ public class AdminController {
             if (startup == null) {
                 throw new StartupNotFoundException("No startup found with the id " + id);
             }
-
             startupService.changeStartupState(startup, state);
+
+            startupService.save(startup);
+
             StartupPublicProfileDTO startupDto = dtoConverter.convertStartupProfileToDto(startup);
 
             return ResponseEntity.ok(startupDto);
@@ -68,6 +70,8 @@ public class AdminController {
                 throw new CompanyNotFoundException("No company found with the id" + id);
             }
             companyService.changeCompanyState(company, state);
+
+            companyService.save(company);
 
             CompanyDTO companyDto = dtoConverter.convertCompanyDTO(company);
 
