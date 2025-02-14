@@ -2,6 +2,7 @@ package com.ecolink.spring.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import com.ecolink.spring.dto.StartupPublicProfileDTO;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.Status;
+import com.ecolink.spring.entity.UserBase;
+import com.ecolink.spring.entity.UserType;
 import com.ecolink.spring.exception.CompanyNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.StartupNotFoundException;
@@ -32,9 +35,18 @@ public class AdminController {
     private final DTOConverter dtoConverter;
 
     @PostMapping("/validate-startup/{id}")
-    public ResponseEntity<?> validateAnStartup(@PathVariable Long id, @RequestParam(required = true) Status state) {
+    public ResponseEntity<?> validateAnStartup(@AuthenticationPrincipal UserBase user, @PathVariable Long id, @RequestParam(required = true) Status state) {
 
         try {
+
+            if (user == null) {
+                throw new Exception("No user found");
+            }
+
+            if (!user.getUserType().equals(UserType.ADMIN)) {
+                throw new Exception("You are not an admin");
+                
+            }
 
             Startup startup = startupService.findById(id);
             if (startup == null) {
@@ -61,9 +73,18 @@ public class AdminController {
     }
 
     @PostMapping("/validate-company/{id}")
-    public ResponseEntity<?> validateCompany(@PathVariable Long id, @RequestParam(required = true) Status state) {
+    public ResponseEntity<?> validateCompany(@AuthenticationPrincipal UserBase user,@PathVariable Long id, @RequestParam(required = true) Status state) {
 
         try {
+
+            if (user == null) {
+                throw new Exception("No user found");
+            }
+
+            if (!user.getUserType().equals(UserType.ADMIN)) {
+                throw new Exception("You are not an admin");
+                
+            }
 
             Company company = companyService.findById(id);
             if (company == null) {
