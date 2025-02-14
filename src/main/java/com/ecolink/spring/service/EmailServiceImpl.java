@@ -95,4 +95,20 @@ public class EmailServiceImpl {
 			System.err.println("Error to send email: " + e.getMessage());
 		}
 	}
+
+    public void resendMessageValidate(String email, String code) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+			helper.setTo(email);
+			helper.setSubject("Account Verification");
+			helper.setText("<p>Your New verification code is: <strong>" + code + "</strong></p>", true);
+
+			mailSender.send(mimeMessage);
+
+		} catch (MessagingException e) {
+			System.err.println("Error to send email: " + e.getMessage());
+		}
+    }
 }

@@ -24,4 +24,11 @@ public class EmailVerificationService {
         emailService.sendMessageValidate(user.getEmail(), code);
 
     }
+
+    public void resendVerificationEmail(UserBase user) {
+        String code = CodeGenerator.generateVerificationCode(6);
+        verificationCodeService.deleteVerificationCode(user);
+        verificationCodeService.saveVerificationCode(user, code, 10);
+        emailService.resendMessageValidate(user.getEmail(), code);
+    }
 }
