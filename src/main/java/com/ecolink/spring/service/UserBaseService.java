@@ -24,6 +24,11 @@ public class UserBaseService {
         return repository.save(user);
     }
 
+    public void newPassword(UserBase user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        repository.save(user);
+    }
+
     public Optional<UserBase> findByEmail(String email) {
         return repository.findByEmail(email);
     }

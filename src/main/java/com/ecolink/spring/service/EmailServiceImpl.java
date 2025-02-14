@@ -111,4 +111,18 @@ public class EmailServiceImpl {
 			System.err.println("Error to send email: " + e.getMessage());
 		}
     }
+
+    public void sendMessageResetPassword(String email, String code) {
+       try {
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+		helper.setTo(email);
+		helper.setSubject("Reset Password");
+		helper.setText("<p>Your reset password code is: <strong>" + code + "</strong></p>", true);
+		mailSender.send(mimeMessage);
+	   } catch (Exception e) {
+			System.err.println("Error to send email: " + e.getMessage());
+	   }
+    }
 }

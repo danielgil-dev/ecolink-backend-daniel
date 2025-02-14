@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
@@ -24,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.GetUserDTO;
 import com.ecolink.spring.dto.GetUserFrontDTO;
+import com.ecolink.spring.dto.NewPasswordDTO;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Ods;
@@ -38,6 +40,7 @@ import com.ecolink.spring.security.jwt.JwtProvider;
 import com.ecolink.spring.security.jwt.model.JwtUserResponse;
 import com.ecolink.spring.security.jwt.model.LoginRequest;
 import com.ecolink.spring.service.EmailVerificationService;
+import com.ecolink.spring.service.NewPasswordCodeService;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.StartupService;
 import com.ecolink.spring.service.UserBaseService;
@@ -53,6 +56,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 
 @RestController
@@ -66,6 +70,7 @@ public class AuthenticationController {
     private final UserBaseService service;
     private final StartupService startupService;
     private final EmailVerificationService emailVerificationService;
+    private final NewPasswordCodeService newPasswordCodeService;
 
     private final OdsService odsService;
     private final Images images;
@@ -173,7 +178,7 @@ public class AuthenticationController {
                 startup.setProposals(new ArrayList<>());
                 startup.setProducts(new ArrayList<>());
                 startup.setOdsList(odsService.findAllById(
-                    startup.getOdsList().stream().map(Ods::getId).collect(Collectors.toList())));
+                        startup.getOdsList().stream().map(Ods::getId).collect(Collectors.toList())));
                 dto = converter.convertStartupBaseToDto(startup);
             } else if (user instanceof Company company) {
                 user.setUserType(UserType.COMPANY);
@@ -200,7 +205,6 @@ public class AuthenticationController {
             }
 
             emailVerificationService.sendVerificationEmail(user);
-
 
             service.newUser(user);
             dto.setId(user.getId());
@@ -248,6 +252,75 @@ public class AuthenticationController {
                 .imageUrl(user.getImageUrl())
                 .token(jwtToken)
                 .build();
+    }
+
+    @GetMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestParam String email) {
+        try {
+
+            if (email == null || email.isEmpty()) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Email is required");
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+                
+            }
+
+            UserBase user = service.findByEmail(email).orElse(null);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, "http://localhost:8080/")
+                        .build();
+            }
+
+            emailVerificationService.sendResetPasswordCode(user);
+
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "http://localhost:8080/auth/reset-password")
+                    .build();
+        } catch (Exception e) {
+            System.out.println("EXCEPCION LANZADA");
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "http://localhost:8080/")
+                    .build();
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody NewPasswordDTO newPasswordDTO) {
+        try {
+            UserBase user = service.findByEmail(newPasswordDTO.getEmail()).orElse(null);
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, "http://localhost:8080/")
+                        .build();
+            }
+
+            if (!newPasswordCodeService.getNewPasswordCode(user).equals(newPasswordDTO.getCode())) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid code");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+
+            if (newPasswordDTO.getNewPassword().length() < 8) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
+                        "The password must have at least 8 characters");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+                
+            }
+
+            service.newPassword(user, newPasswordDTO.getNewPassword());
+            newPasswordCodeService.deleteNewPasswordCode(user);
+
+            service.save(user);
+
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "http://localhost:8080/login")
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "http://localhost:8080/")
+                    .build();
+        }
     }
 
     @GetMapping("/user/me")
