@@ -356,4 +356,39 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/amount")
+    public ResponseEntity<?> getAmount(@AuthenticationPrincipal UserBase user) {
+        try {
+            if (user == null) {
+                Integer amount = 0;
+                Map<String, Integer> response = new HashMap<>();
+                response.put("amount", amount);
+                response.put("status", HttpStatus.OK.value());
+    
+                return ResponseEntity.ok(response);
+            }
+
+            Order cart = orderService.getCart(user);
+
+            if (cart == null) {
+                cart = new Order(user, OrderStatus.CART, LocalDate.now());
+                orderService.save(cart);
+            }
+
+            Integer amount = 0;
+            for (OrderLine orderLine : cart.getOrderLines()) {
+                amount += orderLine.getAmount();
+            }
+
+            Map<String, Integer> response = new HashMap<>();
+            response.put("amount", amount);
+            response.put("status", HttpStatus.OK.value());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+    }
+
 }

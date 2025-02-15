@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.VerificationRequestDTO;
+import com.ecolink.spring.entity.Company;
+import com.ecolink.spring.entity.Startup;
+import com.ecolink.spring.entity.Status;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.response.SuccessDetails;
@@ -65,6 +68,17 @@ public class VerificationController {
             user.setVerified(true);
             userBaseService.save(user);
             emailService.accountVerified(user.getEmail());
+
+            if (user instanceof Startup startup) {
+                if (startup.getStatus().equals(Status.PENDING)) {
+                    emailService.sendAccountPending(email);
+                }
+            } else if(user instanceof Company company){
+                if (company.getStatus().equals(Status.PENDING)) {
+                    emailService.sendAccountPending(email);
+                }
+            }
+        
             return ResponseEntity.ok(successDetails);
         }
 

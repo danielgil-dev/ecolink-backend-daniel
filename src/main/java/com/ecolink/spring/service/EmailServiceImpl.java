@@ -96,7 +96,7 @@ public class EmailServiceImpl {
 		}
 	}
 
-    public void resendMessageValidate(String email, String code) {
+	public void resendMessageValidate(String email, String code) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -110,19 +110,67 @@ public class EmailServiceImpl {
 		} catch (MessagingException e) {
 			System.err.println("Error to send email: " + e.getMessage());
 		}
-    }
+	}
 
-    public void sendMessageResetPassword(String email, String code) {
-       try {
-		MimeMessage mimeMessage = mailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+	public void sendMessageResetPassword(String email, String code) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-		helper.setTo(email);
-		helper.setSubject("Reset Password");
-		helper.setText("<p>Your reset password code is: <strong>" + code + "</strong></p>", true);
-		mailSender.send(mimeMessage);
-	   } catch (Exception e) {
+			helper.setTo(email);
+			helper.setSubject("Reset Password");
+			helper.setText("<p>Your reset password code is: <strong>" + code + "</strong></p>", true);
+			mailSender.send(mimeMessage);
+		} catch (Exception e) {
 			System.err.println("Error to send email: " + e.getMessage());
-	   }
-    }
+		}
+	}
+	public void sendAccountAccepted(String email) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+			helper.setTo(email);
+			helper.setSubject("Account Accepted");
+			helper.setText("<h1>Your account has been successfully accepted</h1>", true);
+
+			mailSender.send(mimeMessage);
+
+		} catch (MessagingException e) {
+			System.err.println("Error to send email: " + e.getMessage());
+		}
+	}
+
+	public void sendAccountRejected(String email) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+			helper.setTo(email);
+			helper.setSubject("Account Rejected");
+			helper.setText("<h1>Your account has been rejected</h1>", true);
+
+			mailSender.send(mimeMessage);
+
+		} catch (MessagingException e) {
+			System.err.println("Error to send email: " + e.getMessage());
+		}
+	}
+
+	public void sendAccountPending(String email) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+			helper.setTo(email);
+			helper.setSubject("Account Pending");
+			helper.setText("<h1>Your account is pending</h1>", true);
+			helper.setText("<p>Your account is pending for approval. You will receive an email once your account is approved or rejected.</p>", true);
+
+			mailSender.send(mimeMessage);
+
+		} catch (MessagingException e) {
+			System.err.println("Error to send email: " + e.getMessage());
+		}
+	}
 }
