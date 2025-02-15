@@ -21,6 +21,7 @@ import com.ecolink.spring.exception.CompanyNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.StartupNotFoundException;
 import com.ecolink.spring.service.CompanyService;
+import com.ecolink.spring.service.EmailServiceImpl;
 import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,9 +34,11 @@ public class AdminController {
     private final StartupService startupService;
     private final CompanyService companyService;
     private final DTOConverter dtoConverter;
+    private final EmailServiceImpl emailService;
 
     @PostMapping("/validate-startup/{id}")
-    public ResponseEntity<?> validateAnStartup(@AuthenticationPrincipal UserBase user, @PathVariable Long id, @RequestParam(required = true) Status state) {
+    public ResponseEntity<?> validateAnStartup(@AuthenticationPrincipal UserBase user, @PathVariable Long id,
+            @RequestParam(required = true) Status state) {
 
         try {
 
@@ -45,7 +48,7 @@ public class AdminController {
 
             if (!user.getUserType().equals(UserType.ADMIN)) {
                 throw new Exception("You are not an admin");
-                
+
             }
 
             Startup startup = startupService.findById(id);
@@ -55,6 +58,19 @@ public class AdminController {
             startupService.changeStartupState(startup, state);
 
             startupService.save(startup);
+
+            
+            switch (state) {
+                case ACCEPTED:
+                    emailService.sendAccountAccepted(startup.getEmail());
+                    break;
+                case REJECTED:
+                    emailService.sendAccountRejected(startup.getEmail());
+                    break;
+                case PENDING:
+                    emailService.sendAccountPending(startup.getEmail());
+                    break;
+            }
 
             StartupPublicProfileDTO startupDto = dtoConverter.convertStartupProfileToDto(startup);
 
@@ -73,7 +89,8 @@ public class AdminController {
     }
 
     @PostMapping("/validate-company/{id}")
-    public ResponseEntity<?> validateCompany(@AuthenticationPrincipal UserBase user,@PathVariable Long id, @RequestParam(required = true) Status state) {
+    public ResponseEntity<?> validateCompany(@AuthenticationPrincipal UserBase user, @PathVariable Long id,
+            @RequestParam(required = true) Status state) {
 
         try {
 
@@ -83,16 +100,32 @@ public class AdminController {
 
             if (!user.getUserType().equals(UserType.ADMIN)) {
                 throw new Exception("You are not an admin");
-                
+            }
+
+            if (state == null) {
+                throw new Exception("State is required");
             }
 
             Company company = companyService.findById(id);
             if (company == null) {
                 throw new CompanyNotFoundException("No company found with the id" + id);
             }
+
             companyService.changeCompanyState(company, state);
 
             companyService.save(company);
+
+            switch (state) {
+                case ACCEPTED:
+                    emailService.sendAccountAccepted(company.getEmail());
+                    break;
+                case REJECTED:
+                    emailService.sendAccountRejected(company.getEmail());
+                    break;
+                case PENDING:
+                    emailService.sendAccountPending(company.getEmail());
+                    break;
+            }
 
             CompanyDTO companyDto = dtoConverter.convertCompanyDTO(company);
 
