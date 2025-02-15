@@ -94,6 +94,7 @@ public class ClientDataLoader implements CommandLineRunner {
                                 });
                                 client.setPreferences(odsList);
                                 client.setPassword(passwordEncoder.encode(defaultPassword));
+                                client.setVerified(true);
                                 service.save(client);
                         }
                 });

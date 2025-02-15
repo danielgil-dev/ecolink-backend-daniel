@@ -154,9 +154,7 @@ public class AuthenticationController {
         String urlImage = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            System.out.println("PASO 1");
             UserBase user = objectMapper.readValue(userJson, UserBase.class);
-            System.out.println("PASO 2");
 
             user.setLikes(new ArrayList<>());
             user.setRegisterDate(java.time.LocalDate.now());
