@@ -312,5 +312,4 @@ public class DTOConverter {
     public OrderLineDTO convertOrderLineToDTO(OrderLine orderLine) {
         return modelMapper.map(orderLine, OrderLineDTO.class);
     }
-
 }

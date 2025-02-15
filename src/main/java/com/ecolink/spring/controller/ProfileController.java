@@ -1,15 +1,14 @@
 package com.ecolink.spring.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +29,8 @@ import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ClientNotFoundException;
 import com.ecolink.spring.exception.CompanyNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.exception.ImageNotValidExtension;
+import com.ecolink.spring.exception.ImageSubmitError;
 import com.ecolink.spring.exception.StartupNotFoundException;
 import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.ClientMissionService;
@@ -38,6 +39,10 @@ import com.ecolink.spring.service.CompanyService;
 import com.ecolink.spring.service.LikeService;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.StartupService;
+import com.ecolink.spring.service.UserBaseService;
+import com.ecolink.spring.utils.Images;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -51,7 +56,12 @@ public class ProfileController {
     private final CompanyService companyService;
     private final StartupService startupService;
     private final ClientService clientService;
+    private final UserBaseService userBaseService;
     private final OdsService odsService;
+    private final Images images;
+
+    @Value("${spring.users.upload.dir}")
+    private String uploadUserDir;
 
     @GetMapping
     public ResponseEntity<?> getProfileUser(@AuthenticationPrincipal UserBase user) {
@@ -101,22 +111,48 @@ public class ProfileController {
 
     @PutMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateProfile(@AuthenticationPrincipal UserBase user,
-            @RequestPart(name = "data", required = false) UpdateProfileDTO data,
+            @RequestPart(name = "data", required = false) String data,
             @RequestPart(name = "image", required = false) MultipartFile image) {
+        String urlImage = null;
         try {
 
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "You must be logged in");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
-            
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            UpdateProfileDTO updateProfileDTO = objectMapper.readValue(data, UpdateProfileDTO.class);
+
+            if (updateProfileDTO == null) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid data");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+
+            if (image != null) {
+                if (!images.isExtensionImageValid(image)) {
+                    throw new ImageNotValidExtension("The extension is invalid");
+                }
+                urlImage = images.uploadFile(image, uploadUserDir);
+                if (urlImage == null || urlImage.isEmpty()) {
+                    throw new ImageSubmitError("Error to submit the image");
+                }
+                String oldImageUrl = user.getImageUrl();
+                if (oldImageUrl != null && !oldImageUrl.isEmpty()) {
+                    images.deleteFile(oldImageUrl, uploadUserDir);
+                }
+                user.setImageUrl(urlImage);
+                userBaseService.save(user);
+            }
+
             if (user instanceof Client) {
                 Client client = clientService.findById(user.getId());
                 if (client == null) {
                     throw new ClientNotFoundException("Not found any client with the id: " + user.getId());
                 }
 
-                List<Ods> preferences = odsService.findAllById(data.getOdsIdList());
+                List<Ods> preferences = odsService.findAllById(updateProfileDTO.getOdsIdList());
 
                 if (preferences != null && !preferences.isEmpty()) {
                     client.setPreferences(preferences);
@@ -133,14 +169,14 @@ public class ProfileController {
                     throw new ClientNotFoundException("Not found any client with the id: " + user.getId());
                 }
 
-                List<Ods> odsList = odsService.findAllById(data.getOdsIdList());
+                List<Ods> odsList = odsService.findAllById(updateProfileDTO.getOdsIdList());
 
                 if (odsList != null && !odsList.isEmpty()) {
                     startup.setOdsList(odsList);
                 }
 
-                if (data.getDescription() != null || !data.getDescription().isEmpty()) {
-                    startup.setDescription(data.getDescription());
+                if (updateProfileDTO.getDescription() != null || !updateProfileDTO.getDescription().isEmpty()) {
+                    startup.setDescription(updateProfileDTO.getDescription());
                 }
 
                 startupService.save(startup);
@@ -154,8 +190,8 @@ public class ProfileController {
                     throw new CompanyNotFoundException("Not found any company with the id: " + user.getId());
                 }
 
-                if (data.getDescription() != null || !data.getDescription().isEmpty()) {
-                    company.setDescription(data.getDescription());
+                if (updateProfileDTO.getDescription() != null || !updateProfileDTO.getDescription().isEmpty()) {
+                    company.setDescription(updateProfileDTO.getDescription());
                 }
 
                 companyService.save(company);
