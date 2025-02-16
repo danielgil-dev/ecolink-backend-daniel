@@ -93,7 +93,6 @@ public class ChallengeController {
 
     @GetMapping("/home")
     public ResponseEntity<?> getRelevantChallenges() {
-
         try {
 
             List<Challenge> challenges = challengeService.getChallengesByRelevant();

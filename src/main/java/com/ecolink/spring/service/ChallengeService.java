@@ -21,6 +21,7 @@ import com.ecolink.spring.specification.ChallengeSpecification;
 public class ChallengeService {
     @Autowired
     private ChallengeRepository repository;
+
     public Boolean existsByTitle(String title) {
         return repository.existsByTitle(title);
     }
@@ -47,7 +48,6 @@ public class ChallengeService {
         return repository.count();
     }
 
-
     public Page<Challenge> findByFilterAndPagination(List<Ods> odsList, BigDecimal minprice, BigDecimal maxprice,
             int page, int size) {
         Specification<Challenge> spec = ChallengeSpecification.filters(odsList, minprice, maxprice);
@@ -62,7 +62,8 @@ public class ChallengeService {
     public Challenge findById(Long id) {
         return repository.findById(id).orElse(null);
     }
-    public List<Challenge> getActiveChallenges(){
+
+    public List<Challenge> getActiveChallenges() {
 
         return repository.findByendDateGreaterThanEqual(LocalDate.now());
     }
@@ -74,5 +75,5 @@ public class ChallengeService {
     public void delete(Challenge actuaChallenge) {
         repository.delete(actuaChallenge);
     }
-    
+
 }
