@@ -314,9 +314,9 @@ public class AuthenticationController {
 
             return ResponseEntity.status(HttpStatus.OK).body(successMessage);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .header(HttpHeaders.LOCATION, "http://localhost:8080/")
-                    .build();
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Internal server error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
 
