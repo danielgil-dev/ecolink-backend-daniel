@@ -17,6 +17,7 @@ import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ImageNotValidExtension;
 import com.ecolink.spring.exception.ImageSubmitError;
 import com.ecolink.spring.exception.ProductNotFoundException;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.CategoryService;
 import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
@@ -230,7 +231,8 @@ public class ProductController {
                 startup.getProducts().remove(product);
                 startupService.save(startup);
                 service.delete(product);
-                return ResponseEntity.ok().build();
+                SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Product deleted");
+                return ResponseEntity.ok(successDetails);
             }
             throw new UsernameNotFoundException("User not permissions");
         } catch (ProductNotFoundException e) {
