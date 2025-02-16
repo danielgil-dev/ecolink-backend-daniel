@@ -15,6 +15,8 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
 
     public Post findByTitle(String title);
 
+    
+
     public List<Post> findTop4ByOrderByPostDateDesc();
 
     public List<Post>  findTop10ByIdNotOrderByPostDateDesc(Long id);

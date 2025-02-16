@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import com.ecolink.spring.dto.PostDTO;
 import com.ecolink.spring.dto.PostItemPageDTO;
 import com.ecolink.spring.dto.PostRelevantDTO;
 import com.ecolink.spring.dto.PostTemplateDTO;
+import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.SortType;
@@ -40,6 +42,7 @@ import com.ecolink.spring.utils.Images;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequiredArgsConstructor
@@ -211,9 +214,6 @@ public class PostController {
     public ResponseEntity<?> createPost(@AuthenticationPrincipal UserBase user,
             @RequestPart("post") String postJson, @RequestPart("image") MultipartFile image) {
 
-        System.out.println("Entamos en el controlador");
-        System.out.println("Estos son los datos que me llegan " + postJson);
-
         String urlImage = null;
         try {
             if (!(user instanceof Startup startup)) {
@@ -259,14 +259,14 @@ public class PostController {
 
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
-            // } catch(ImageNotValidExtension | ImageSubmitError e){
+        } catch (ImageNotValidExtension | ImageSubmitError e) {
 
-            // if(urlImage == null && !urlImage.isEmpty()){
-            // images.deleteFile(urlImage, uploadUserDir);
-            // }
-            // ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
-            // e.getMessage());
-            // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            if (urlImage == null && !urlImage.isEmpty()) {
+                images.deleteFile(urlImage, uploadPostDir);
+            }
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
+                    e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Internal server error");
@@ -276,4 +276,112 @@ public class PostController {
 
     }
 
+    @PutMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)    
+    public ResponseEntity<?> editPost(@AuthenticationPrincipal UserBase user,
+    @RequestPart("post") String postJson, @RequestPart(value = "image", required = false) MultipartFile image,
+    @PathVariable Long id) {
+
+        
+        String urlImage = null;
+        try {
+            
+            if (!(user instanceof Startup startup || user instanceof Admin)) {
+                throw new AccessDeniedException("Only startups can edit posts");
+            }
+            Post editPost = postService.findById(id);
+            if(editPost == null){
+                throw new PostNotFoundException("No existe un post por el id " + id);
+            }
+            if(editPost.getStartup().getId().equals(startup.getId())){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
+                        "You can only edit your own posts"));
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            PostTemplateDTO postDTO = mapper.readValue(postJson, PostTemplateDTO.class);
+            
+            
+            if (postDTO.getTitle().isEmpty() || postDTO.getTitle() == null || postDTO.getShortDescription() == null || postDTO.getShortDescription().isEmpty()
+                ||postDTO.getDescription() == null || postDTO.getDescription().isEmpty() || postDTO.getOdsList() == null || postDTO.getOdsList().isEmpty()) {
+
+                throw new ImageNotValidExtension("Title, short description and description are required");
+            }
+
+            List<Ods> odsList = odsService.findAllById(postDTO.getOdsList());
+
+            if (odsList.isEmpty()) {
+                throw new PostNotFoundException("No se encontraron los ods seleccionados");
+            }
+
+            if (!images.isExtensionImageValid(image)) {
+                throw new ImageSubmitError("The extension is invalid");
+            }
+
+            urlImage = images.uploadFile(image, uploadPostDir);
+            if (urlImage == null || urlImage.isEmpty()) {
+                throw new ImageSubmitError("Error uploading image");
+            }
+            
+            if(editPost.getImageUrl() != null && !editPost.getImageUrl().isEmpty()){
+                images.deleteFile(editPost.getImageUrl(), uploadPostDir);
+            }
+            
+            editPost.setDescription(postDTO.getDescription());
+            editPost.setShortDescription(postDTO.getShortDescription());
+            editPost.setOdsList(odsList);
+            editPost.setTitle(postDTO.getTitle());
+            editPost.setImageUrl(urlImage);
+            postService.save(editPost);
+        } catch(AccessDeniedException e){
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+            
+        }catch (PostNotFoundException e){
+
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        }catch (ImageSubmitError | ImageNotValidExtension e) {
+            
+            if(urlImage == null && !urlImage.isEmpty()){
+                images.deleteFile(urlImage, uploadPostDir);
+                }
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
+                e.getMessage());
+        }catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Internal server error");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+        
+        return ResponseEntity.ok().build();
+    }
+
+    //Delete a post
+@DeleteMapping("/{id}")
+public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
+    try {
+        
+        if (!(user instanceof Startup startup || user instanceof Admin)) {
+            throw new AccessDeniedException("Only startups or admin can edit posts");
+        }
+        Post deletePost = postService.findById(id);
+        if(deletePost.getStartup().getId().equals(deletePost.getId())){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
+                    "You can only delete your own posts"));
+        }
+        postService.delete(deletePost);
+    } catch (AccessDeniedException e) {
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+    }catch (PostNotFoundException e){
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+}catch (Exception e) {
+    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "Internal server error");
+    e.printStackTrace();
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+}
 }
