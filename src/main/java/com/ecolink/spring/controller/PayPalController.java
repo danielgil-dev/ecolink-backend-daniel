@@ -33,8 +33,8 @@ public class PayPalController {
     @Autowired
     OrderService orderService;
 
-    private static final String SUCCESS_URL = "http://localhost:8080/api/paypal/success";
-    private static final String CANCEL_URL = "http://localhost:8080/api/paypal/cancel";
+    private static final String SUCCESS_URL = "http://localhost:4200/cart/paypal-pending";
+    private static final String CANCEL_URL = "http://localhost:4200/cart/paypal-cancel";
 
     @PostMapping("/pay")
     public ResponseEntity<?> pay(@AuthenticationPrincipal UserBase userBase) {
