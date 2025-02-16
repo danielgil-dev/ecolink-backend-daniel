@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StartupProductPrivateProfileDTO {
-
     private String name;
     private String description;
     private String imageUrl;

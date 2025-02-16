@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StartupPrivateProfileDTO {
-
     String status;
     String name;
     String email;
