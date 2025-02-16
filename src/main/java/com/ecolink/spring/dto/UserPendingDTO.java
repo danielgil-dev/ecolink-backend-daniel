@@ -10,4 +10,5 @@ public class UserPendingDTO {
     private String name;
     private String imageUrl;
     private String email;
+    private String userType;
 }
