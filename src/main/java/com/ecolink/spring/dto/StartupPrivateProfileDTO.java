@@ -21,4 +21,5 @@ public class StartupPrivateProfileDTO {
     List<ProposalStartupProfileDTO> proposals;
     List<StartupProductPrivateProfileDTO> products;
     List<PostProfileUserDTO> listLikePost;
+    List<OrderDTO> orders;
 }

@@ -17,5 +17,5 @@ public class ClientProfileDTO {
     private Long level;
     private List<MissionProfileDTO> completedMissions;
     private List<PostProfileUserDTO> listLikePost;
-
+    List<OrderDTO> orders;
 }

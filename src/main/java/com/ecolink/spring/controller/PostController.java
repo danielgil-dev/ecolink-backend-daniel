@@ -125,7 +125,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getMethodName(@PathVariable Long id) {
+    public ResponseEntity<?> getPost(@PathVariable Long id) {
 
         try {
             Post post = postService.findById(id);

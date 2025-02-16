@@ -1,5 +1,7 @@
 package com.ecolink.spring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class OrderService {
 
     public Order findByUserAndStatus(UserBase user, OrderStatus status) {
         return repository.findByUserAndStatus(user, status);
+    }
+
+    public List<Order> findByUserAndNotStatus(UserBase user, OrderStatus status) {
+        return repository.findByUserAndStatusNot(user, status);
     }
 
     public boolean existsByUserAndStatus(UserBase user, OrderStatus status) {

@@ -19,7 +19,5 @@ public class CompanyProfileDTO {
     private String description;
     private List<ChallengeCompanyProfileDTO> listChallengesCompany;
     private List<PostProfileUserDTO> listLikePost;
-    
-
-
+    List<OrderDTO> orders;
 }

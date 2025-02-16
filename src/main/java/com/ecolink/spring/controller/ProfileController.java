@@ -1,6 +1,7 @@
 package com.ecolink.spring.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ecolink.spring.dto.ClientProfileDTO;
 import com.ecolink.spring.dto.CompanyProfileDTO;
 import com.ecolink.spring.dto.DTOConverter;
+import com.ecolink.spring.dto.OrderDTO;
 import com.ecolink.spring.dto.StartupPrivateProfileDTO;
 import com.ecolink.spring.dto.UpdateProfileDTO;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.ClientMission;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Ods;
+import com.ecolink.spring.entity.Order;
+import com.ecolink.spring.entity.OrderStatus;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.UserBase;
@@ -38,6 +42,7 @@ import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.CompanyService;
 import com.ecolink.spring.service.LikeService;
 import com.ecolink.spring.service.OdsService;
+import com.ecolink.spring.service.OrderService;
 import com.ecolink.spring.service.StartupService;
 import com.ecolink.spring.service.UserBaseService;
 import com.ecolink.spring.utils.Images;
@@ -58,6 +63,7 @@ public class ProfileController {
     private final ClientService clientService;
     private final UserBaseService userBaseService;
     private final OdsService odsService;
+    private final OrderService orderService;
     private final Images images;
 
     @Value("${spring.users.upload.dir}")
@@ -76,6 +82,15 @@ public class ProfileController {
                 List<Post> likedPostByTheUser = likeService.getPostLikedByUser(client);
                 ClientProfileDTO clientProfile = dtoConverter.convertClientToClientProfileDTO(client, completedMission,
                         likedPostByTheUser);
+
+                List<Order> orders = orderService.findByUserAndNotStatus(user, OrderStatus.CART);
+
+                // Convertir lista de order a DTO
+                List<OrderDTO> orderDTOs = orders.stream().map(dtoConverter::convertOrderToDTO)
+                        .collect(Collectors.toList());
+
+                clientProfile.setOrders(orderDTOs);
+
                 return ResponseEntity.ok(clientProfile);
             } else if (user instanceof Startup) {
                 Startup startup = startupService.findById(user.getId());
@@ -85,6 +100,13 @@ public class ProfileController {
                 List<Post> likedPostByTheUser = likeService.getPostLikedByUser(startup);
                 StartupPrivateProfileDTO startupProfile = dtoConverter.convertStartupToStartupPrivateProfile(startup,
                         likedPostByTheUser);
+
+                List<Order> orders = orderService.findByUserAndNotStatus(user, OrderStatus.CART);
+                List<OrderDTO> orderDTOs = orders.stream().map(dtoConverter::convertOrderToDTO)
+                        .collect(Collectors.toList());
+
+                startupProfile.setOrders(orderDTOs);
+
                 return ResponseEntity.ok(startupProfile);
             } else if (user instanceof Company) {
                 Company company = companyService.getCompanyById(user.getId());
@@ -94,6 +116,13 @@ public class ProfileController {
                 List<Post> likedPostByTheUser = likeService.getPostLikedByUser(company);
                 CompanyProfileDTO companyProfile = dtoConverter.convetCompanyToCompanyProfileDTO(company,
                         likedPostByTheUser);
+
+                List<Order> orders = orderService.findByUserAndNotStatus(user, OrderStatus.CART);
+
+                List<OrderDTO> orderDTOs = orders.stream().map(dtoConverter::convertOrderToDTO)
+                        .collect(Collectors.toList());
+
+                companyProfile.setOrders(orderDTOs);
                 return ResponseEntity.ok(companyProfile);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
