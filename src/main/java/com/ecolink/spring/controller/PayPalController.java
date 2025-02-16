@@ -37,17 +37,19 @@ public class PayPalController {
     private static final String CANCEL_URL = "http://localhost:8080/api/paypal/cancel";
 
     @PostMapping("/pay")
-    public String pay(@AuthenticationPrincipal UserBase userBase) {
+    public ResponseEntity<?> pay(@AuthenticationPrincipal UserBase userBase) {
         try {
 
             if (userBase == null) {
-                return "redirect:/login";
+                ErrorDetails details = new ErrorDetails(HttpStatus.BAD_REQUEST, "User not found");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
             }
 
             Order order = orderService.findByUserAndStatus(userBase, OrderStatus.PENDING);
 
             if (order == null) {
-                return "redirect:/";
+                ErrorDetails details = new ErrorDetails(HttpStatus.BAD_REQUEST, "Order not found");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
             }
 
             Double total = order.getTotal().doubleValue();
@@ -58,12 +60,14 @@ public class PayPalController {
                     "sale", "EcoLink PaypPal", CANCEL_URL, SUCCESS_URL);
             for (var link : payment.getLinks()) {
                 if (link.getRel().equals("approval_url")) {
-                    return "redirect:" + link.getHref();
+                    SuccessDetails details = new SuccessDetails(HttpStatus.OK, link.getHref());
+                    return ResponseEntity.ok(details);
                 }
             }
-            return "redirect:/";
+            ErrorDetails details = new ErrorDetails(HttpStatus.BAD_REQUEST, "Payment error");
         } catch (Exception e) {
-            return "redirect:/";
+            ErrorDetails details = new ErrorDetails(HttpStatus.BAD_REQUEST, "Payment error");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
         }
     }
 
