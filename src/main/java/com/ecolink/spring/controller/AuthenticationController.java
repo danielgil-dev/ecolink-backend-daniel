@@ -36,6 +36,7 @@ import com.ecolink.spring.entity.UserType;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ImageNotValidExtension;
 import com.ecolink.spring.exception.ImageSubmitError;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.security.jwt.JwtProvider;
 import com.ecolink.spring.security.jwt.model.JwtUserResponse;
 import com.ecolink.spring.security.jwt.model.LoginRequest;
@@ -260,21 +261,20 @@ public class AuthenticationController {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Email is required");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
-                
+
             }
 
             UserBase user = service.findByEmail(email).orElse(null);
             if (user == null) {
-                return ResponseEntity.status(HttpStatus.FOUND)
-                        .header(HttpHeaders.LOCATION, "http://localhost:8080/")
-                        .build();
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "User not found");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
 
             emailVerificationService.sendResetPasswordCode(user);
 
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .header(HttpHeaders.LOCATION, "http://localhost:8080/auth/reset-password")
-                    .build();
+            SuccessDetails successMessage = new SuccessDetails(HttpStatus.OK.value(), "Email sent");
+
+            return ResponseEntity.status(HttpStatus.OK).body(successMessage);
         } catch (Exception e) {
             System.out.println("EXCEPCION LANZADA");
             return ResponseEntity.status(HttpStatus.FOUND)
@@ -289,9 +289,8 @@ public class AuthenticationController {
             UserBase user = service.findByEmail(newPasswordDTO.getEmail()).orElse(null);
 
             if (user == null) {
-                return ResponseEntity.status(HttpStatus.FOUND)
-                        .header(HttpHeaders.LOCATION, "http://localhost:8080/")
-                        .build();
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "User not found");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
             }
 
             if (!newPasswordCodeService.getNewPasswordCode(user).equals(newPasswordDTO.getCode())) {
@@ -303,7 +302,7 @@ public class AuthenticationController {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
                         "The password must have at least 8 characters");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
-                
+
             }
 
             service.newPassword(user, newPasswordDTO.getNewPassword());
@@ -311,9 +310,9 @@ public class AuthenticationController {
 
             service.save(user);
 
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .header(HttpHeaders.LOCATION, "http://localhost:8080/login")
-                    .build();
+            SuccessDetails successMessage = new SuccessDetails(HttpStatus.OK.value(), "Password changed");
+
+            return ResponseEntity.status(HttpStatus.OK).body(successMessage);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FOUND)
                     .header(HttpHeaders.LOCATION, "http://localhost:8080/")
