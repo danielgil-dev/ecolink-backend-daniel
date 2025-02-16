@@ -65,6 +65,7 @@ public class PayPalController {
                 }
             }
             ErrorDetails details = new ErrorDetails(HttpStatus.BAD_REQUEST, "Payment error");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
         } catch (Exception e) {
             ErrorDetails details = new ErrorDetails(HttpStatus.BAD_REQUEST, "Payment error");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
