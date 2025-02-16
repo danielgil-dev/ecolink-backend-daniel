@@ -1,4 +1,6 @@
 package com.ecolink.spring.dto;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,5 @@ public class PostTemplateDTO {
     private String title;
     private String shortDescription;
     private String description;
-    //private String imageUrl;
+    private List<Long> odsList;
 }

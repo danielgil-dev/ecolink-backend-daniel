@@ -32,6 +32,7 @@ import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ImageNotValidExtension;
+import com.ecolink.spring.exception.ImageSubmitError;
 import com.ecolink.spring.exception.PostNotFoundException;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.PostService;
@@ -49,10 +50,9 @@ public class PostController {
     private final OdsService odsService;
     private final DTOConverter postDTOConverter;
     private final Images images;
-    private final ObjectMapper objectMapper;
 
-    @Value("${spring.users.upload.dir}")
-    private String uploadUserDir;
+    @Value("${spring.post.upload.dir}")
+    private String uploadPostDir;
 
     @GetMapping
     public ResponseEntity<?> getPosts(
@@ -223,25 +223,34 @@ public class PostController {
             PostTemplateDTO postDTO = mapper.readValue(postJson, PostTemplateDTO.class);
 
             if (postDTO.getTitle().isEmpty() || postDTO.getShortDescription().isEmpty()
-                    || postDTO.getDescription().isEmpty()) {
+                    || postDTO.getDescription().isEmpty() || postDTO.getOdsList().isEmpty()) {
 
                 throw new ImageNotValidExtension("Title, short description and description are required");
             }
 
-            // if(images.isExtensionImageValid(image)){
-            // throw new ImageSubmitError("The extension is invalid");
-            // }
+            List<Ods> odsList = odsService.findAllById(postDTO.getOdsList());
 
-            // urlImage = images.uploadFile(image, uploadUserDir);
-            // if(urlImage == null){
-            // throw new ImageSubmitError("Error uploading image");
-            // }
+            if (odsList.isEmpty()) {
+                throw new PostNotFoundException("No se encontraron los ods seleccionados");
+            }
+
+            if (!images.isExtensionImageValid(image)) {
+                throw new ImageSubmitError("The extension is invalid");
+            }
+
+            urlImage = images.uploadFile(image, uploadPostDir);
+
+            if (urlImage == null) {
+                throw new ImageSubmitError("Error uploading image");
+            }
+
             Post newPost = new Post();
-            // newPost.setImageUrl(urlImage);
+            newPost.setImageUrl(urlImage);
             newPost.setTitle(postDTO.getTitle());
             newPost.setShortDescription(postDTO.getShortDescription());
             newPost.setDescription(postDTO.getDescription());
             newPost.setStartup(startup);
+            newPost.setOdsList(odsList);
             newPost.setPostDate(LocalDate.now());
             postService.save(newPost);
             return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
