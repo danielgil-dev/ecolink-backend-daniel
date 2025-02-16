@@ -49,4 +49,8 @@ public class CompanyService {
         }
 
     }
+
+    public List<Company> findByState(Status pending) {
+        return repository.findByStatus(pending);
+    }
 }

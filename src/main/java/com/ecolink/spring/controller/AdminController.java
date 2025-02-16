@@ -1,5 +1,8 @@
 package com.ecolink.spring.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.CompanyDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.StartupPublicProfileDTO;
+import com.ecolink.spring.dto.UserPendingDTO;
 import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.Status;
@@ -20,11 +24,13 @@ import com.ecolink.spring.entity.UserType;
 import com.ecolink.spring.exception.CompanyNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.StartupNotFoundException;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.CompanyService;
 import com.ecolink.spring.service.EmailServiceImpl;
 import com.ecolink.spring.service.StartupService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -59,7 +65,6 @@ public class AdminController {
 
             startupService.save(startup);
 
-            
             switch (state) {
                 case ACCEPTED:
                     emailService.sendAccountAccepted(startup.getEmail());
@@ -142,4 +147,45 @@ public class AdminController {
 
         }
     }
+
+    @GetMapping("/user/pending")
+    public ResponseEntity<?> getPendingUsers(@AuthenticationPrincipal UserBase user) {
+        try {
+
+            if (user == null) {
+                throw new Exception("No user found");
+            }
+
+            if (!user.getUserType().equals(UserType.ADMIN)) {
+                throw new Exception("You are not an admin");
+            }
+
+            List<Startup> startupsPending = startupService.findByState(Status.PENDING);
+            List<Company> companiesPending = companyService.findByState(Status.PENDING);
+
+            List<UserPendingDTO> userPendingDtos = new ArrayList<>();
+
+            if (startupsPending != null && !startupsPending.isEmpty()) {
+                for (Startup startup : startupsPending) {
+                    userPendingDtos.add(dtoConverter.convertStartupToUserPendingDto(startup));
+                }
+            }
+
+            if (companiesPending != null && !companiesPending.isEmpty()) {
+                for (Company company : companiesPending) {
+                    userPendingDtos.add(dtoConverter.convertCompanyToUserPendingDto(company));
+                }
+            }
+
+            return ResponseEntity.ok(userPendingDtos);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+
+        }
+    }
+
 }

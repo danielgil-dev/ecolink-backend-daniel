@@ -312,4 +312,12 @@ public class DTOConverter {
     public OrderLineDTO convertOrderLineToDTO(OrderLine orderLine) {
         return modelMapper.map(orderLine, OrderLineDTO.class);
     }
+
+    public UserPendingDTO convertCompanyToUserPendingDto(Company company) {
+        return modelMapper.map(company, UserPendingDTO.class);
+    }
+
+    public UserPendingDTO convertStartupToUserPendingDto(Startup startup) {
+        return modelMapper.map(startup, UserPendingDTO.class);
+    }
 }

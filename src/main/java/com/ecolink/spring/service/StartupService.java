@@ -66,6 +66,9 @@ public class StartupService {
         }else{
             startup.setStatus(Status.PENDING);
         }
-      
+    }
+
+    public List<Startup> findByState(Status pending) {
+        return repository.findByStatus(pending);
     }
 }
