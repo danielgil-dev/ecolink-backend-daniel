@@ -32,4 +32,8 @@ public class CategoryService {
     public Category findById(Long categoryId) {
         return repository.findById(categoryId).orElse(null);
     }
+
+    public List<Category> findAllById(List<Long> categoryIds) {
+        return repository.findAllById(categoryIds);
+    }
 }

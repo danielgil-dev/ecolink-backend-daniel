@@ -163,8 +163,21 @@ public class ProductController {
                             .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid Fields"));
                 }
 
+                if (product.getCategories() == null || product.getCategories().isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid Categories"));
+                }
+
+                List<Category> categories = categoryService.findAllById(product.getCategories());
+                if (categories.isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ErrorDetails(HttpStatus.BAD_REQUEST.value(), "Invalid Categories"));
+                }
+
                 Product newProduct = new Product(startup, product.getName(), product.getDescription(),
                         product.getPrice(), LocalDate.now());
+
+                newProduct.setCategories(categories);
 
                 if (!images.isExtensionImageValid(image)) {
                     throw new ImageNotValidExtension("The extension is invalid");
