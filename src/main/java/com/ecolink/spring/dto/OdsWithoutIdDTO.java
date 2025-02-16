@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class OdsWithoutIdDTO {
     private String name;
+    private String image;
 }
