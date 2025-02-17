@@ -349,6 +349,7 @@ public class PostController {
             }
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
                     e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Internal server error");
