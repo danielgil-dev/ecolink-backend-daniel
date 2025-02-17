@@ -49,18 +49,16 @@ public class Post {
         this.description = description;
         this.shortDescription = shortDescription;
         this.postDate = postDate;
-        this.likes = new ArrayList<>();
-        this.comments = new ArrayList<>();
     }
 
     @JsonIgnore
-    @OneToMany(mappedBy = "post")
-    private List<Like> likes;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
 
     
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = false)
     @JsonIgnore
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
     
 
     public void addLike(Like like) {
