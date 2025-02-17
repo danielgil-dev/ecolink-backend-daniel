@@ -31,6 +31,7 @@ import com.ecolink.spring.exception.ClientMissionAssingmentException;
 import com.ecolink.spring.exception.ClientNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.MissionNotFoundException;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.ClientMissionService;
 import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.MissionService;
@@ -75,7 +76,6 @@ public class MissionController {
                     mission.getPoints(),
                     completedMissionIds.contains(mission.getId()))).collect(Collectors.toList());
 
-            // List<ClientMissionDTO> missionsDto = missions.stream().map(mission -> con)
 
             return ResponseEntity.ok(missionsDto);
 
@@ -188,7 +188,8 @@ public class MissionController {
             // Eliminamos la mission y devolvemos un notFound 204 para indicar que la
             // eliminacion fue exitosa
             missionService.delete(missionToDelete);
-            return ResponseEntity.noContent().build();
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.NO_CONTENT.value(), "Mission deleted");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successDetails);
         } catch (MissionNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
