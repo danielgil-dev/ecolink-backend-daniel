@@ -285,14 +285,16 @@ public class PostController {
         String urlImage = null;
         try {
             
-            if (!(user instanceof Startup startup || user instanceof Admin)) {
+            if (!(user instanceof Startup || user instanceof Admin)) {
                 throw new AccessDeniedException("Only startups can edit posts");
             }
+            Startup startup = (Startup) user;
+            
             Post editPost = postService.findById(id);
             if(editPost == null){
-                throw new PostNotFoundException("No existe un post por el id " + id);
+                throw new PostNotFoundException("No post found with id " + id);
             }
-            if(editPost.getStartup().getId().equals(startup.getId())){
+            if(!editPost.getStartup().getId().equals(startup.getId())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
                         "You can only edit your own posts"));
@@ -304,7 +306,7 @@ public class PostController {
             if (postDTO.getTitle().isEmpty() || postDTO.getTitle() == null || postDTO.getShortDescription() == null || postDTO.getShortDescription().isEmpty()
                 ||postDTO.getDescription() == null || postDTO.getDescription().isEmpty() || postDTO.getOdsList() == null || postDTO.getOdsList().isEmpty()) {
 
-                throw new ImageNotValidExtension("Title, short description and description are required");
+                throw new ImageNotValidExtension("Title, short description, description, and ODS list are required");
             }
 
             List<Ods> odsList = odsService.findAllById(postDTO.getOdsList());
@@ -372,6 +374,7 @@ public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserBase user, @Pat
                     "You can only delete your own posts"));
         }
         postService.delete(deletePost);
+        return ResponseEntity.ok().build();
     } catch (AccessDeniedException e) {
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
@@ -383,5 +386,6 @@ public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserBase user, @Pat
             "Internal server error");
     e.printStackTrace();
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+}
 }
 }
