@@ -56,7 +56,7 @@ public class Post {
     private List<Like> likes = new ArrayList<>();
 
     
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = false)
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
     

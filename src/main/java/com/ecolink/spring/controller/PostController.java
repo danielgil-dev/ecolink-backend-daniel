@@ -334,6 +334,8 @@ public class PostController {
             editPost.setTitle(postDTO.getTitle());
             editPost.setImageUrl(urlImage);
             postService.save(editPost);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Post updated successfully");
+            return ResponseEntity.ok(successDetails);
         } catch (AccessDeniedException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
@@ -356,8 +358,6 @@ public class PostController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-
-        return ResponseEntity.ok().build();
     }
 
     // Delete a post
