@@ -36,6 +36,7 @@ import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.ImageNotValidExtension;
 import com.ecolink.spring.exception.ImageSubmitError;
 import com.ecolink.spring.exception.PostNotFoundException;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.PostService;
 import com.ecolink.spring.utils.Images;
@@ -276,35 +277,34 @@ public class PostController {
 
     }
 
-    @PutMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)    
+    @PutMapping(value = "/edit/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> editPost(@AuthenticationPrincipal UserBase user,
-    @RequestPart("post") String postJson, @RequestPart(value = "image", required = false) MultipartFile image,
-    @PathVariable Long id) {
+            @RequestPart("post") String postJson, @RequestPart(value = "image", required = false) MultipartFile image,
+            @PathVariable Long id) {
 
-        
         String urlImage = null;
         try {
-            
-            if (!(user instanceof Startup || user instanceof Admin)) {
-                throw new AccessDeniedException("Only startups can edit posts");
+
+            if (!(user instanceof Startup startup)) {
+                throw new AccessDeniedException("Only startups or can edit posts");
             }
-            Startup startup = (Startup) user;
-            
+
             Post editPost = postService.findById(id);
-            if(editPost == null){
+            if (editPost == null) {
                 throw new PostNotFoundException("No post found with id " + id);
             }
-            if(!editPost.getStartup().getId().equals(startup.getId())){
+            if (!editPost.getStartup().getId().equals(startup.getId())) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
-                        "You can only edit your own posts"));
+                        .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
+                                "You can only edit your own posts"));
             }
             ObjectMapper mapper = new ObjectMapper();
             PostTemplateDTO postDTO = mapper.readValue(postJson, PostTemplateDTO.class);
-            
-            
-            if (postDTO.getTitle().isEmpty() || postDTO.getTitle() == null || postDTO.getShortDescription() == null || postDTO.getShortDescription().isEmpty()
-                ||postDTO.getDescription() == null || postDTO.getDescription().isEmpty() || postDTO.getOdsList() == null || postDTO.getOdsList().isEmpty()) {
+
+            if (postDTO.getTitle().isEmpty() || postDTO.getTitle() == null || postDTO.getShortDescription() == null
+                    || postDTO.getShortDescription().isEmpty()
+                    || postDTO.getDescription() == null || postDTO.getDescription().isEmpty()
+                    || postDTO.getOdsList() == null || postDTO.getOdsList().isEmpty()) {
 
                 throw new ImageNotValidExtension("Title, short description, description, and ODS list are required");
             }
@@ -323,69 +323,80 @@ public class PostController {
             if (urlImage == null || urlImage.isEmpty()) {
                 throw new ImageSubmitError("Error uploading image");
             }
-            
-            if(editPost.getImageUrl() != null && !editPost.getImageUrl().isEmpty()){
+
+            if (editPost.getImageUrl() != null && !editPost.getImageUrl().isEmpty()) {
                 images.deleteFile(editPost.getImageUrl(), uploadPostDir);
             }
-            
+
             editPost.setDescription(postDTO.getDescription());
             editPost.setShortDescription(postDTO.getShortDescription());
             editPost.setOdsList(odsList);
             editPost.setTitle(postDTO.getTitle());
             editPost.setImageUrl(urlImage);
             postService.save(editPost);
-        } catch(AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
-            
-        }catch (PostNotFoundException e){
+
+        } catch (PostNotFoundException e) {
 
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        }catch (ImageSubmitError | ImageNotValidExtension e) {
-            
-            if(urlImage == null && !urlImage.isEmpty()){
+        } catch (ImageSubmitError | ImageNotValidExtension e) {
+
+            if (urlImage == null && !urlImage.isEmpty()) {
                 images.deleteFile(urlImage, uploadPostDir);
-                }
-                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
-                e.getMessage());
-        }catch (Exception e) {
+            }
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
+                    e.getMessage());
+        } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Internal server error");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-        
+
         return ResponseEntity.ok().build();
     }
 
-    //Delete a post
-@DeleteMapping("/{id}")
-public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
-    try {
-        
-        if (!(user instanceof Startup startup || user instanceof Admin)) {
-            throw new AccessDeniedException("Only startups or admin can edit posts");
+    // Delete a post
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
+        try {
+
+            if (!(user instanceof Startup || user instanceof Admin)) {
+                throw new AccessDeniedException("Only startups or admin can delete posts");
+            }
+            Post deletePost = postService.findById(id);
+
+            if (deletePost == null) {
+                throw new PostNotFoundException("No post found with id " + id);
+            }
+
+            if (user instanceof Admin) {
+                postService.delete(deletePost);
+                return ResponseEntity.ok().build();
+            }
+            Startup startup = (Startup) user;
+            if (!deletePost.getStartup().getId().equals(startup.getId())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
+                                "You can only delete your own posts"));
+            }
+            postService.delete(deletePost);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Post deleted successfully");
+            return ResponseEntity.ok(successDetails);
+        } catch (AccessDeniedException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+        } catch (PostNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Internal server error");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
-        Post deletePost = postService.findById(id);
-        if(deletePost.getStartup().getId().equals(deletePost.getId())){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-            .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
-                    "You can only delete your own posts"));
-        }
-        postService.delete(deletePost);
-        return ResponseEntity.ok().build();
-    } catch (AccessDeniedException e) {
-        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
-    }catch (PostNotFoundException e){
-        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-}catch (Exception e) {
-    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            "Internal server error");
-    e.printStackTrace();
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-}
-}
+    }
 }
