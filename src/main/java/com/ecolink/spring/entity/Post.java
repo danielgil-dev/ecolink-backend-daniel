@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +35,8 @@ public class Post {
     private Long id;
 
     private String title;
+
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     private String shortDescription;
     private String imageUrl;

@@ -33,6 +33,7 @@ public class Proposal {
 	@ManyToOne
 	private Startup startup;
 
+	
 	private String description;
 
 	private String link;
