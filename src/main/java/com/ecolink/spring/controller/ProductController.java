@@ -286,6 +286,13 @@ public class ProductController {
                     }
                     product.setImageUrl(urlImage);
                 }
+
+                List<Category> categories = categoryService.findAllById(productDto.getCategories());
+
+                if (categories.size() > 0) {
+                    product.setCategories(categories);
+                }
+                
                 service.save(product);
                 return ResponseEntity.ok(product);
             }
