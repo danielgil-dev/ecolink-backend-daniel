@@ -98,8 +98,7 @@ public class StartupDataLoader implements CommandLineRunner {
                                                 odsService.findByName("Decent Work and Economic Growth"),
                                                 odsService.findByName("Industry, Innovation, and Infrastructure")),
                                                 "contact@righthub.com",
-                                                "RightHub is developing an all-in-one platform to help creators, IP professionals, and service providers simplify intellectual property management. Our mission is to protect brilliant ideas and innovations from theft and misuse with our efficient and collaborative solution."),
-
+                                                "RightHub is building an all-in-one platform to help creators, IP professionals, and service providers simplify intellectual property management, protecting ideas and innovations from theft and misuse."),
                                 new Startup("Memmora", Arrays.asList(
                                                 odsService.findByName("Clean Water and Sanitation"),
                                                 odsService.findByName("Sustainable Cities and Communities"),
@@ -112,140 +111,140 @@ public class StartupDataLoader implements CommandLineRunner {
                                                 odsService.findByName("Responsible Consumption and Production"),
                                                 odsService.findByName("Climate Action")),
                                                 "contact@soilsense.com",
-                                                "SoilSense is an agri-tech company working to solve one of the greatest climate challenges of this century: water scarcity. We are driven by the ambition to make a real difference in the world, focusing on agriculture to solve the global challenge of water scarcity."),
+                                                "SoilSense is an agri-tech company focused on tackling water scarcity, aiming to make a real impact on agriculture and address this global climate challenge."),
 
                                 new Startup("Monta", Arrays.asList(
                                                 odsService.findByName("Affordable and Clean Energy"),
                                                 odsService.findByName("Sustainable Cities and Communities"),
                                                 odsService.findByName("Climate Action")),
                                                 "info@monta.com",
-                                                "Monta is the operating platform powering the electric vehicle charging ecosystem, serving drivers, companies, cities, and the electricity grid with an integrated software solution. We believe that accelerating and democratizing the adoption of electric vehicle technology is key to building a better future."),
+                                                "Monta accelerates electric vehicle adoption with a platform that connects drivers, businesses, and cities, promoting a greener future."),
 
                                 new Startup("Doublepoint", Arrays.asList(
                                                 odsService.findByName("Decent Work and Economic Growth"),
                                                 odsService.findByName("Industry, Innovation, and Infrastructure"),
                                                 odsService.findByName("Responsible Consumption and Production")),
                                                 "contact@doublepoint.com",
-                                                "Doublepoint creates gesture recognition software for smartwatches. Our technologies are used to control AR/VR, IoT, wearables, automotive, AI assistants, TVs, and much more. Our smartwatch algorithms detect subtle hand gestures and need to be accurate, responsive, low power, and generalizable across populations."),
+                                                "Doublepoint creates gesture recognition software for smartwatches, enhancing AR/VR, wearables, IoT, and automotive control."),
 
                                 new Startup("Strise", Arrays.asList(
                                                 odsService.findByName("Decent Work and Economic Growth"),
                                                 odsService.findByName("Peace, Justice and Strong Institutions")),
                                                 "info@strise.com",
-                                                "Strise is a rapidly expanding tech company based in Oslo. We have created a revolutionary AML (anti-money laundering) automation cloud to help top-tier banks, fintechs, and other financial institutions fight financial crime."),
+                                                "Strise offers an AML automation platform to help banks and fintechs combat financial crime efficiently."),
 
                                 new Startup("Station", Arrays.asList(
                                                 odsService.findByName("Quality Education"),
                                                 odsService.findByName("Industry, Innovation, and Infrastructure"),
                                                 odsService.findByName("Sustainable Cities and Communities")),
                                                 "contact@station.com",
-                                                "Station Fonden is a non-profit volunteer foundation dedicated to youth, well-being, and empowering students. Our mission is to create meaningful and inclusive communities that allow students from higher education institutions across the country to transform their engagement, curiosity, and ideas into positive change for themselves and the world."),
+                                                "Station Fonden is a non-profit that empowers students to create positive change through inclusive communities."),
 
                                 new Startup("Silvi", Arrays.asList(
                                                 odsService.findByName("Good Health and Well-being"),
                                                 odsService.findByName("Quality Education"),
                                                 odsService.findByName("Reduced Inequalities")),
                                                 "contact@silvi.com",
-                                                "Silvi is an AI-powered tool for systematic literature reviews and meta-analyses. It connects to databases like PubMed and ClinicalTrials.gov to keep information up to date. Researchers stay in control while AI speeds up data collection and analysis."),
+                                                "Silvi is an AI-powered tool that helps researchers conduct systematic reviews and meta-analyses faster."),
 
                                 new Startup("Nutrish.ai", Arrays.asList(
                                                 odsService.findByName("Good Health and Well-being"),
                                                 odsService.findByName("Reduced Inequalities"),
                                                 odsService.findByName("Responsible Consumption and Production")),
                                                 "contact@nutrish.ai",
-                                                "Nutrish.ai provides personalized nutrition guidance through AI and expert insights, all via WhatsApp. It solves the problem of confusing advice and inaccessible diet plans by offering custom meal plans and real-time, science-backed support."),
+                                                "Nutrish.ai delivers personalized nutrition guidance through AI and expert insights via WhatsApp."),
 
                                 new Startup("KodiakHub", Arrays.asList(
                                                 odsService.findByName("Good Health and Well-being"),
                                                 odsService.findByName("Gender Equality"),
                                                 odsService.findByName("Sustainable Cities and Communities")),
                                                 "contact@kodiakhub.com",
-                                                "Kodiak Hub is a cloud-based Supplier Relationship Management (SRM) platform that helps procurement teams source smarter and build sustainable supplier relationships. By combining cutting-edge technology, user-friendly design, and data-driven insights, it enables businesses to unlock and maximize value across their supply chain."),
+                                                "Kodiak Hub is a cloud-based platform that helps businesses build sustainable supplier relationships through SRM."),
 
                                 new Startup("EcoTree", Arrays.asList(
                                                 odsService.findByName("Responsible Consumption and Production"),
                                                 odsService.findByName("Climate Action"),
                                                 odsService.findByName("Life on Land")),
                                                 "contact@ecotree.com",
-                                                "EcoTree is a green-tech company making sustainability accessible by allowing individuals and businesses to own trees and forests. By planting and maintaining forests, we help offset carbon footprints while ensuring biodiversity and responsible forestry."),
+                                                "EcoTree allows individuals and businesses to own trees and forests, offsetting carbon footprints while preserving biodiversity."),
 
                                 new Startup("GoMore", Arrays.asList(
                                                 odsService.findByName("Sustainable Cities and Communities"),
                                                 odsService.findByName("Responsible Consumption and Production"),
                                                 odsService.findByName("Climate Action")),
                                                 "contact@gomore.com",
-                                                "GoMore's mission is to help people share cars. We do this by providing an online platform for ridesharing, peer-to-peer car rental, and car leasing with a lease-and-rent-out model. We are present in Denmark, Spain, Sweden, Finland, Switzerland, Austria, and Estonia, with over 3 million members showing the way forward."),
+                                                "GoMore promotes car-sharing with a platform for ridesharing, car rentals, and leasing across multiple countries."),
 
                                 new Startup("GoodWings", Arrays.asList(
                                                 odsService.findByName("Climate Action"),
                                                 odsService.findByName("Partnerships for the Goals")),
                                                 "contact@goodwings.com",
-                                                "Goodwings is a climate-focused travel management platform that helps businesses reduce emissions while booking and managing travel. Using AI-driven strategies, behavior-based reduction plans, and Sustainable Aviation Fuel (SAF) purchases, we enable companies to actively lower their carbon footprint."),
+                                                "Goodwings is a climate-focused travel platform helping businesses reduce emissions through AI-driven strategies."),
 
                                 new Startup("GlintSolar", Arrays.asList(
                                                 odsService.findByName("Affordable and Clean Energy"),
                                                 odsService.findByName("Climate Action")),
                                                 "contact@glintsolar.com",
-                                                "Glint Solar accelerates solar energy adoption with cutting-edge screening and analysis software, helping developers identify optimal sites for large-scale solar projects. Starting with floating solar, one of the fastest-growing energy sectors, we have expanded into land-based solar to drive renewable energy growth."),
+                                                "Glint Solar accelerates solar energy adoption with software that identifies optimal sites for large-scale solar projects."),
 
                                 new Startup("Spritju", Arrays.asList(
                                                 odsService.findByName("Affordable and Clean Energy"),
                                                 odsService.findByName("Sustainable Cities and Communities"),
                                                 odsService.findByName("Climate Action")),
                                                 "contact@spritju.com",
-                                                "Spritju is revolutionizing energy tracking with a B2B marketplace for energy certificates, offering 8,760 times more granularity than traditional systems. While outdated certificates cost companies €24.4 billion annually with little transparency, Spritju cuts costs by 20% and provides real-time, precise tracking of energy usage."),
+                                                "Spritju provides a B2B marketplace for energy certificates with real-time tracking, cutting costs and improving transparency."),
 
                                 new Startup("DeepBlu", Arrays.asList(
                                                 odsService.findByName("Good Health and Well-being"),
                                                 odsService.findByName("Life Below Water")),
                                                 "contact@deepblu.com",
-                                                "Deepblu is a community designed for divers to share dive logs and their passion for the ocean. The Deepblu diving community transforms the way divers connect with one another. Experience exciting dive adventures through the eyes of other divers and bring others onto your journey by sharing your dive logs."),
+                                                "Deepblu connects divers to share experiences and dive logs, enhancing the community and ocean exploration."),
 
                                 new Startup("Vove", Arrays.asList(
                                                 odsService.findByName("Responsible Consumption and Production"),
                                                 odsService.findByName("Climate Action"),
                                                 odsService.findByName("Life Below Water")),
                                                 "contact@vove.com",
-                                                "Vove is redefining sustainable household essentials by creating the best eco-friendly products without compromising quality or convenience. Using technology, we simplify the buying process, making it easier to find, replenish, and manage home essentials."),
+                                                "Vove creates eco-friendly household products, simplifying sustainable living without compromising on convenience."),
 
                                 new Startup("PerPlant", Arrays.asList(
                                                 odsService.findByName("Responsible Consumption and Production"),
                                                 odsService.findByName("Climate Action"),
                                                 odsService.findByName("Life on Land")),
                                                 "contact@perplant.com",
-                                                "PerPlant is an agtech startup dedicated to helping farmers transition to sustainable farming by making AI-driven insights accessible. Our advanced sensor technology provides unmatched precision in monitoring plant health."),
+                                                "PerPlant helps farmers transition to sustainable farming through AI-driven insights and precision plant health monitoring."),
 
                                 new Startup("Dripdrop", Arrays.asList(
                                                 odsService.findByName("Responsible Consumption and Production"),
                                                 odsService.findByName("Life Below Water"),
                                                 odsService.findByName("Life on Land")),
                                                 "contact@dripdrop.com",
-                                                "Dripdrop is a tech startup helping top hotels provide eco-friendly umbrella rentals while streamlining their guest experience. Our umbrellas are made from recycled plastic, and with every rental, we plant a tree, reinforcing our commitment to sustainability."),
+                                                "Dripdrop provides eco-friendly umbrella rentals to hotels, with each rental helping to plant a tree for sustainability."),
 
                                 new Startup("Legitify", Arrays.asList(
                                                 odsService.findByName("Peace, Justice and Strong Institutions")),
                                                 "contact@legitify.com",
-                                                "Legitify is an AI-powered platform that enables remote online notarization (RON) through secure audio-video authentication, eliminating the need for in-person visits. Designed for Europe and beyond, it leverages cutting-edge technology to stay ahead of evolving legal frameworks."),
+                                                "Legitify is an AI-powered platform that facilitates remote notarization through secure audio-video authentication."),
 
                                 new Startup("WhistleSystem", Arrays.asList(
                                                 odsService.findByName("Decent Work and Economic Growth"),
                                                 odsService.findByName("Reduced Inequalities"),
                                                 odsService.findByName("Peace, Justice and Strong Institutions")),
                                                 "contact@whistlesystem.com",
-                                                "WhistleSystem is a fast-growing SaaS company providing whistleblower compliance solutions for European businesses with 50+ employees. With the EU mandate requiring compliance by December 2023, we offer the simplest, most efficient way for companies to meet regulations."),
+                                                "WhistleSystem provides whistleblower compliance solutions for businesses to meet EU regulations efficiently."),
 
                                 new Startup("BeCause", Arrays.asList(
                                                 odsService.findByName("Responsible Consumption and Production"),
                                                 odsService.findByName("Partnerships for the Goals")),
                                                 "contact@because.com",
-                                                "BeCause is a sustainability management hub using AI-powered technology to make sustainable choices seamless for businesses, particularly in travel and tourism. Our platform, because.eco, simplifies and automates sustainability data management."),
+                                                "BeCause is a sustainability hub that uses AI to simplify data management and promote sustainable practices."),
 
                                 new Startup("ChronosHub", Arrays.asList(
                                                 odsService.findByName("Industry, Innovation, and Infrastructure"),
                                                 odsService.findByName("Peace, Justice and Strong Institutions"),
                                                 odsService.findByName("Partnerships for the Goals")),
                                                 "contact@chronoshub.com",
-                                                "ChronosHub simplifies academic publishing by helping authors find the right journals while ensuring compliance with funding policies and Open Access (OA) agreements. Our platform streamlines APC management, reporting, and compliance tracking."));
+                                                "ChronosHub simplifies academic publishing by helping authors comply with funding policies and Open Access agreements."));
 
                 startups.forEach(startup -> {
                         if (!service.existsByName(startup.getName())) {

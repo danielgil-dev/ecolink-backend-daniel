@@ -38,31 +38,38 @@ public class PostDataLoader implements CommandLineRunner {
         @Transactional
         @Override
         public void run(String... args) throws Exception {
-                Startup vhat = startupService.findByName("VhAT");
-                Startup gamingBuddy = startupService.findByName("GamingBuddy");
-                Startup nors = startupService.findByName("Nørs");
-                Startup andLight = startupService.findByName("AndLight");
-                Startup imHub = startupService.findByName("Influencer Marketing Hub");
-                Startup tooGoodToGo = startupService.findByName("Too Good To Go");
+                Startup flavorScale = startupService.findByName("FlavorScale");
+                Startup climaider = startupService.findByName("Climaider");
+                Startup seasony = startupService.findByName("Seasony");
+                Startup tribe = startupService.findByName("Tribe");
+                Startup peltarion = startupService.findByName("Peltarion");
+                Startup donkeyRepublic = startupService.findByName("Donkey Republic");
+                Startup pickYourPour = startupService.findByName("Pick Your Pour AS");
+                Startup aliceAi = startupService.findByName("Alice AI");
+                Startup leiaHealth = startupService.findByName("LEIA Health");
+                Startup rightHub = startupService.findByName("RightHub");
+                Startup memmora = startupService.findByName("Memmora");
+                Startup soilSense = startupService.findByName("SoilSense");
+                Startup monta = startupService.findByName("Monta");
                 Startup doublepoint = startupService.findByName("Doublepoint");
+                Startup strise = startupService.findByName("Strise");
+                Startup station = startupService.findByName("Station");
+                Startup silvi = startupService.findByName("Silvi");
+                Startup nutrishAi = startupService.findByName("Nutrish.ai");
+                Startup kodiakHub = startupService.findByName("KodiakHub");
+                Startup ecoTree = startupService.findByName("EcoTree");
+                Startup goMore = startupService.findByName("GoMore");
+                Startup goodWings = startupService.findByName("GoodWings");
+                Startup glintSolar = startupService.findByName("GlintSolar");
+                Startup spritju = startupService.findByName("Spritju");
+                Startup deepBlu = startupService.findByName("DeepBlu");
+                Startup vove = startupService.findByName("Vove");
+                Startup perPlant = startupService.findByName("PerPlant");
+                Startup dripdrop = startupService.findByName("Dripdrop");
+                Startup legitify = startupService.findByName("Legitify");
+                Startup whistleSystem = startupService.findByName("WhistleSystem");
                 Startup beCause = startupService.findByName("BeCause");
-                Startup bitligRenewableFuels = startupService.findByName("Bitlig Renewable Fuels");
-                Startup Mavibioscience = startupService.findByName("Mavi Bioscience");
-                Startup doecos = startupService.findByName("Doecos");
-                Startup viscan = startupService.findByName("VISCAN");
-                Startup nxtCatchas = startupService.findByName("NXT Catch AS");
-                Startup squareRoot = startupService.findByName("SquareRoot");
-                Startup alteredPowerAs = startupService.findByName("Altered Power AS");
-                Startup besenGroupAs = startupService.findByName("Besen Group AS");
-                Startup seacirc = startupService.findByName("Seacirc");
-                Startup manolin = startupService.findByName("Manolin");
-                Startup algaeproAs = startupService.findByName("Algaepro AS");
-                Startup elifeAs = startupService.findByName("Elife AS");
-                Startup nordicElectrofuel = startupService.findByName("Nordic Electrofuel");
-                Startup evoltec = startupService.findByName("Evoltec");
-                Startup ecoCharge = startupService.findByName("EcoCharge");
-                Startup waterWise = startupService.findByName("WaterWise");
-                Startup greenTransport = startupService.findByName("GreenTransport");
+                Startup chronosHub = startupService.findByName("ChronosHub");
 
                 // Sustainable Development Goals (SDGs)
                 Ods zeroHunger = odsService.findByName("Zero Hunger");
@@ -77,275 +84,271 @@ public class PostDataLoader implements CommandLineRunner {
                 Ods climateAction = odsService.findByName("Climate Action");
                 Ods lifeBelowWater = odsService.findByName("Life Below Water");
                 Ods lifeOnLand = odsService.findByName("Life on Land");
-
+                Ods partnershipsForTheGoals = odsService.findByName("Partnerships for the Goals");
+                Ods genderEquality = odsService.findByName("Gender Equality");
+                Ods decentWorkAndEconomicGrowth = odsService.findByName("Decent Work and Economic Growth");
+                Ods peaceJusticeAndStrongInstitutions = odsService.findByName("Peace, Justice, and Strong Institutions");
 
                 List<Post> posts = Arrays.asList(
-                                new Post(
-                                                vhat,
-                                                "VhAT: Revolutionizing industrial automation",
-                                                "Optimizing production with AI.",
-                                                "Our AI-driven platform optimizes production processes, reducing waste and enhancing efficiency.",
+                                new Post(flavorScale, "FlavorScale: Revolutionizing Food Discovery",
+                                                "Connecting food enthusiasts with restaurants.",
+                                                "FlavorScale is transforming the way people discover and connect with restaurants, making the process seamless and enjoyable.",
                                                 LocalDate.now()),
-
-                                new Post(
-                                                gamingBuddy,
-                                                "GamingBuddy: Learning through play",
-                                                "Making education fun for all ages.",
-                                                "We offer educational games that promote learning in a fun and engaging way for all ages.",
+                                new Post(climaider, "Climaider: Empowering SMEs for Climate Action",
+                                                "Helping businesses measure and reduce their carbon footprint.",
+                                                "Climaider provides tools for small and medium-sized enterprises to measure, report, and take action on their ESG indicators.",
                                                 LocalDate.now().minusDays(5)),
-
-                                new Post(
-                                                nors,
-                                                "Nørs: Enhancing personal health",
-                                                "Wearable technology for better health.",
-                                                "Our wearable technology tracks vital signs, encouraging healthier lifestyles.",
+                                new Post(seasony, "Seasony: Making Vertical Farming Profitable",
+                                                "Smart automation solutions for vertical farms.",
+                                                "Seasony offers low-cost automation solutions to make vertical farming scalable and efficient, promoting sustainable food practices.",
                                                 LocalDate.now().minusDays(10)),
-
-                                new Post(
-                                                andLight,
-                                                "AndLight: Affordable solar solutions",
-                                                "Providing clean energy through solar power.",
-                                                "We develop solar-powered lighting systems to provide clean energy access.",
+                                new Post(tribe, "Tribe: Simplifying Insurance",
+                                                "Peer-to-peer insurance for a fairer world.",
+                                                "Tribe aims to simplify the insurance process by offering clear and fair coverage without unnecessary complexity.",
                                                 LocalDate.now().minusWeeks(1)),
-
-                                new Post(
-                                                imHub,
-                                                "IM Hub: Supporting fair influencer marketing",
-                                                "Connecting ethical influencers with brands.",
-                                                "We connect brands with ethical influencers to promote fair trade and ethical marketing practices.",
+                                new Post(peltarion, "Peltarion: AI for a Better Future",
+                                                "Leveraging AI for health, wealth, and sustainability.",
+                                                "Peltarion's platform allows users to build AI models to solve problems in health, wealth, and sustainability.",
                                                 LocalDate.now().minusMonths(1)),
-
-                                new Post(
-                                                tooGoodToGo,
-                                                "Too Good To Go: Fighting hunger with rescued food",
-                                                "Reducing food waste, feeding communities.",
-                                                "We bridge the gap between surplus food and those in need, reducing food waste.",
+                                new Post(donkeyRepublic, "Donkey Republic: Leading Bike Sharing",
+                                                "Promoting sustainable urban mobility.",
+                                                "Donkey Republic provides shared bike services to promote sustainable mobility in cities across Europe.",
                                                 LocalDate.now()),
-
-                                new Post(
-                                                doublepoint,
-                                                "Doublepoint: Towards a zero-carbon future",
-                                                "Helping businesses track and cut emissions.",
-                                                "Our technology helps businesses track and reduce their carbon footprint effectively.",
+                                new Post(pickYourPour, "Pick Your Pour: Personalized Tasting Experiences",
+                                                "Digital menus for food and drink pairings.",
+                                                "Pick Your Pour offers a unique digital menu that personalizes food and drink pairings based on individual preferences.",
                                                 LocalDate.now().minusDays(3)),
-
-                                new Post(
-                                                beCause,
-                                                "BeCause: Building sustainable business networks",
-                                                "Collaborating for a greener future.",
-                                                "We enable companies to collaborate towards achieving global sustainability goals.",
+                                new Post(aliceAi, "Alice AI: Democratizing Learning",
+                                                "Personalized learning experiences for students.",
+                                                "Alice AI provides an ultimate learning platform that offers personalized and engaging learning experiences for students.",
                                                 LocalDate.now().minusDays(8)),
-
-                                new Post(
-                                                bitligRenewableFuels,
-                                                "Bitlig Renewable Fuels: Clean energy for all",
-                                                "Affordable renewable fuel solutions.",
-                                                "We produce cost-effective renewable fuels to replace fossil energy sources.",
+                                new Post(leiaHealth, "LEIA Health: Supporting Parents with AI",
+                                                "Digitizing the parental journey.",
+                                                "LEIA Health offers AI-powered support to parents, helping them navigate the challenges of parenthood.",
                                                 LocalDate.now().minusWeeks(2)),
-
-                                new Post(
-                                                Mavibioscience,
-                                                "Mavi Bioscience: Protecting ecosystems",
-                                                "Reducing livestock emissions for sustainability.",
-                                                "Our solutions reduce livestock emissions, preserving natural habitats and biodiversity.",
+                                new Post(rightHub, "RightHub: Simplifying IP Management",
+                                                "All-in-one platform for intellectual property.",
+                                                "RightHub provides a comprehensive platform to help creators and professionals manage their intellectual property efficiently.",
                                                 LocalDate.now().minusDays(12)),
-
-                                new Post(
-                                                doecos,
-                                                "Doecos: Smart water heating solutions",
-                                                "Efficient water and energy-saving systems.",
-                                                "We develop water heating systems that minimize water and energy consumption.",
+                                new Post(memmora, "Memmora: Caring for Graves with Technology",
+                                                "Combining technology with gardening.",
+                                                "Memmora offers a platform for maintaining graves and sharing memories, regardless of distance.",
                                                 LocalDate.now().minusDays(6)),
-
-                                new Post(
-                                                viscan,
-                                                "VISCAN: Smart city planning",
-                                                "Technology for sustainable urban growth.",
-                                                "Our technology supports sustainable urban development and reduces environmental impact.",
+                                new Post(soilSense, "SoilSense: Tackling Water Scarcity",
+                                                "Agri-tech solutions for sustainable farming.",
+                                                "SoilSense provides technology to optimize water use in agriculture, addressing the global challenge of water scarcity.",
                                                 LocalDate.now().minusDays(15)),
-
-                                new Post(
-                                                nxtCatchas,
-                                                "NXT Catch: Sustainable fishing gear",
-                                                "Protecting marine life with innovation.",
-                                                "We design innovative fishing solutions that protect marine life and reduce bycatch.",
+                                new Post(monta, "Monta: Powering EV Charging",
+                                                "Integrated software for electric vehicle charging.",
+                                                "Monta offers a platform to manage electric vehicle charging stations, promoting the adoption of EV technology.",
                                                 LocalDate.now().minusDays(7)),
-
-                                new Post(
-                                                squareRoot,
-                                                "SquareRoot: Inclusive urban green spaces",
-                                                "Bringing greenery to underserved areas.",
-                                                "We bring green infrastructure to underserved communities, improving urban quality of life.",
+                                new Post(doublepoint, "Doublepoint: Gesture Recognition Technology",
+                                                "Innovative software for smartwatches.",
+                                                "Doublepoint develops gesture recognition software for various devices, enhancing user interaction.",
                                                 LocalDate.now().minusDays(20)),
-
-                                new Post(
-                                                alteredPowerAs,
-                                                "Altered Power: Solar solutions for remote areas",
-                                                "Portable solar energy for off-grid regions.",
-                                                "Our portable solar devices bring electricity to off-grid communities.",
+                                new Post(strise, "Strise: Fighting Financial Crime",
+                                                "AML automation for financial institutions.",
+                                                "Strise provides an AML automation cloud to help financial institutions combat financial crime effectively.",
                                                 LocalDate.now().minusWeeks(3)),
-
-                                new Post(
-                                                besenGroupAs,
-                                                "Besen Group: Charging the future",
-                                                "Expanding EV charging infrastructure.",
-                                                "We install EV charging stations to promote clean mobility in urban areas.",
+                                new Post(station, "Station: Empowering Students",
+                                                "Creating inclusive student communities.",
+                                                "Station Fonden supports students in higher education by fostering meaningful and inclusive communities.",
                                                 LocalDate.now().minusDays(18)),
-
-                                new Post(
-                                                seacirc,
-                                                "Seacirc: Enabling circular economy",
-                                                "Helping businesses adopt sustainable production.",
-                                                "Our software helps companies transition to sustainable production models.",
+                                new Post(silvi, "Silvi: AI for Research",
+                                                "Tools for systematic literature reviews.",
+                                                "Silvi offers AI-powered tools to assist researchers in conducting systematic literature reviews and meta-analyses.",
                                                 LocalDate.now().minusWeeks(4)),
-
-                                new Post(
-                                                manolin,
-                                                "Manolin: Ensuring aquaculture health",
-                                                "Monitoring aquatic animal health.",
-                                                "We monitor aquatic animal health to ensure sustainable and healthy seafood production.",
+                                new Post(nutrishAi, "Nutrish.ai: Personalized Nutrition",
+                                                "AI-driven diet recommendations.",
+                                                "Nutrish.ai provides personalized nutrition guidance through AI, helping users achieve their dietary goals.",
                                                 LocalDate.now().minusDays(9)),
-
-                                new Post(
-                                                algaeproAs,
-                                                "Algaepro: Sustainable bioproducts",
-                                                "Eco-friendly bioplastics from algae.",
-                                                "We produce eco-friendly bioplastics from algae, reducing land and marine pollution.",
+                                new Post(kodiakHub, "KodiakHub: Sustainable Supplier Relationships",
+                                                "SRM platform for procurement teams.",
+                                                "Kodiak Hub offers a platform to help procurement teams build sustainable relationships with suppliers.",
                                                 LocalDate.now().minusDays(14)),
-
-                                new Post(
-                                                elifeAs,
-                                                "Elife: Eco-friendly urban mobility",
-                                                "Electric bikes for greener cities.",
-                                                "We offer electric bikes as a sustainable transportation option for city dwellers.",
+                                new Post(ecoTree, "EcoTree: Owning Trees for Sustainability",
+                                                "Making sustainability accessible.",
+                                                "EcoTree allows individuals and businesses to own trees and contribute to reforestation efforts.",
                                                 LocalDate.now().minusDays(11)),
-
-                                new Post(
-                                                nordicElectrofuel,
-                                                "Nordic Electrofuel: Pioneering synthetic fuels",
-                                                "Renewable energy transformed into fuel.",
-                                                "We transform renewable energy into sustainable fuel solutions.",
+                                new Post(goMore, "GoMore: Sharing Cars for a Greener Future",
+                                                "Platform for ridesharing and car rentals.",
+                                                "GoMore promotes car sharing and rentals, reducing the environmental impact of transportation.",
                                                 LocalDate.now().minusWeeks(5)),
-
-                                new Post(
-                                                evoltec,
-                                                "Evoltec: Innovating for energy efficiency",
-                                                "Advanced tech for industrial energy savings.",
-                                                "We provide advanced technologies to improve energy efficiency in industries.",
+                                new Post(goodWings, "GoodWings: Climate-Friendly Travel",
+                                                "Reducing emissions through sustainable travel.",
+                                                "GoodWings offers a travel management platform focused on reducing emissions and promoting sustainable travel.",
                                                 LocalDate.now().minusDays(22)),
-
-                                new Post(
-                                                ecoCharge,
-                                                "EcoCharge: Solar-powered EV charging",
-                                                "Making electric mobility even greener.",
-                                                "We develop solar charging stations to make electric mobility greener.",
+                                new Post(glintSolar, "GlintSolar: Accelerating Solar Energy",
+                                                "Screening and analysis software for solar projects.",
+                                                "Glint Solar provides tools to identify optimal sites for large-scale solar projects.",
                                                 LocalDate.now().minusDays(16)),
-
-                                new Post(
-                                                waterWise,
-                                                "WaterWise: Smart water management",
-                                                "Optimizing water usage efficiently.",
-                                                "Our technology helps optimize water use, ensuring access to clean water.",
+                                new Post(spritju, "Spritju: Revolutionizing Energy Tracking",
+                                                "Marketplace for energy certificates.",
+                                                "Spritju offers a B2B marketplace for energy certificates, providing real-time tracking of energy usage.",
                                                 LocalDate.now().minusDays(19)),
-
-                                new Post(
-                                                greenTransport,
-                                                "GreenTransport: Electrifying public transit",
-                                                "Reducing emissions through electric transport.",
-                                                "We offer electric public transport solutions to reduce emissions and improve air quality.",
-                                                LocalDate.now().minusWeeks(6)));
+                                new Post(deepBlu, "DeepBlu: Connecting Divers",
+                                                "Community for sharing dive logs.",
+                                                "Deepblu offers a platform for divers to share their dive logs and connect with other enthusiasts.",
+                                                LocalDate.now().minusWeeks(6)),
+                                new Post(vove, "Vove: Sustainable Household Essentials",
+                                                "Eco-friendly products for everyday use.",
+                                                "Vove provides eco-friendly household products, making sustainability convenient and accessible.",
+                                                LocalDate.now().minusDays(21)),
+                                new Post(perPlant, "PerPlant: AI for Sustainable Farming",
+                                                "Sensor technology for precision agriculture.",
+                                                "PerPlant offers AI-compatible sensors to optimize farming practices and reduce waste.",
+                                                LocalDate.now().minusDays(13)),
+                                new Post(dripdrop, "Dripdrop: Eco-Friendly Umbrella Rentals",
+                                                "Sustainable solutions for hotels.",
+                                                "Dripdrop provides recycled umbrellas for hotels, promoting sustainability and guest satisfaction.",
+                                                LocalDate.now().minusDays(17)),
+                                new Post(legitify, "Legitify: Remote Online Notarization",
+                                                "AI-powered platform for legal documents.",
+                                                "Legitify offers a secure platform for remote online notarization, streamlining the legal process.",
+                                                LocalDate.now().minusDays(23)),
+                                new Post(whistleSystem, "WhistleSystem: Compliance Solutions",
+                                                "Tools for whistleblower compliance.",
+                                                "WhistleSystem provides solutions to help businesses meet EU regulations for whistleblower compliance.",
+                                                LocalDate.now().minusDays(12)),
+                                new Post(beCause, "BeCause: Sustainability Management",
+                                                "AI-powered platform for businesses.",
+                                                "BeCause offers a platform to help businesses make sustainable choices and manage their sustainability data.",
+                                                LocalDate.now().minusDays(18)),
+                                new Post(chronosHub, "ChronosHub: Simplifying Academic Publishing",
+                                                "Tools for compliance and reporting.",
+                                                "ChronosHub provides tools to help researchers comply with funding policies and streamline the publishing process.",
+                                                LocalDate.now().minusDays(15)));
 
                 posts.forEach(post -> {
-
                         switch (post.getStartup().getName()) {
-                                case "VhAT":
-                                        post.addOds(industryInnovation);
-                                        post.addOds(responsibleConsumption);
-                                        post.addOds(climateAction);
-                                        break;
-                                case "GamingBuddy":
-                                        post.addOds(qualityEducation);
-                                        post.addOds(reducedInequalities);
-                                        break;
-                                case "Nørs":
-                                        post.addOds(goodHealthWellBeing);
-                                        post.addOds(industryInnovation);
-                                        break;
-                                case "AndLight":
-                                        post.addOds(affordableCleanEnergy);
-                                        post.addOds(climateAction);
-                                        break;
-                                case "Influencer Marketing Hub":
-                                        post.addOds(reducedInequalities);
-                                        post.addOds(industryInnovation);
-                                        break;
-                                case "Too Good To Go":
-                                        post.addOds(responsibleConsumption);
-                                        post.addOds(climateAction);
+                                case "FlavorScale":
                                         post.addOds(zeroHunger);
+                                        post.addOds(industryInnovation);
+                                        break;
+                                case "Climaider":
+                                        post.addOds(climateAction);
+                                        post.addOds(responsibleConsumption);
+                                        break;
+                                case "Seasony":
+                                        post.addOds(zeroHunger);
+                                        post.addOds(sustainableCities);
+                                        break;
+                                case "Tribe":
+                                        post.addOds(reducedInequalities);
+                                        break;
+                                case "Peltarion":
+                                        post.addOds(goodHealthWellBeing);
+                                        post.addOds(affordableCleanEnergy);
+                                        break;
+                                case "Donkey Republic":
+                                        post.addOds(sustainableCities);
+                                        post.addOds(partnershipsForTheGoals);
+                                        break;
+                                case "Pick Your Pour AS":
+                                        post.addOds(qualityEducation);
+                                        post.addOds(genderEquality);
+                                        break;
+                                case "Alice AI":
+                                        post.addOds(qualityEducation);
+                                        post.addOds(decentWorkAndEconomicGrowth);
+                                        break;
+                                case "LEIA Health":
+                                        post.addOds(genderEquality);
+                                        post.addOds(goodHealthWellBeing);
+                                        break;
+                                case "RightHub":
+                                        post.addOds(genderEquality);
+                                        post.addOds(decentWorkAndEconomicGrowth);
+                                        break;
+                                case "Memmora":
+                                        post.addOds(cleanWaterSanitation);
+                                        post.addOds(sustainableCities);
+                                        break;
+                                case "SoilSense":
+                                        post.addOds(cleanWaterSanitation);
+                                        post.addOds(responsibleConsumption);
+                                        break;
+                                case "Monta":
+                                        post.addOds(affordableCleanEnergy);
+                                        post.addOds(sustainableCities);
                                         break;
                                 case "Doublepoint":
-                                        post.addOds(climateAction);
-                                        post.addOds(responsibleConsumption);
-                                        break;
-                                case "BeCause":
+                                        post.addOds(decentWorkAndEconomicGrowth);
                                         post.addOds(industryInnovation);
                                         break;
-                                case "Bitlig Renewable Fuels":
+                                case "Strise":
+                                        post.addOds(decentWorkAndEconomicGrowth);
+                                        post.addOds(peaceJusticeAndStrongInstitutions);
+                                        break;
+                                case "Station":
+                                        post.addOds(qualityEducation);
+                                        post.addOds(industryInnovation);
+                                        break;
+                                case "Silvi":
+                                        post.addOds(goodHealthWellBeing);
+                                        post.addOds(qualityEducation);
+                                        break;
+                                case "Nutrish.ai":
+                                        post.addOds(goodHealthWellBeing);
+                                        post.addOds(responsibleConsumption);
+                                        break;
+                                case "KodiakHub":
+                                        post.addOds(goodHealthWellBeing);
+                                        post.addOds(genderEquality);
+                                        break;
+                                case "EcoTree":
+                                        post.addOds(responsibleConsumption);
+                                        post.addOds(climateAction);
+                                        break;
+                                case "GoMore":
+                                        post.addOds(sustainableCities);
+                                        post.addOds(responsibleConsumption);
+                                        break;
+                                case "GoodWings":
+                                        post.addOds(climateAction);
+                                        post.addOds(partnershipsForTheGoals);
+                                        break;
+                                case "GlintSolar":
                                         post.addOds(affordableCleanEnergy);
+                                        post.addOds(climateAction);
                                         break;
-                                case "Mavi Bioscience":
-                                        post.addOds(lifeOnLand);
-                                        break;
-                                case "Doecos":
-                                        post.addOds(cleanWaterSanitation);
-                                        break;
-                                case "VISCAN":
+                                case "Spritju":
+                                        post.addOds(affordableCleanEnergy);
                                         post.addOds(sustainableCities);
                                         break;
-                                case "NXT Catch AS":
+                                case "DeepBlu":
+                                        post.addOds(goodHealthWellBeing);
                                         post.addOds(lifeBelowWater);
                                         break;
-                                case "SquareRoot":
-                                        post.addOds(sustainableCities);
-                                        break;
-                                case "Altered Power AS":
-                                        post.addOds(affordableCleanEnergy);
-                                        break;
-                                case "Besen Group AS":
-                                        post.addOds(sustainableCities);
-                                        break;
-                                case "Seacirc":
+                                case "Vove":
                                         post.addOds(responsibleConsumption);
+                                        post.addOds(climateAction);
                                         break;
-                                case "Manolin":
-                                        post.addOds(goodHealthWellBeing);
-                                        break;
-                                case "Algaepro AS":
-                                        post.addOds(lifeOnLand);
-                                        break;
-                                case "Elife AS":
-                                        post.addOds(sustainableCities);
-                                        break;
-                                case "Nordic Electrofuel":
+                                case "PerPlant":
                                         post.addOds(responsibleConsumption);
+                                        post.addOds(climateAction);
                                         break;
-                                case "Evoltec":
+                                case "Dripdrop":
+                                        post.addOds(responsibleConsumption);
+                                        post.addOds(lifeBelowWater);
+                                        break;
+                                case "Legitify":
+                                        post.addOds(peaceJusticeAndStrongInstitutions);
+                                        break;
+                                case "WhistleSystem":
+                                        post.addOds(decentWorkAndEconomicGrowth);
+                                        post.addOds(reducedInequalities);
+                                        break;
+                                case "BeCause":
+                                        post.addOds(responsibleConsumption);
+                                        post.addOds(partnershipsForTheGoals);
+                                        break;
+                                case "ChronosHub":
                                         post.addOds(industryInnovation);
-                                        break;
-                                case "EcoCharge":
-                                        post.addOds(affordableCleanEnergy);
-                                        break;
-                                case "WaterWise":
-                                        post.addOds(cleanWaterSanitation);
-                                        break;
-                                case "GreenTransport":
-                                        post.addOds(affordableCleanEnergy);
+                                        post.addOds(peaceJusticeAndStrongInstitutions);
                                         break;
                                 default:
-                                        System.out.println(
-                                                        "No se encontro el post de la startup: "
-                                                                        + post.getStartup().getName());
+                                        System.out.println("No se encontró el post de la startup: " + post.getStartup().getName());
                                         break;
                         }
 
@@ -353,19 +356,16 @@ public class PostDataLoader implements CommandLineRunner {
                                 service.save(post);
 
                                 Comment newComment = new Comment();
-
                                 newComment.setComment("I love " + post.getTitle());
                                 newComment.setPost(post);
-                                newComment.setUser(vhat);
+                                newComment.setUser(flavorScale); // Example user
 
-                                vhat.addComment(newComment);
+                                flavorScale.addComment(newComment);
 
                                 commentService.save(newComment);
-                                startupService.save(vhat);
+                                startupService.save(flavorScale);
                                 service.save(post);
                         }
-
                 });
-
         }
 }

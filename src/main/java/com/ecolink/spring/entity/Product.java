@@ -58,6 +58,14 @@ public class Product {
         this.creationDate = creationDate;
         this.categories = categories;
     }
+    public Product(Startup startup, String name, String description, BigDecimal price, LocalDate creationDate,String image, List<Category> categories) {
+        this.startup = startup;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.creationDate = creationDate;
+        this.categories = categories;
+    }
 
     public void addCategory(Category category) {
         category.getProducts().add(this);
