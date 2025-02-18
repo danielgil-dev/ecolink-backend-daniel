@@ -89,7 +89,7 @@ public class ProductController {
 
             if (products.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDetails(HttpStatus.NOT_FOUND.value(),
-                        "No products found with the specified filter"));
+                        "No se encontraron productos con el filtro especifico"));
             }
 
             List<ProductDTO> dtoList = products.stream().map(dtoConverter::convertProductToDto)
@@ -109,7 +109,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Internal Error Server");
+                    "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
@@ -119,7 +119,7 @@ public class ProductController {
         try {
             Product product = service.findById(id);
             if (product == null) {
-                throw new ProductNotFoundException("product not found with id=" + id);
+                throw new ProductNotFoundException("No existe un producto con id=" + id);
             }
             ProductDTO dto = dtoConverter.convertProductToDto(product);
 
@@ -129,7 +129,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Internal Error Server");
+                    "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
@@ -139,7 +139,7 @@ public class ProductController {
         List<Product> products = service.findTop4ByOrderByCreationDateDesc();
         if (products.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No products found"));
+                    .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron productos relevantes"));
         }
         List<ProductRelevantDTO> dtoList = products.stream().map(dtoConverter::convertProductRelevantToDto)
                 .collect(Collectors.toList());
@@ -210,12 +210,12 @@ public class ProductController {
             if (user instanceof Startup userProduct) {
                 Product product = service.findById(id);
                 if (product == null) {
-                    throw new ProductNotFoundException("No product found with id=" + id);
+                    throw new ProductNotFoundException("No existe un producto con id=" + id);
                 }
                 if (!product.getStartup().getId().equals(userProduct.getId())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN)
                             .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
-                                    "You do not have permission to delete this product"));
+                                    "No tienes permisos para eliminar este producto"));
                 }
                 Startup startup = startupService.findById(userProduct.getId());
                 startup.getProducts().remove(product);
@@ -225,7 +225,7 @@ public class ProductController {
             } else if (user instanceof Admin) {
                 Product product = service.findById(id);
                 if (product == null) {
-                    throw new ProductNotFoundException("No product found with id=" + id);
+                    throw new ProductNotFoundException("No existe un producto con id=" + id);
                 }
                 Startup startup = startupService.findById(product.getStartup().getId());
                 startup.getProducts().remove(product);
@@ -240,7 +240,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Internal Error Server");
+                    "Ocurrió un error interno en el servidor");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
     }
@@ -254,12 +254,12 @@ public class ProductController {
             if (user instanceof Startup userProduct) {
                 Product product = service.findById(id);
                 if (product == null) {
-                    throw new ProductNotFoundException("No product found with id=" + id);
+                    throw new ProductNotFoundException("No existe un producto con id=" + id);
                 }
                 if (!product.getStartup().getId().equals(userProduct.getId())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN)
                             .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
-                                    "You do not have permission to edit this product"));
+                                    "No tienes permisos para editar este producto"));
                 }
 
                 ObjectMapper objectMapper = new ObjectMapper();

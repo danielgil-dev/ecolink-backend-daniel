@@ -130,7 +130,7 @@ public class AuthenticationController {
                     .secure(true)
                     .path("/")
                     .maxAge(30 * 24 * 60 * 60)
-                    .sameSite("Strict")
+                    .sameSite("Lax")
                     .build();
 
             response.addHeader("Set-Cookie", jwtCookie.toString());
@@ -230,7 +230,7 @@ public class AuthenticationController {
                 .secure(true)
                 .path("/")
                 .maxAge(0)
-                .sameSite("Strict")
+                .sameSite("Lax")
                 .build();
 
         response.addHeader("Set-Cookie", jwtCookie.toString());

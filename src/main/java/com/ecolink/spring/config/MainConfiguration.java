@@ -21,6 +21,8 @@ public class MainConfiguration {
                 registry.addMapping("/api/**")
                     .allowedOrigins("http://localhost:4200")
                     .allowedMethods("GET", "POST", "PUT", "DELETE")
+                    .allowedHeaders("Authorization", "Content-Type")
+                    .exposedHeaders("Set-Cookie")
                     .allowCredentials(true)
                     .maxAge(3600);
             }
