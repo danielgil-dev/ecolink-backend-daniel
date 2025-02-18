@@ -20,7 +20,9 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
@@ -31,6 +33,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class UserBase implements UserDetails {
