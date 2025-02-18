@@ -15,6 +15,7 @@ public class StartupPublicProfileDTO {
     String status;
     String name;
     String description;
+    String imageUrl;
     List<OdsWithoutIdDTO> odsList;
     List<ProposalStartupProfileDTO> proposals;
     List<StartupProductPublicProfileDTO> products;
