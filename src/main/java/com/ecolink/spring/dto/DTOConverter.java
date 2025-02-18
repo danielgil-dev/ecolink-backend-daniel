@@ -87,15 +87,14 @@ public class DTOConverter {
         return modelMapper.map(startup, StartupPublicProfileDTO.class);
     }
 
-    public StartupPrivateProfileDTO convertStartupToStartupPrivateProfile(Startup startup,List<Post> likedPostByTheUser) {
+    public StartupPrivateProfileDTO convertStartupToStartupPrivateProfile(Startup startup,
+            List<Post> likedPostByTheUser) {
         StartupPrivateProfileDTO startupProfile = modelMapper.map(startup, StartupPrivateProfileDTO.class);
         List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
-        .map(this::convertPostToPostProfileDto)
-        .collect(Collectors.toList());
-        startupProfile.setListLikePost(listLikedPost); 
+                .map(this::convertPostToPostProfileDto)
+                .collect(Collectors.toList());
+        startupProfile.setListLikePost(listLikedPost);
 
-      
-        
         return startupProfile;
     }
 
@@ -120,6 +119,18 @@ public class DTOConverter {
         commentDTO.setName(user.getName());
 
         return commentDTO;
+    }
+
+    public PostStartupDTO convertPostStartupToDto(Post post) {
+        PostStartupDTO postDto = modelMapper.map(post, PostStartupDTO.class);
+        postDto.setLikesCount(post.getNumberLikes());
+        postDto.setCommentsCount(post.getNumberComments());
+        postDto.setPostDate(post.getPostDate());
+        List<OdsWithoutIdDTO> odsDto = post.getOdsList().stream()
+                .map(this::convertOdsWithoutIdToDto)
+                .collect(Collectors.toList());
+        postDto.setOdsList(odsDto);
+        return postDto;
     }
 
     public PostItemPageDTO convertPostItemPageToDTO(Post post) {
@@ -242,10 +253,10 @@ public class DTOConverter {
         List<ChallengeCompanyProfileDTO> listChallenges = company.getChallenges().stream()
                 .map(this::convertChallengeToChallengeCompanyProfileDTO)
                 .collect(Collectors.toList());
-                List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
+        List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
                 .map(this::convertPostToPostProfileDto)
                 .collect(Collectors.toList());
-                companyProfileDTO.setListLikePost(listLikedPost);
+        companyProfileDTO.setListLikePost(listLikedPost);
         companyProfileDTO.setListChallengesCompany(listChallenges);
         return companyProfileDTO;
     }
@@ -304,11 +315,12 @@ public class DTOConverter {
 
         BigDecimal total = BigDecimal.ZERO;
         for (OrderLineDTO orderLineDTO : orderLinesDTO) {
-            BigDecimal lineAmount = orderLineDTO.getProduct().getPrice().multiply(new BigDecimal(orderLineDTO.getAmount()));
+            BigDecimal lineAmount = orderLineDTO.getProduct().getPrice()
+                    .multiply(new BigDecimal(orderLineDTO.getAmount()));
             total = total.add(lineAmount);
         }
         orderDTO.setTotal(total);
-        
+
         return orderDTO;
     }
 

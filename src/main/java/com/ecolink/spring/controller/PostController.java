@@ -25,6 +25,7 @@ import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.PostDTO;
 import com.ecolink.spring.dto.PostItemPageDTO;
 import com.ecolink.spring.dto.PostRelevantDTO;
+import com.ecolink.spring.dto.PostStartupDTO;
 import com.ecolink.spring.dto.PostTemplateDTO;
 import com.ecolink.spring.entity.Admin;
 import com.ecolink.spring.entity.Ods;
@@ -117,6 +118,32 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
 
+    }
+
+    @GetMapping("/startup")
+    public ResponseEntity<?> getPostByStartup(@AuthenticationPrincipal UserBase user){
+        try {
+            if (!(user instanceof Startup startup)) {
+                throw new AccessDeniedException("Only startups can get their posts");
+            }
+            List<Post> posts = postService.findByStartup(startup);
+            if (posts.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron post para el startup"));
+            }
+
+            List<PostStartupDTO> dtoList = posts.stream().map(postDTOConverter::convertPostStartupToDto)
+                    .collect(Collectors.toList());
+                    
+            return ResponseEntity.ok(dtoList);
+        } catch (AccessDeniedException e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+        } catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Internal Server Error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
     }
 
     @GetMapping("/recent")

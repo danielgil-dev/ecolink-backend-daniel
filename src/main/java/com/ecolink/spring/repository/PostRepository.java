@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
+import com.ecolink.spring.entity.Startup;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post>  {
@@ -22,4 +23,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
     public List<Post>  findTop10ByIdNotOrderByPostDateDesc(Long id);
 
     List<Post> findTop4ByOdsListInAndIdNotOrderByPostDateDesc(List<Ods> odsList, Long id);
+
+    public List<Post> findByStartup(Startup startup);
 }

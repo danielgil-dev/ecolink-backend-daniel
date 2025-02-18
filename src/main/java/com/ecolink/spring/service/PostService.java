@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.Post;
 import com.ecolink.spring.entity.SortType;
+import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.PostRepository;
 import com.ecolink.spring.specification.PostSpecification;
 
@@ -63,5 +64,9 @@ public class PostService {
 
     public void delete(Post post) {
         repository.delete(post);
+    }
+
+    public List<Post> findByStartup(Startup startup) {
+        return repository.findByStartup(startup);
     }
 }
