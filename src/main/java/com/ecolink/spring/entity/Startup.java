@@ -46,7 +46,7 @@ public class Startup extends UserBase {
 
     private String description;
 
-    public Startup(String name, List<Ods> odsList, String email, String description) {
+    public Startup(String name, List<Ods> odsList, String email, String description, String image) {
         this.name = name;
         this.level = 0L;
         this.odsList = odsList;
@@ -54,6 +54,7 @@ public class Startup extends UserBase {
         this.email = email;
         this.description = description;
         this.status = Status.PENDING;
+        this.imageUrl = image;
     }
 
     public void addProposal(Proposal proposal) {
