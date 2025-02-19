@@ -127,7 +127,7 @@ public class AuthenticationController {
 
             ResponseCookie jwtCookie = ResponseCookie.from("jwt", jwtToken)
                     .httpOnly(true)
-                    .secure(true)
+                    .secure(false)
                     .path("/")
                     .maxAge(30 * 24 * 60 * 60)
                     .sameSite("Lax")
@@ -227,7 +227,7 @@ public class AuthenticationController {
     public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
         ResponseCookie jwtCookie = ResponseCookie.from("jwt", "")
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .path("/")
                 .maxAge(0)
                 .sameSite("Lax")

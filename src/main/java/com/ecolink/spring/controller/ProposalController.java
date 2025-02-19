@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.CreateProposalDTO;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.ProposalDTO;
+import com.ecolink.spring.dto.ProposalStartupDTO;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
+import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.Status;
@@ -230,10 +232,12 @@ public class ProposalController {
 
         if (user instanceof Startup startup) {
             List<Proposal> proposals = service.findByStartup(startup);
-            List<ProposalDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalToDto)
+            List<ProposalStartupDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalStartupToDto)
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(proposalsDTO);
+        } else if(user instanceof Company company){
+            
         }
 
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
