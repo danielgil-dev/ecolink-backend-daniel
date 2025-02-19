@@ -65,13 +65,8 @@ public class ChallengeController {
 
             if (challenges.isEmpty()) {
                 throw new ChallengeNotFoundException("No se han encontrado challenges con el filtrado");
-            }else{
-                challenges.forEach(challenge -> {
-                    System.out.println("Estos son los benefeicios del reto" + challenge.getBenefits());
-                    System.out.println("Estos son los requirements del reto" + challenge.getRequirements());
-
-                });
             }
+            
 
             List<ChallengeDTO> dtoList = challenges.getContent().stream()
                     .map(challengeDtoConverter::converChallengeToDto)
