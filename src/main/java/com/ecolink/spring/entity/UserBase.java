@@ -82,40 +82,41 @@ public abstract class UserBase implements UserDetails {
     public Long getXpForNextLevel() {
         Long nextLevelXp = 0L;
         switch (this.level.intValue()) {
-            case 1:
+            case 0:
                 nextLevelXp = 30L;
                 break;
-            case 2:
+            case 1:
                 nextLevelXp = 100L;
                 break;
-            case 3:
+            case 2:
                 nextLevelXp = 250L;
                 break;
-            case 4:
+            case 3:
                 nextLevelXp = 500L;
                 break;
-            case 5:
+            case 4:
                 nextLevelXp = 1000L;
                 break;
-            case 6:
+            case 5:
+
                 nextLevelXp = 2000L;
                 break;
-            case 7:
+            case 6:
                 nextLevelXp = 5000L;
                 break;
-            case 8:
+            case 7:
                 nextLevelXp = 10000L;
                 break;
-            case 9:
+            case 8:
                 nextLevelXp = 20000L;
                 break;
-            case 10:
+            case 9:
                 nextLevelXp = 50000L;
                 break;
-            case 11:
+            case 10:
                 nextLevelXp = 100000L;
                 break;
-            case 12:
+            case 11:
                 nextLevelXp = 200000L;
                 break;
             default:
