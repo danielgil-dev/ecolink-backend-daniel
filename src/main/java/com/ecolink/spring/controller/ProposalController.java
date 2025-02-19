@@ -237,7 +237,11 @@ public class ProposalController {
 
             return ResponseEntity.ok(proposalsDTO);
         } else if(user instanceof Company company){
+            List<Proposal> proposals = service.findByCompany(company.getId());
+            List<ProposalDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalToDto)
+                    .collect(Collectors.toList());
             
+            return ResponseEntity.ok(proposalsDTO);
         }
 
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),

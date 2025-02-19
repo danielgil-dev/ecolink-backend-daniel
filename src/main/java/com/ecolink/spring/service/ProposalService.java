@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecolink.spring.entity.Challenge;
+import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.ProposalRepository;
@@ -43,5 +44,8 @@ public class ProposalService {
     }
     public List<Proposal> findByStartup(Startup startup) {
         return repository.findByStartup(startup);
+    }
+    public List<Proposal> findByCompany(Long id) {
+        return repository.findByCompany(id);
     }
 }
