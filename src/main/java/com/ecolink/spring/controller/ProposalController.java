@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.CreateProposalDTO;
 import com.ecolink.spring.dto.DTOConverter;
+import com.ecolink.spring.dto.ProposalChallengeDTO;
+import com.ecolink.spring.dto.ProposalDTO;
 import com.ecolink.spring.dto.ProposalStartupDTO;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
@@ -67,8 +69,10 @@ public class ProposalController {
             }
 
             List<Proposal> proposals = service.findByChallenge(challenge);
+            List<ProposalChallengeDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalChallengeToDto)
+                    .collect(Collectors.toList());
 
-            return ResponseEntity.ok(proposals);
+            return ResponseEntity.ok(proposalsDTO);
         } catch (ChallengeNotFoundException e) {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);

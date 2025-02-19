@@ -180,6 +180,7 @@ public class AuthenticationController {
                 dto = converter.convertStartupBaseToDto(startup);
             } else if (user instanceof Company company) {
                 user.setUserType(UserType.COMPANY);
+                company.setStatus(Status.PENDING);
                 dto = converter.convertCompanypBaseToDto(company);
             } else {
                 Client client = (Client) user;

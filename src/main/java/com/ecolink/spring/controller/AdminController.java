@@ -171,7 +171,9 @@ public class AdminController {
             }
 
             if (companiesPending != null && !companiesPending.isEmpty()) {
+                System.out.println("Companies pending: " + companiesPending.size());
                 for (Company company : companiesPending) {
+                    System.out.println(company.getEmail());
                     userPendingDtos.add(dtoConverter.convertCompanyToUserPendingDto(company));
                 }
             }
