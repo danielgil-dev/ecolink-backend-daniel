@@ -21,4 +21,7 @@ public class StartupPrivateProfileDTO {
     List<StartupProductPrivateProfileDTO> products;
     List<PostProfileUserDTO> listLikePost;
     List<OrderDTO> orders;
+    Long level;
+    Long xp;
+    Long nextLevelXp;
 }

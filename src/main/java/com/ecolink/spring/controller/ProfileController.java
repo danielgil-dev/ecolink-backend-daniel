@@ -82,7 +82,9 @@ public class ProfileController {
                 List<Post> likedPostByTheUser = likeService.getPostLikedByUser(client);
                 ClientProfileDTO clientProfile = dtoConverter.convertClientToClientProfileDTO(client, completedMission,
                         likedPostByTheUser);
-
+                
+                clientProfile.setNextLevelXp(client.getXpForNextLevel());
+                        
                 List<Order> orders = orderService.findByUserAndNotStatus(user, OrderStatus.CART);
 
                 // Convertir lista de order a DTO
@@ -101,6 +103,8 @@ public class ProfileController {
                 StartupPrivateProfileDTO startupProfile = dtoConverter.convertStartupToStartupPrivateProfile(startup,
                         likedPostByTheUser);
 
+                startupProfile.setNextLevelXp(startup.getXpForNextLevel());
+
                 List<Order> orders = orderService.findByUserAndNotStatus(user, OrderStatus.CART);
                 List<OrderDTO> orderDTOs = orders.stream().map(dtoConverter::convertOrderToDTO)
                         .collect(Collectors.toList());
@@ -116,6 +120,8 @@ public class ProfileController {
                 List<Post> likedPostByTheUser = likeService.getPostLikedByUser(company);
                 CompanyProfileDTO companyProfile = dtoConverter.convetCompanyToCompanyProfileDTO(company,
                         likedPostByTheUser);
+
+                companyProfile.setNextLevelXp(company.getXpForNextLevel());
 
                 List<Order> orders = orderService.findByUserAndNotStatus(user, OrderStatus.CART);
 

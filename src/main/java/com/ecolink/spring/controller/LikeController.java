@@ -12,6 +12,7 @@ import com.ecolink.spring.exception.LikeAlredyExistsException;
 import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.LikeService;
 import com.ecolink.spring.service.PostService;
+import com.ecolink.spring.service.UserBaseService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LikeController {
     private final LikeService service;
     private final PostService postService;
+    private final UserBaseService userBaseService;
 
     @PostMapping
     public ResponseEntity<?> addLike(@AuthenticationPrincipal UserBase user, @RequestParam Long id_post) {
@@ -46,8 +48,10 @@ public class LikeController {
             }
 
             Like like = new Like(post, user);
+            user.addXp(10L);
             service.save(like);
-
+            userBaseService.save(user);
+            
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(),
                     "Like created successfully");
 
@@ -83,8 +87,9 @@ public class LikeController {
             if (like == null) {
                 throw new LikeAlredyExistsException("The user has alredy liked the post");
             }
-
+            user.removeXp(10L);
             service.delete(like);
+            userBaseService.save(user);
             
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(), "Like deleted successfully");
 

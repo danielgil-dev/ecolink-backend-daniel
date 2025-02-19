@@ -280,6 +280,7 @@ public class PostController {
             newPost.setStartup(startup);
             newPost.setOdsList(odsList);
             newPost.setPostDate(LocalDate.now());
+            user.addXp(35L);
             postService.save(newPost);
             return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
 
@@ -411,6 +412,7 @@ public class PostController {
                         .body(new ErrorDetails(HttpStatus.FORBIDDEN.value(),
                                 "You can only delete your own posts"));
             }
+            user.removeXp(35L);
             postService.delete(deletePost);
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Post deleted successfully");
             return ResponseEntity.ok(successDetails);

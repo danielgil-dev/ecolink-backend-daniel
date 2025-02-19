@@ -15,6 +15,8 @@ public class ClientProfileDTO {
     private String name;
     private String email;
     private Long level;
+    Long xp;
+    Long nextLevelXp;
     private List<MissionProfileDTO> completedMissions;
     private List<PostProfileUserDTO> listLikePost;
     List<OrderDTO> orders;

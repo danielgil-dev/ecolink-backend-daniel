@@ -35,6 +35,7 @@ import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.ClientMissionService;
 import com.ecolink.spring.service.ClientService;
 import com.ecolink.spring.service.MissionService;
+import com.ecolink.spring.service.UserBaseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,7 @@ public class MissionController {
     public final ClientService clientService;
     private final ClientMissionService clientMissionService;
     private final DTOConverter dtoConverter;
+    private final UserBaseService userBaseService;
 
     @GetMapping
     public ResponseEntity<?> getAllMissions(@AuthenticationPrincipal UserBase user) {
@@ -76,7 +78,6 @@ public class MissionController {
                     mission.getPoints(),
                     completedMissionIds.contains(mission.getId()))).collect(Collectors.toList());
 
-
             return ResponseEntity.ok(missionsDto);
 
         } catch (MissionNotFoundException | ClientNotFoundException e) {
@@ -104,6 +105,16 @@ public class MissionController {
             if (client == null) {
                 throw new ClientNotFoundException("No se encontro ningun cliente con el id " + user.getId());
             }
+
+            if (mission.getType() == MissionType.DAILY) {
+                user.addXp(10L);
+            }
+            if (mission.getType() == MissionType.WEEKLY) {
+                user.addXp(50L);
+            }
+
+            userBaseService.save(user);
+
             ClientMission missionClient = clientMissionService.completeMissionForClient(mission, client);
             ClientMissionDTO missionClientDto = dtoConverter.convertClientMissionDTO(missionClient.getMission(), true);
             return ResponseEntity.ok(missionClientDto);
@@ -122,11 +133,8 @@ public class MissionController {
     @PostMapping("/new")
     public ResponseEntity<?> createMission(@AuthenticationPrincipal UserBase user,
             @RequestPart("mission") String missionJson) {
-
-        System.out.println("Esto son los valores de JSON:" + missionJson);
         try {
             if (!(user instanceof Admin)) {
-
                 throw new AccessDeniedException("User not have permission to create a mission");
             }
             ObjectMapper objectMapper = new ObjectMapper();

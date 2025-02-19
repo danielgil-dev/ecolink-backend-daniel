@@ -20,4 +20,6 @@ public class CompanyProfileDTO {
     private List<ChallengeCompanyProfileDTO> listChallengesCompany;
     private List<PostProfileUserDTO> listLikePost;
     List<OrderDTO> orders;
+    Long xp;
+    Long nextLevelXp;
 }

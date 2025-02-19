@@ -34,6 +34,7 @@ import com.ecolink.spring.exception.ProposalNotValidException;
 import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.ChallengeService;
 import com.ecolink.spring.service.ProposalService;
+import com.ecolink.spring.service.UserBaseService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +45,7 @@ public class ProposalController {
     private final ProposalService service;
     private final ChallengeService challengeService;
     private final DTOConverter dtoConverter;
+    private final UserBaseService userBaseService;
 
     @GetMapping("/challenge/{id}")
     private ResponseEntity<?> getProposalsByChallenge(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
@@ -116,8 +118,9 @@ public class ProposalController {
 
             newProposal.setTitle(proposal.getTitle());
             newProposal.setLink(proposal.getLink());
-
+            user.addXp(35L);
             service.save(newProposal);
+            userBaseService.save(user);
 
             return ResponseEntity.ok(newProposal);
         } catch (ChallengeNotFoundException | ProposalAlredyExistsException | ProposalNotValidException e) {
@@ -205,8 +208,10 @@ public class ProposalController {
             }
 
             Proposal userProposal = service.findByIdAndStartup(id, startup);
+            user.removeXp(35L);
 
             service.delete(userProposal);
+            userBaseService.save(user);
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Proposal deleted successfully");
             return ResponseEntity.ok(successDetails);

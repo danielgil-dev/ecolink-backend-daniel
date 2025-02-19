@@ -76,6 +76,7 @@ public class CommentController {
 
             user.addComment(newComment);
 
+            user.addXp(10L);
             service.save(newComment);
             userBaseService.save(user);
 
@@ -175,7 +176,9 @@ public class CommentController {
             }
 
             post.removeComment(commentToDelete);
+            user.removeXp(10L);
             postService.save(post);
+            userBaseService.save(user);
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Comment deleted successfully");
 

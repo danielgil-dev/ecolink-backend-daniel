@@ -178,7 +178,6 @@ public class ChallengeController {
     public ResponseEntity<?> createChallenge(@AuthenticationPrincipal UserBase user,
             @RequestBody ChallengePostDTO challenge) {
         try {
-            System.out.println("Dentro");
             if (user == null) {
                 ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                         "The user must be logged in");
@@ -213,7 +212,9 @@ public class ChallengeController {
             newChallenge.setRequirements(challenge.getRequirements());
             newChallenge.setBenefits(challenge.getBenefits());
 
+            company.addXp(25L);
             challengeService.save(newChallenge);
+            companyService.save(company);
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.CREATED.value(),
                     "Challenge created successfully");
@@ -319,8 +320,9 @@ public class ChallengeController {
                         "The challenge does not exist or does not belong to the company");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
             }
-
+            company.removeXp(25L);
             challengeService.delete(actuaChallenge);
+            companyService.save(company);
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Challenge deleted successfully");
 

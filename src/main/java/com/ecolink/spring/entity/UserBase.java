@@ -48,7 +48,8 @@ public abstract class UserBase implements UserDetails {
     String email;
     String password;
     String imageUrl;
-    Long level;
+    Long level = 0L;
+    Long xp = 0L;
     LocalDate registerDate;
     boolean isVerified = false;
 
@@ -63,4 +64,91 @@ public abstract class UserBase implements UserDetails {
         this.comments.add(comment);
     }
 
+    public void addXp(Long xpToAdd) {
+        if (this.xp == null ||this.xp < 0) {
+            this.xp = 0L;
+        }
+        this.xp += xpToAdd;
+
+        this.level = calculateLevel(this.xp);
+    }
+
+    public void removeXp(Long xpToRemove) {
+        this.xp -= xpToRemove;
+
+        this.level = calculateLevel(this.xp);
+    }
+
+    public Long getXpForNextLevel() {
+        Long nextLevelXp = 0L;
+        switch (this.level.intValue()) {
+            case 1:
+                nextLevelXp = 30L;
+                break;
+            case 2:
+                nextLevelXp = 100L;
+                break;
+            case 3:
+                nextLevelXp = 250L;
+                break;
+            case 4:
+                nextLevelXp = 500L;
+                break;
+            case 5:
+                nextLevelXp = 1000L;
+                break;
+            case 6:
+                nextLevelXp = 2000L;
+                break;
+            case 7:
+                nextLevelXp = 5000L;
+                break;
+            case 8:
+                nextLevelXp = 10000L;
+                break;
+            case 9:
+                nextLevelXp = 20000L;
+                break;
+            case 10:
+                nextLevelXp = 50000L;
+                break;
+            case 11:
+                nextLevelXp = 100000L;
+                break;
+            case 12:
+                nextLevelXp = 200000L;
+                break;
+            default:
+                nextLevelXp = Long.MAX_VALUE;
+        }
+        return nextLevelXp;
+    }
+
+    private Long calculateLevel(Long xp) {
+        if (xp >= 200000)
+            return 12L;
+        if (xp >= 100000)
+            return 11L;
+        if (xp >= 50000)
+            return 10L;
+        if (xp >= 20000)
+            return 9L;
+        if (xp >= 10000)
+            return 8L;
+        if (xp >= 5000)
+            return 7L;
+        if (xp >= 2000)
+            return 6L;
+        if (xp >= 1000)
+            return 5L;
+        if (xp >= 500)
+            return 4L;
+        if (xp >= 250)
+            return 3L;
+        if (xp >= 100)
+            return 2L;
+        if (xp >= 30)
+            return 1L;
+        return 0L;
+    }
 }
