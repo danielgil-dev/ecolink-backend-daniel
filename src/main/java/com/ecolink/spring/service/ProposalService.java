@@ -41,4 +41,7 @@ public class ProposalService {
     public void delete(Proposal userProposal) {
         repository.delete(userProposal);
     }
+    public List<Proposal> findByStartup(Startup startup) {
+        return repository.findByStartup(startup);
+    }
 }

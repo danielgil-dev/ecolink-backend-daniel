@@ -19,4 +19,5 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
     public Proposal findByIdAndStartupAndChallenge(Long id, Startup startup, Challenge challenge);
     public boolean existsByIdAndStartup(Long id, Startup startup);
     public Proposal findByIdAndStartup(Long id, Startup startup);
+    public List<Proposal> findByStartup(Startup startup);
 }

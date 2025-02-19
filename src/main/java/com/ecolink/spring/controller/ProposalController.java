@@ -2,6 +2,7 @@ package com.ecolink.spring.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.CreateProposalDTO;
+import com.ecolink.spring.dto.DTOConverter;
+import com.ecolink.spring.dto.ProposalDTO;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
 import com.ecolink.spring.entity.Proposal;
@@ -32,6 +35,7 @@ import com.ecolink.spring.service.ChallengeService;
 import com.ecolink.spring.service.ProposalService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/proposal")
@@ -39,6 +43,7 @@ import lombok.RequiredArgsConstructor;
 public class ProposalController {
     private final ProposalService service;
     private final ChallengeService challengeService;
+    private final DTOConverter dtoConverter;
 
     @GetMapping("/challenge/{id}")
     private ResponseEntity<?> getProposalsByChallenge(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
@@ -89,7 +94,8 @@ public class ProposalController {
 
             Startup startup = (Startup) user;
 
-            if (proposal.getDescription() == null || proposal.getDescription().isEmpty() || proposal.getTitle() == null) {
+            if (proposal.getDescription() == null || proposal.getDescription().isEmpty()
+                    || proposal.getTitle() == null) {
                 throw new ProposalNotValidException("Fields are missing to create a proposal");
             }
 
@@ -200,9 +206,8 @@ public class ProposalController {
 
             Proposal userProposal = service.findByIdAndStartup(id, startup);
 
-            
             service.delete(userProposal);
-            
+
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Proposal deleted successfully");
             return ResponseEntity.ok(successDetails);
         } catch (ChallengeNotFoundException | ProposalNotFoundException e) {
@@ -213,6 +218,27 @@ public class ProposalController {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findByStartup(@AuthenticationPrincipal UserBase user) {
+        if (user == null) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                    "The user must be logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+        }
+
+        if (user instanceof Startup startup) {
+            List<Proposal> proposals = service.findByStartup(startup);
+            List<ProposalDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(proposalsDTO);
+        }
+
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                "The user does not have permission to view proposals");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
 
 }
