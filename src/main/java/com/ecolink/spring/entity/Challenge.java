@@ -52,10 +52,10 @@ public class Challenge {
 
     @ElementCollection
     @Column(columnDefinition = "TEXT")
-    List<String> requirements;
+    List<String> requirements = new ArrayList<>();
     @ElementCollection
     @Column(columnDefinition = "TEXT")
-    List<String> benefits;
+    List<String> benefits = new ArrayList<>();
 
     public Challenge(Company company, String title, String description, String shortDescription, BigDecimal budget,
             LocalDate endDate,
@@ -68,8 +68,6 @@ public class Challenge {
         this.startDate = LocalDate.now();
         this.endDate = endDate;
         this.odsList = odsList;
-        this.requirements = new ArrayList<>();
-        this.benefits = new ArrayList<>();
     }
 
     public void addProposal(Proposal proposal) {
