@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ecolink.spring.entity.Challenge;
@@ -27,10 +28,15 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
 
     public List<Proposal> findByStartup(Startup startup);
 
-    // SELECT * FROM PROPOSAL INNER JOIN CHALLENGE ON PROPOSAL.CHALLENGE_ID = CHALLENGE.ID INNER JOIN  COMPANY ON CHALLENGE.COMPANY_ID = COMPANY.ID WHERE COMPANY.ID = 33
-    
+    // SELECT * FROM PROPOSAL INNER JOIN CHALLENGE ON PROPOSAL.CHALLENGE_ID =
+    // CHALLENGE.ID INNER JOIN COMPANY ON CHALLENGE.COMPANY_ID = COMPANY.ID WHERE
+    // COMPANY.ID = 33
 
-    @Query(value="SELECT * FROM PROPOSAL INNER JOIN CHALLENGE ON PROPOSAL.CHALLENGE_ID = CHALLENGE.ID INNER JOIN  COMPANY ON CHALLENGE.COMPANY_ID = COMPANY.ID WHERE COMPANY.ID = ?1", nativeQuery = true)
-    List<Proposal> findByCompany(Long companyId);
+    @Query(value = "SELECT p.* FROM PROPOSAL p " +
+            "INNER JOIN CHALLENGE c ON p.CHALLENGE_ID = c.ID " +
+            "INNER JOIN COMPANY co ON c.COMPANY_ID = co.ID " +
+            "WHERE co.ID = :id", nativeQuery = true)
+    List<Proposal> findByCompany(@Param("id") Long id);
 
 }
+// PROPOSAL.CHALLENGE_ID

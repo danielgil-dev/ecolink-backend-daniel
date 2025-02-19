@@ -236,11 +236,11 @@ public class ProposalController {
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(proposalsDTO);
-        } else if(user instanceof Company company){
+        } else if (user instanceof Company company) {
             List<Proposal> proposals = service.findByCompany(company.getId());
-            List<ProposalDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalToDto)
+            List<ProposalStartupDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalStartupToDto)
                     .collect(Collectors.toList());
-            
+
             return ResponseEntity.ok(proposalsDTO);
         }
 
