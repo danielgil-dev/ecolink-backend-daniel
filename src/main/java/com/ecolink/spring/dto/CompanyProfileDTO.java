@@ -19,7 +19,8 @@ public class CompanyProfileDTO {
     private String description;
     private List<ChallengeCompanyProfileDTO> listChallengesCompany;
     private List<PostProfileUserDTO> listLikePost;
-    List<OrderDTO> orders;
-    Long xp;
-    Long nextLevelXp;
+    private List<OrderDTO> orders;
+    private Long level;
+    private Long xp;
+    private Long nextLevelXp;
 }
