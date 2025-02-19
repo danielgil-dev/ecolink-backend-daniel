@@ -120,12 +120,23 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<version>9.2.0</version>
 		</dependency>
+	<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>8.0.29</version>
+	</dependency>
 
 			<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt-api</artifactId>
 		    <version>0.12.3</version>
 		</dependency>
+
+		<plugin>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-maven-plugin</artifactId>
+    <version>10.17.0</version> 
+		</plugin>
 		
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
 		<dependency>

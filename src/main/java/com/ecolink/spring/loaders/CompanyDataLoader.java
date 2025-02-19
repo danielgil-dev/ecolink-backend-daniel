@@ -53,3 +53,8 @@ public class CompanyDataLoader implements CommandLineRunner {
                 });
         }
 }
+
+// usaurio
+// ods
+// categoria de productos
+// roles usaurio
