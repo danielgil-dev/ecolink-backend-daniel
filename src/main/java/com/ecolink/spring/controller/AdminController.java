@@ -24,7 +24,6 @@ import com.ecolink.spring.entity.UserType;
 import com.ecolink.spring.exception.CompanyNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.StartupNotFoundException;
-import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.CompanyService;
 import com.ecolink.spring.service.EmailServiceImpl;
 import com.ecolink.spring.service.StartupService;

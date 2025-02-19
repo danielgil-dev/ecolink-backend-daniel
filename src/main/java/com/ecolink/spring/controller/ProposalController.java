@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecolink.spring.dto.CreateProposalDTO;
 import com.ecolink.spring.dto.DTOConverter;
-import com.ecolink.spring.dto.ProposalDTO;
 import com.ecolink.spring.dto.ProposalStartupDTO;
 import com.ecolink.spring.entity.Challenge;
 import com.ecolink.spring.entity.Client;
@@ -37,7 +36,6 @@ import com.ecolink.spring.service.ChallengeService;
 import com.ecolink.spring.service.ProposalService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/proposal")

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecolink.spring.entity.Challenge;
-import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.repository.ProposalRepository;
