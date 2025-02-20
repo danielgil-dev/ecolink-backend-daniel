@@ -275,7 +275,7 @@ public class ChallengeDataLoader implements CommandLineRunner {
         amazonChallenge2.addBenefit("Access to Amazon's logistics network for implementation.");
 
         List<Challenge> allChallenges = Arrays.asList(
-            
+            teslaChallenge1, teslaChallenge2,
             googleChallenge1, googleChallenge2,
             appleChallenge1, appleChallenge2,
             microsoftChallenge1, microsoftChallenge2,
