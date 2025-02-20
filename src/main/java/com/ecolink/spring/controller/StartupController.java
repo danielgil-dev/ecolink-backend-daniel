@@ -2,6 +2,7 @@ package com.ecolink.spring.controller;
 
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -215,6 +216,7 @@ public class StartupController {
                         ProductSalesDTO productSales = new ProductSalesDTO();
                         productSales.setName(product.getName());
                         productSales.setAmount(amount);
+                        productSales.setTotal(product.getPrice().multiply(new BigDecimal(amount)));
                         productSalesDTO.add(productSales);
                     }
                 }
