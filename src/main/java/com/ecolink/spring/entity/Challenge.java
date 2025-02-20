@@ -47,7 +47,7 @@ public class Challenge {
     private LocalDate endDate;
     private LocalDate startDate;
 
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "challenge", orphanRemoval = true)
     List<Proposal> proposals = new ArrayList<>();
 
     @ElementCollection

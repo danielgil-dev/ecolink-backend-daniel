@@ -177,8 +177,8 @@ public class CommentController {
 
             post.removeComment(commentToDelete);
             user.removeXp(10L);
-            postService.save(post);
-            userBaseService.save(user);
+            user.getComments().remove(commentToDelete);
+            service.delete(commentToDelete);
 
             SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "Comment deleted successfully");
 
