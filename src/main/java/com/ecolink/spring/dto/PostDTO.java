@@ -19,6 +19,6 @@ public class PostDTO {
     private Integer likesCount;
     List<OdsDTO> odsList;
     private LocalDate postDate;
-    List<LikeDTO> likes; 
+    List<LikeDTO> likes;
     private List<CommentDTO> comments;
 }

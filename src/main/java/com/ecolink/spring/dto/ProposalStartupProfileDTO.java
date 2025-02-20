@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProposalStartupProfileDTO {
 
+	private String title;
 	private String challengeTitle;
 	private String description;
 	private Status status;

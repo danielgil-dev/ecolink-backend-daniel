@@ -53,6 +53,7 @@ public class DTOConverter {
         proposalDto.setStartup(startup);
         return proposalDto;
     }
+
     public ProposalChallengeDTO convertProposalChallengeToDto(Proposal proposal) {
         ProposalChallengeDTO proposalChallengeDTO = modelMapper.map(proposal, ProposalChallengeDTO.class);
         proposalChallengeDTO.setStartup(modelMapper.map(proposal.getStartup(), StartupDTO.class));
@@ -117,10 +118,16 @@ public class DTOConverter {
     }
 
     public PostProfileUserDTO convertPostToPostProfileDto(Post post) {
+
         return modelMapper.map(post, PostProfileUserDTO.class);
     }
 
     public PostRelevantDTO convertPostRelevantToDTO(Post post) {
+        PostRelevantDTO postDto = modelMapper.map(post, PostRelevantDTO.class);
+        if (postDto.getImageUrl() == null || postDto.getImageUrl().isEmpty()) {
+            postDto.setImageUrl("postdefault.png");
+
+        }
         return modelMapper.map(post, PostRelevantDTO.class);
     }
 
@@ -139,6 +146,7 @@ public class DTOConverter {
         postDto.setLikesCount(post.getNumberLikes());
         postDto.setCommentsCount(post.getNumberComments());
         postDto.setPostDate(post.getPostDate());
+
         List<OdsWithoutIdDTO> odsDto = post.getOdsList().stream()
                 .map(this::convertOdsWithoutIdToDto)
                 .collect(Collectors.toList());
@@ -152,6 +160,11 @@ public class DTOConverter {
 
         postDto.setNumberComents(post.getNumberComments());
         postDto.setLikesCount(post.getNumberLikes());
+
+        if (postDto.getImageUrl() == null || postDto.getImageUrl().isEmpty()) {
+            postDto.setImageUrl("postdefault.png");
+
+        }
 
         List<CommentDTO> commentsDTO = post.getComments().stream()
                 .map(this::convertCommentToDTO)
@@ -178,6 +191,11 @@ public class DTOConverter {
         List<LikeDTO> likesDTO = post.getLikes().stream()
                 .map(this::convertLikeToDto)
                 .collect(Collectors.toList());
+
+        if (postDto.getImageUrl() == null || postDto.getImageUrl().isEmpty()) {
+            postDto.setImageUrl("postdefault.png");
+
+        }
 
         postDto.setLikes(likesDTO);
         postDto.setComments(commentsDTO);
