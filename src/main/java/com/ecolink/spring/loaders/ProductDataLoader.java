@@ -145,7 +145,7 @@ public class ProductDataLoader implements CommandLineRunner {
                                                 new ArrayList<>(Arrays.asList(sportsAndOutdoors))),
                                 new Product(vove, "Household Essentials Bundle",
                                                 "A curated pack of eco-friendly household products and refill pouches, combining convenience and sustainability for your everyday home care routine.",
-                                                new BigDecimal("44.99"), LocalDate.of(2025, 2, 18),
+                                                new BigDecimal("25.99"), LocalDate.of(2025, 2, 18),
                                                 "household.jpg",
                                                 new ArrayList<>(Arrays.asList(homeAndKitchen))),
                                 new Product(perPlant, "Soil Sensor Kit",
