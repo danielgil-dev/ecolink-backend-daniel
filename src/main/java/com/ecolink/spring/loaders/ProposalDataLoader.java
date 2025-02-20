@@ -81,14 +81,14 @@ public class ProposalDataLoader implements CommandLineRunner {
                 Challenge amazonChallenge2 = challengeService.findByTitle("Green Logistics");
 
                 List<Proposal> proposals = Arrays.asList(
-                                // new Proposal(flavorScale, teslaChallenge1,
-                                //                 "Innovative Battery Materials",
-                                //                 "Proposal to develop new battery materials to improve efficiency and range of electric vehicles.",
-                                //                 LocalDate.of(2025, 1, 15), Status.ACCEPTED),
-                                // new Proposal(climaider, teslaChallenge2,
-                                //                 "Advanced Energy Storage",
-                                //                 "Development of advanced energy storage solutions for renewable energy systems.",
-                                //                 LocalDate.of(2025, 2, 10), Status.PENDING),
+                                new Proposal(flavorScale, teslaChallenge1,
+                                                "Innovative Battery Materials",
+                                                "Proposal to develop new battery materials to improve efficiency and range of electric vehicles.",
+                                                LocalDate.of(2025, 1, 15), Status.ACCEPTED),
+                                new Proposal(climaider, teslaChallenge2,
+                                                "Advanced Energy Storage",
+                                                "Development of advanced energy storage solutions for renewable energy systems.",
+                                                LocalDate.of(2025, 2, 10), Status.PENDING),
                                 new Proposal(seasony, googleChallenge1,
                                                 "AI for Climate Prediction",
                                                 "Using AI to predict climate patterns and improve climate resilience.",
