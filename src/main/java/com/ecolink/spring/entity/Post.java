@@ -36,8 +36,9 @@ public class Post {
 
     private String title;
 
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
+
     private String shortDescription;
     private String imageUrl;
     private LocalDate postDate;
