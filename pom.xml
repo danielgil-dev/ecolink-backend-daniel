@@ -131,12 +131,6 @@
 		    <artifactId>jjwt-api</artifactId>
 		    <version>0.12.3</version>
 		</dependency>
-
-		<plugin>
-    <groupId>org.flywaydb</groupId>
-    <artifactId>flyway-maven-plugin</artifactId>
-    <version>10.17.0</version> 
-		</plugin>
 		
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
 		<dependency>
