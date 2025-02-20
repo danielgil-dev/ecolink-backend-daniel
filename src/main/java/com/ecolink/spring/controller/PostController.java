@@ -224,7 +224,6 @@ public class PostController {
 
             List<PostRelevantDTO> dtoList = posts.stream().map(postDTOConverter::convertPostRelevantToDTO)
                     .collect(Collectors.toList());
-
             return ResponseEntity.ok(dtoList);
 
         } catch (PostNotFoundException e) {
