@@ -13,7 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProposalStartupProfileDTO {
-
 	private String title;
 	private String challengeTitle;
 	private String description;
