@@ -28,20 +28,17 @@ public class CompanyDataLoader implements CommandLineRunner {
         public void run(String... args) {
                 String defaultPassword = "password";
                 List<Company> companyList = Arrays.asList(
-                                new Company("EcoVision", "eco@vision.com", 1L,
-                                                "Company dedicated to developing sustainable technologies for waste management and carbon footprint reduction."),
-
-                                new Company("GreenHorizon", "contact@greenhorizon.com", 2L,
-                                                "Startup specializing in renewable energy solutions, including high-efficiency solar panels and wind turbines."),
-
-                                new Company("SolarPioneer", "info@solarpioneer.com", 3L,
-                                                "Leading company in the design and manufacturing of innovative solar panels using next-generation materials."),
-
-                                new Company("BioCraft", "support@biocraft.com", 2L,
-                                                "Biotechnology company focused on creating bioplastics and biodegradable materials to reduce pollution."),
-
-                                new Company("UrbanFlow", "urban@flow.com", 1L,
-                                                "Initiative developing smart city solutions, including sustainable mobility and energy-efficient urban infrastructure."));
+                                new Company("Tesla", "contact@tesla.com",
+                                                "We innovate in electric mobility, sustainable energy, and storage for a cleaner future.", "tesla.jpg"),
+                                new Company("Google", "sustainability@google.com"
+                                ,
+                                                "Revolutionizing technology with search, AI, cloud, and more. Always pushing the limits.", "google.jpg"),
+                                new Company("Apple", "environment@apple.com",
+                                                "We create products that blend design, innovation, and privacy, shaping the future of technology.", "apple.jpg"),
+                                new Company("Microsoft", "eco@microsoft.com",
+                                                "Developing software, hardware, and cloud services to empower people and businesses worldwide.", "microsoft.jpg"),
+                                new Company("Amazon", "sustainability@amazon.com",
+                                                "Transforming the way the world shops, works, and connects through technology.", "amazon.jpg"));
 
                 companyList.forEach(company -> {
                         if (!service.existsByName(company.getName())) {

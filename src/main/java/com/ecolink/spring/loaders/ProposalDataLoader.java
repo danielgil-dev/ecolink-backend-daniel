@@ -69,66 +69,58 @@ public class ProposalDataLoader implements CommandLineRunner {
                 Startup beCause = startupService.findByName("BeCause");
                 Startup chronosHub = startupService.findByName("ChronosHub");
 
-                Challenge carbonReductionChallenge = challengeService.findByTitle("Eco-Friendly Manufacturing");
-                Challenge ruralRenewablesChallenge = challengeService.findByTitle("Eco-Friendly Building Materials");
-                Challenge waterManagementChallenge = challengeService.findByTitle("Powering Remote Areas");
-                Challenge sustainableAgricultureChallenge = challengeService.findByTitle("Smarter Energy Storage");
-                Challenge wasteRecyclingChallenge = challengeService.findByTitle("Water-Saving Tech");
-                Challenge newEra = challengeService.findByTitle("A New Era of Solar Panels");
-                Challenge farminWaste = challengeService.findByTitle("Farming Without Waste");
-                Challenge byeBye = challengeService.findByTitle("Bye-Bye Plastic!");
-                Challenge theFutureRecycling = challengeService.findByTitle("The Future of Recycling");
-                Challenge cityMobility = challengeService.findByTitle("Rethinking City Mobility");
+                Challenge teslaChallenge1 = challengeService.findByTitle("Electric Vehicle Innovation");
+                Challenge teslaChallenge2 = challengeService.findByTitle("Sustainable Energy Storage");
+                Challenge googleChallenge1 = challengeService.findByTitle("AI for Climate Change");
+                Challenge googleChallenge2 = challengeService.findByTitle("Sustainable Data Centers");
+                Challenge appleChallenge1 = challengeService.findByTitle("Eco-Friendly Product Design");
+                Challenge appleChallenge2 = challengeService.findByTitle("Renewable Energy Integration");
+                Challenge microsoftChallenge1 = challengeService.findByTitle("Carbon Negative Solutions");
+                Challenge microsoftChallenge2 = challengeService.findByTitle("Sustainable Software Development");
+                Challenge amazonChallenge1 = challengeService.findByTitle("Sustainable Packaging");
+                Challenge amazonChallenge2 = challengeService.findByTitle("Green Logistics");
 
                 List<Proposal> proposals = Arrays.asList(
-                                new Proposal(flavorScale, carbonReductionChallenge,
-                                                "Innovative Filters",
-                                                "Proposal to implement innovative filters in industrial smokestacks.",
+                                new Proposal(flavorScale, teslaChallenge1,
+                                                "Innovative Battery Materials",
+                                                "Proposal to develop new battery materials to improve efficiency and range of electric vehicles.",
                                                 LocalDate.of(2025, 1, 15), Status.ACCEPTED),
-                                new Proposal(climaider, ruralRenewablesChallenge,
-                                                "Portable Solar Panels",
-                                                "Development of portable solar panels for rural communities.",
+                                new Proposal(climaider, teslaChallenge2,
+                                                "Advanced Energy Storage",
+                                                "Development of advanced energy storage solutions for renewable energy systems.",
                                                 LocalDate.of(2025, 2, 10), Status.PENDING),
-                                new Proposal(seasony, waterManagementChallenge,
-                                                "Water Purification Tech",
-                                                "Technology for water purification in areas facing extreme drought.",
+                                new Proposal(seasony, googleChallenge1,
+                                                "AI for Climate Prediction",
+                                                "Using AI to predict climate patterns and improve climate resilience.",
                                                 LocalDate.of(2025, 3, 5), Status.PENDING),
-                                new Proposal(tribe, sustainableAgricultureChallenge,
-                                                "Automated Irrigation",
-                                                "Automated irrigation system that minimizes water waste.",
+                                new Proposal(tribe, googleChallenge2,
+                                                "Energy-Efficient Data Centers",
+                                                "Designing energy-efficient data centers to reduce carbon footprint.",
                                                 LocalDate.of(2025, 3, 20), Status.REJECTED),
-                                new Proposal(peltarion, wasteRecyclingChallenge,
-                                                "Smart Recycling Campaign",
-                                                "Educational campaign about smart recycling in urban areas.",
+                                new Proposal(peltarion, appleChallenge1,
+                                                "Eco-Friendly Product Line",
+                                                "Creating a new line of eco-friendly products with sustainable materials.",
                                                 LocalDate.of(2025, 4, 1), Status.ACCEPTED),
-                                new Proposal(donkeyRepublic, carbonReductionChallenge,
-                                                "Transport Emission Reduction",
-                                                "Route optimization to reduce transport emissions.",
+                                new Proposal(donkeyRepublic, appleChallenge2,
+                                                "Renewable Energy Integration",
+                                                "Integrating renewable energy solutions into Apple's supply chain.",
                                                 LocalDate.of(2025, 4, 15), Status.REJECTED),
-                                new Proposal(pickYourPour, sustainableAgricultureChallenge,
-                                                "Crop Monitoring Drones",
-                                                "Drones to monitor crops and reduce pesticide usage.",
+                                new Proposal(pickYourPour, microsoftChallenge1,
+                                                "Carbon Capture Technology",
+                                                "Developing carbon capture technology to help Microsoft achieve its carbon negative goals.",
                                                 LocalDate.of(2025, 5, 10), Status.PENDING),
-                                new Proposal(aliceAi, newEra,
-                                                "Next-Gen Photovoltaic Cells",
-                                                "Implementation of next-generation photovoltaic cells to boost solar efficiency by 25%.",
+                                new Proposal(aliceAi, microsoftChallenge2,
+                                                "Sustainable Software Practices",
+                                                "Creating sustainable software development practices to reduce environmental impact.",
                                                 LocalDate.of(2025, 6, 1), Status.PENDING),
-                                new Proposal(leiaHealth, farminWaste,
-                                                "Zero-Waste Farming",
-                                                "A zero-waste farming model that converts organic residues into natural fertilizers.",
+                                new Proposal(leiaHealth, amazonChallenge1,
+                                                "Sustainable Packaging Solutions",
+                                                "Developing sustainable packaging solutions to reduce waste.",
                                                 LocalDate.of(2025, 6, 10), Status.ACCEPTED),
-                                new Proposal(rightHub, byeBye,
-                                                "Compostable Alternatives Campaign",
-                                                "A global campaign encouraging businesses and consumers to switch from single-use plastics to compostable alternatives.",
-                                                LocalDate.of(2025, 7, 1), Status.PENDING),
-                                new Proposal(memmora, theFutureRecycling,
-                                                "AI-Driven Sorting System",
-                                                "An AI-driven sorting system designed to increase material recovery rates in urban recycling centers.",
-                                                LocalDate.of(2025, 7, 15), Status.REJECTED),
-                                new Proposal(soilSense, cityMobility,
-                                                "Renewable Energy Bike-Sharing",
-                                                "Development of a city-wide bike-sharing and carpooling platform powered by renewable energy sources.",
-                                                LocalDate.of(2025, 8, 1), Status.PENDING));
+                                new Proposal(rightHub, amazonChallenge2,
+                                                "Green Logistics",
+                                                "Creating green logistics solutions to reduce carbon emissions in Amazon's supply chain.",
+                                                LocalDate.of(2025, 7, 1), Status.PENDING));
 
                 proposals.forEach(proposal -> {
                         if (!service.existsByStartupAndChallenge(proposal.getStartup(), proposal.getChallenge())) {
