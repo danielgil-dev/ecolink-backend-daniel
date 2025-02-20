@@ -38,6 +38,11 @@ public class DTOConverter {
         if (startupName != null) {
             productDto.setStartupName(startupName);
         }
+
+        if (product.getImageUrl() == null || product.getImageUrl().isEmpty()) {
+            productDto.setImageUrl("productdefault.png");
+            
+        }
         return productDto;
     }
 
@@ -84,7 +89,11 @@ public class DTOConverter {
     }
 
     public StartupProductPublicProfileDTO convertProductTStartupProductProfile(Product product) {
-
+        StartupProductPublicProfileDTO productDto = modelMapper.map(product, StartupProductPublicProfileDTO.class);
+        if (productDto.getImageUrl() == null || product.getImageUrl().isEmpty()) {
+            productDto.setImageUrl("productdefault.png");
+            
+        }
         return modelMapper.map(product, StartupProductPublicProfileDTO.class);
     }
 
