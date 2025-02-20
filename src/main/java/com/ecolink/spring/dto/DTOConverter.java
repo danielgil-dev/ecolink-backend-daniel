@@ -41,14 +41,14 @@ public class DTOConverter {
 
         if (product.getImageUrl() == null || product.getImageUrl().isEmpty()) {
             productDto.setImageUrl("productdefault.png");
-            
+
         }
         return productDto;
     }
 
     public ProductRelevantDTO convertProductRelevantToDto(Product product) {
         ProductRelevantDTO productDto = modelMapper.map(product, ProductRelevantDTO.class);
-        
+
         if (productDto.getImageUrl() == null || productDto.getImageUrl().isEmpty()) {
             productDto.setImageUrl("productdefault.png");
         }
@@ -93,7 +93,7 @@ public class DTOConverter {
         StartupProductPublicProfileDTO productDto = modelMapper.map(product, StartupProductPublicProfileDTO.class);
         if (productDto.getImageUrl() == null || product.getImageUrl().isEmpty()) {
             productDto.setImageUrl("productdefault.png");
-            
+
         }
         return modelMapper.map(product, StartupProductPublicProfileDTO.class);
     }
@@ -140,9 +140,8 @@ public class DTOConverter {
         PostRelevantDTO postDto = modelMapper.map(post, PostRelevantDTO.class);
         if (postDto.getImageUrl() == null || postDto.getImageUrl().isEmpty()) {
             postDto.setImageUrl("postdefault.png");
-
         }
-        return modelMapper.map(post, PostRelevantDTO.class);
+        return postDto;
     }
 
     public CommentDTO convertCommentToDTO(Comment comment) {

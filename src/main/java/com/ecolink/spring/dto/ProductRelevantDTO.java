@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
- @Setter
+@Setter
 public class ProductRelevantDTO {
     private Long id;
     private String name;
