@@ -24,6 +24,4 @@ public class PayDTO {
     private String cardCVC;
 
     private String cardType;
-    private String cardCountry;
-    private String cardZipCode;
 }
