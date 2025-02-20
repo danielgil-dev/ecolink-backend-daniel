@@ -50,48 +50,48 @@ public class ChallengeDataLoader implements CommandLineRunner {
         String generalBenefit2 = "Opportunity to pilot and implement solutions in real-world scenarios.";
         String generalBenefit3 = "Networking and collaboration with leaders in sustainability and innovation.";
 
-        Challenge teslaChallenge1 = new Challenge(
-            tesla,
-            "Electric Vehicle Innovation",
-            "How can we improve the efficiency and range of electric vehicles? Propose innovative solutions.",
-            "Propose innovative solutions to improve the efficiency and range of electric vehicles.",
-            new BigDecimal("200000.00"),
-            LocalDate.of(2025, 3, 15),
-            Arrays.asList(odsService.findByName("Affordable and Clean Energy"))
-        );
+        // Challenge teslaChallenge1 = new Challenge(
+        //     tesla,
+        //     "Electric Vehicle Innovation",
+        //     "How can we improve the efficiency and range of electric vehicles? Propose innovative solutions.",
+        //     "Propose innovative solutions to improve the efficiency and range of electric vehicles.",
+        //     new BigDecimal("200000.00"),
+        //     LocalDate.of(2025, 3, 15),
+        //     Arrays.asList(odsService.findByName("Affordable and Clean Energy"))
+        // );
 
-        teslaChallenge1.addRequirement(generalRequirement1);
-        teslaChallenge1.addRequirement(generalRequirement2);
-        teslaChallenge1.addRequirement(generalRequirement3);
-        teslaChallenge1.addRequirement("Experience with electric vehicle technology or battery systems.");
+        // teslaChallenge1.addRequirement(generalRequirement1);
+        // teslaChallenge1.addRequirement(generalRequirement2);
+        // teslaChallenge1.addRequirement(generalRequirement3);
+        // teslaChallenge1.addRequirement("Experience with electric vehicle technology or battery systems.");
 
-        teslaChallenge1.addBenefit(generalBenefit1);
-        teslaChallenge1.addBenefit(generalBenefit2);
-        teslaChallenge1.addBenefit(generalBenefit3);
-        teslaChallenge1.addBenefit("Opportunity to collaborate with Tesla's R&D team.");
+        // teslaChallenge1.addBenefit(generalBenefit1);
+        // teslaChallenge1.addBenefit(generalBenefit2);
+        // teslaChallenge1.addBenefit(generalBenefit3);
+        // teslaChallenge1.addBenefit("Opportunity to collaborate with Tesla's R&D team.");
 
-        Challenge teslaChallenge2 = new Challenge(
-            tesla,
-            "Sustainable Energy Storage",
-            "Develop advanced energy storage solutions for renewable energy systems.",
-            "Advanced energy storage solutions for renewable energy systems.",
-            new BigDecimal("250000.00"),
-            LocalDate.of(2025, 4, 10),
-            Arrays.asList(
-                odsService.findByName("Affordable and Clean Energy"),
-                odsService.findByName("Climate Action")
-            )
-        );
+        // Challenge teslaChallenge2 = new Challenge(
+        //     tesla,
+        //     "Sustainable Energy Storage",
+        //     "Develop advanced energy storage solutions for renewable energy systems.",
+        //     "Advanced energy storage solutions for renewable energy systems.",
+        //     new BigDecimal("250000.00"),
+        //     LocalDate.of(2025, 4, 10),
+        //     Arrays.asList(
+        //         odsService.findByName("Affordable and Clean Energy"),
+        //         odsService.findByName("Climate Action")
+        //     )
+        // );
 
-        teslaChallenge2.addRequirement(generalRequirement1);
-        teslaChallenge2.addRequirement(generalRequirement2);
-        teslaChallenge2.addRequirement(generalRequirement3);
-        teslaChallenge2.addRequirement("Knowledge of battery technologies and energy storage systems.");
+        // teslaChallenge2.addRequirement(generalRequirement1);
+        // teslaChallenge2.addRequirement(generalRequirement2);
+        // teslaChallenge2.addRequirement(generalRequirement3);
+        // teslaChallenge2.addRequirement("Knowledge of battery technologies and energy storage systems.");
 
-        teslaChallenge2.addBenefit(generalBenefit1);
-        teslaChallenge2.addBenefit(generalBenefit2);
-        teslaChallenge2.addBenefit(generalBenefit3);
-        teslaChallenge2.addBenefit("Access to Tesla's energy storage facilities for testing.");
+        // teslaChallenge2.addBenefit(generalBenefit1);
+        // teslaChallenge2.addBenefit(generalBenefit2);
+        // teslaChallenge2.addBenefit(generalBenefit3);
+        // teslaChallenge2.addBenefit("Access to Tesla's energy storage facilities for testing.");
 
         Challenge googleChallenge1 = new Challenge(
             google,
@@ -275,7 +275,7 @@ public class ChallengeDataLoader implements CommandLineRunner {
         amazonChallenge2.addBenefit("Access to Amazon's logistics network for implementation.");
 
         List<Challenge> allChallenges = Arrays.asList(
-            teslaChallenge1, teslaChallenge2,
+            
             googleChallenge1, googleChallenge2,
             appleChallenge1, appleChallenge2,
             microsoftChallenge1, microsoftChallenge2,
@@ -288,10 +288,10 @@ public class ChallengeDataLoader implements CommandLineRunner {
             }
         });
 
-        if (tesla != null) {
-            tesla.addChallenge(teslaChallenge1);
-            tesla.addChallenge(teslaChallenge2);
-        }
+        // if (tesla != null) {
+        //     tesla.addChallenge(teslaChallenge1);
+        //     tesla.addChallenge(teslaChallenge2);
+        // }
         if (google != null) {
             google.addChallenge(googleChallenge1);
             google.addChallenge(googleChallenge2);
