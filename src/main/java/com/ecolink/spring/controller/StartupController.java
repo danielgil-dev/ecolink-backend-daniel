@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecolink.spring.dto.DTOConverter;
 import com.ecolink.spring.dto.PaginationResponse;
 import com.ecolink.spring.dto.ProductDTO;
+import com.ecolink.spring.dto.ProductSalesDTO;
 import com.ecolink.spring.dto.StartupHomeDTO;
 import com.ecolink.spring.dto.StartupPublicProfileDTO;
 import com.ecolink.spring.entity.Ods;
+import com.ecolink.spring.entity.OrderLine;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
@@ -28,6 +30,7 @@ import com.ecolink.spring.entity.UserBase;
 import com.ecolink.spring.exception.ErrorDetails;
 import com.ecolink.spring.exception.StartupNotFoundException;
 import com.ecolink.spring.service.OdsService;
+import com.ecolink.spring.service.OrderLineService;
 import com.ecolink.spring.service.ProductService;
 import com.ecolink.spring.service.StartupService;
 
@@ -41,6 +44,7 @@ public class StartupController {
     private final StartupService service;
     private final OdsService odsService;
     private final ProductService productService;
+    private final OrderLineService orderLineService;
 
     @GetMapping()
     public ResponseEntity<?> getStartups(
@@ -182,6 +186,48 @@ public class StartupController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
         }
 
+    }
+
+    @GetMapping("/sales")
+    public ResponseEntity<?> getSalesFromStartup(@AuthenticationPrincipal UserBase user){
+        if (user == null) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(), "The user is not authenticated");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+        }
+        if (user instanceof Startup startup) {
+            List<Product> products = startup.getProducts();
+            List<OrderLine> orderLines = new ArrayList<>();
+            for (Product product : products) {
+                if (product != null) {
+                    List<OrderLine> orderLinesProduct = orderLineService.findByProduct(product);
+                    if (orderLinesProduct != null) {
+                        orderLines.addAll(orderLinesProduct);
+                    }
+                }
+            }
+            if (orderLines.size() > 0) {
+                List<ProductSalesDTO> productSalesDTO = new ArrayList<>();
+                // Obtener la cantidad de ventas de cada producto
+                for (Product product : products) {
+                    if (product != null) {
+                        Long amount = orderLines.stream().filter(orderLine -> orderLine.getProduct().getId() == product.getId())
+                                .mapToLong(OrderLine::getAmount).sum();
+                        ProductSalesDTO productSales = new ProductSalesDTO();
+                        productSales.setName(product.getName());
+                        productSales.setAmount(amount);
+                        productSalesDTO.add(productSales);
+                    }
+                }
+                return ResponseEntity.ok(productSalesDTO);
+            } else {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), "The startup does not have any sales");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+            }
+            
+        }
+
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.FORBIDDEN.value(), "The user is not a startup");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
     }
 
 }

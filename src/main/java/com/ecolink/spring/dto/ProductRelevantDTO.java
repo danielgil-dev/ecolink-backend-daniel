@@ -10,5 +10,5 @@ public class ProductRelevantDTO {
     private Long id;
     private String name;
     private BigDecimal price;
-    private String image;
+    private String imageUrl;
 }
