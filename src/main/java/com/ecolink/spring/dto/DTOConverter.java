@@ -48,7 +48,8 @@ public class DTOConverter {
 
     public ProductRelevantDTO convertProductRelevantToDto(Product product) {
         ProductRelevantDTO productDto = modelMapper.map(product, ProductRelevantDTO.class);
-        if(productDto.getImageUrl() == null || productDto.getImageUrl().isEmpty()) {
+        
+        if (productDto.getImageUrl() == null || productDto.getImageUrl().isEmpty()) {
             productDto.setImageUrl("productdefault.png");
         }
         return productDto;

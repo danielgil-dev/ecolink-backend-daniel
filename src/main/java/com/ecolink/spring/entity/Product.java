@@ -65,6 +65,7 @@ public class Product {
         this.price = price;
         this.creationDate = creationDate;
         this.categories = categories;
+        this.imageUrl = image;
     }
 
     public void addCategory(Category category) {
