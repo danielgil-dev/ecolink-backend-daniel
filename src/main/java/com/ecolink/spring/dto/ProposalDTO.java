@@ -14,6 +14,7 @@ public class ProposalDTO {
 	private Long id;
 	private ChallengeDTO challenge;
 	private StartupDTO startup;
+	private String title;
 	private String description;
 	private LocalDate date;
 	private Status status;

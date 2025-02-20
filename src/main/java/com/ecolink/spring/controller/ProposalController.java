@@ -101,7 +101,7 @@ public class ProposalController {
 
             Startup startup = (Startup) user;
 
-            if (proposal.getDescription() == null || proposal.getDescription().isEmpty()
+            if (proposal.getTitle() == null || proposal.getTitle().isEmpty() || proposal.getDescription() == null || proposal.getDescription().isEmpty()
                     || proposal.getTitle() == null) {
                 throw new ProposalNotValidException("Fields are missing to create a proposal");
             }
@@ -118,7 +118,7 @@ public class ProposalController {
                 throw new ProposalAlredyExistsException("The user has already created a proposal");
             }
 
-            Proposal newProposal = new Proposal(startup, challenge, proposal.getDescription(), LocalDate.now(),
+            Proposal newProposal = new Proposal(startup, challenge, proposal.getTitle(),proposal.getDescription(), LocalDate.now(),
                     Status.PENDING);
 
             newProposal.setTitle(proposal.getTitle());
@@ -263,19 +263,13 @@ public class ProposalController {
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
                     "The user must be logged in");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
-        }
+        };
 
         if (user instanceof Startup startup) {
             Proposal proposal = service.findByIdAndStartup(id, startup);
-            if (proposal.getStatus() == Status.ACCEPTED) {
-                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
-                        "The proposal has already been accepted");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
-            } else if (proposal.getStatus() == Status.REJECTED) {
-                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
-                        "The proposal has already been rejected");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
-            }
+
+            System.out.println(proposal.getTitle());
+        
             ProposalDTO proposalDTO = dtoConverter.convertProposalToDto(proposal);
             return ResponseEntity.ok(proposalDTO);
         }

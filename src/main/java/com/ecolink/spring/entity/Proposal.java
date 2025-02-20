@@ -41,12 +41,13 @@ public class Proposal {
 	private LocalDate date;
 	private Status status;
 
-	public Proposal(Startup startup, Challenge challenge, String description, LocalDate date, Status status) {
+	public Proposal(Startup startup, Challenge challenge, String title , String description, LocalDate date, Status status) {
 
 		this.challenge = challenge;
 		this.startup = startup;
 		this.description = description;
 		this.date = date;
 		this.status = status;
+		this.title = title;
 	}
 }
