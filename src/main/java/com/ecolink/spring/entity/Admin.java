@@ -24,6 +24,7 @@ public class Admin extends UserBase {
         this.email = email;
         this.password = password;
         this.isVerified = true;
+        this.imageUrl = "admin.jpg";
     }
 
     @Override
