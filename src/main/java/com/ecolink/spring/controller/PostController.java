@@ -290,7 +290,7 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
         } catch (ImageNotValidExtension | ImageSubmitError e) {
 
-            if (urlImage == null && !urlImage.isEmpty()) {
+            if (urlImage != null && !urlImage.isEmpty()) {
                 images.deleteFile(urlImage, uploadPostDir);
             }
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
@@ -374,7 +374,7 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (ImageSubmitError | ImageNotValidExtension e) {
 
-            if (urlImage == null && !urlImage.isEmpty()) {
+            if (urlImage == null || urlImage.isEmpty()) {
                 images.deleteFile(urlImage, uploadPostDir);
             }
             ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(),
