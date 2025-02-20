@@ -13,6 +13,7 @@ import lombok.Setter;
 public class ProposalChallengeDTO {
 	private Long id;
 	private StartupDTO startup;
+	private String title;
 	private String description;
 	private LocalDate date;
 	private Status status;
