@@ -69,7 +69,8 @@ public class ProposalController {
             }
 
             List<Proposal> proposals = service.findByChallenge(challenge);
-            List<ProposalChallengeDTO> proposalsDTO = proposals.stream().map(dtoConverter::convertProposalChallengeToDto)
+            List<ProposalChallengeDTO> proposalsDTO = proposals.stream()
+                    .map(dtoConverter::convertProposalChallengeToDto)
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(proposalsDTO);
@@ -249,6 +250,34 @@ public class ProposalController {
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(proposalsDTO);
+        }
+
+        ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                "The user does not have permission to view proposals");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@AuthenticationPrincipal UserBase user, @PathVariable Long id) {
+        if (user == null) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                    "The user must be logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+        }
+
+        if (user instanceof Startup startup) {
+            Proposal proposal = service.findByIdAndStartup(id, startup);
+            if (proposal.getStatus() == Status.ACCEPTED) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The proposal has already been accepted");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            } else if (proposal.getStatus() == Status.REJECTED) {
+                ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),
+                        "The proposal has already been rejected");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+            }
+            ProposalDTO proposalDTO = dtoConverter.convertProposalToDto(proposal);
+            return ResponseEntity.ok(proposalDTO);
         }
 
         ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(),

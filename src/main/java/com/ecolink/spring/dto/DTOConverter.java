@@ -46,7 +46,12 @@ public class DTOConverter {
     }
 
     public ProposalDTO convertProposalToDto(Proposal proposal) {
-        return modelMapper.map(proposal, ProposalDTO.class);
+        ProposalDTO proposalDto = modelMapper.map(proposal, ProposalDTO.class);
+        ChallengeDTO challenge = this.converChallengeToDto(proposal.getChallenge());
+        proposalDto.setChallenge(challenge);
+        StartupDTO startup = this.convertStartupToDto(proposal.getStartup());
+        proposalDto.setStartup(startup);
+        return proposalDto;
     }
     public ProposalChallengeDTO convertProposalChallengeToDto(Proposal proposal) {
         ProposalChallengeDTO proposalChallengeDTO = modelMapper.map(proposal, ProposalChallengeDTO.class);
