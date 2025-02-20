@@ -42,7 +42,11 @@ public class DTOConverter {
     }
 
     public ProductRelevantDTO convertProductRelevantToDto(Product product) {
-        return modelMapper.map(product, ProductRelevantDTO.class);
+        ProductRelevantDTO productDto = modelMapper.map(product, ProductRelevantDTO.class);
+        if(productDto.getImageUrl() == null || productDto.getImageUrl().isEmpty()) {
+            productDto.setImageUrl("productdefault.png");
+        }
+        return productDto;
     }
 
     public ProposalDTO convertProposalToDto(Proposal proposal) {
