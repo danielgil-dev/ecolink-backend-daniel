@@ -14,5 +14,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Product findByNameAndStartup(String name, Startup startup);
     List<Product> findByStartup(Startup startup);
     Boolean existsByNameAndStartup(String name, Startup startup);
-    List<Product> findTop4ByOrderByCreationDateDesc();
+    List<Product> findTop6ByOrderByCreationDateDesc();
 }

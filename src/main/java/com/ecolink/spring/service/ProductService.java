@@ -37,8 +37,8 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public List<Product> findTop4ByOrderByCreationDateDesc() {
-        return repository.findTop4ByOrderByCreationDateDesc();
+    public List<Product> findTop6ByOrderByCreationDateDesc() {
+        return repository.findTop6ByOrderByCreationDateDesc();
     }
 
     public Page<Product> findByPagination(int page, int size) {

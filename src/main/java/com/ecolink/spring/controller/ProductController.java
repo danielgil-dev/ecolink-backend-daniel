@@ -136,7 +136,7 @@ public class ProductController {
 
     @GetMapping("/relevant")
     public ResponseEntity<?> getRelevantProducts() {
-        List<Product> products = service.findTop4ByOrderByCreationDateDesc();
+        List<Product> products = service.findTop6ByOrderByCreationDateDesc();
         if (products.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorDetails(HttpStatus.NOT_FOUND.value(), "No se encontraron productos relevantes"));
