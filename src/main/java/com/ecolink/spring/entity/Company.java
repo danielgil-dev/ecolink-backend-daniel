@@ -5,11 +5,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.modelmapper.internal.bytebuddy.utility.nullability.MaybeNull;
 import org.springframework.security.core.GrantedAuthority;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,14 +28,23 @@ import lombok.ToString;
 @ToString
 public class Company extends UserBase {
 
-    private String description;
     @Enumerated(EnumType.STRING)
     private Status status;
-
+    
     @OneToMany(mappedBy = "company")
     List<Challenge> challenges;
+    
+    @ManyToMany
+    @JoinTable(name = "company_ods", joinColumns = @JoinColumn(name = "id_company"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
+    List<Ods> odsList;
+    //  @JoinTable(name = "startup_ods", joinColumns = @JoinColumn(name = "id_startup"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
+    @Column
+    private String description;
+    private String location;
+    private Double compability;
 
-    public Company(String name, String email, String description, String image) {
+
+    public Company(String name, String email, String description, String image,String location, List<Ods> odsList) {
         this.name = name;
         this.level = 0L;
         this.userType = UserType.COMPANY;
@@ -39,6 +53,8 @@ public class Company extends UserBase {
         this.challenges = new ArrayList<>();
         this.status = Status.PENDING;
         this.imageUrl = image;
+        this.location = location;
+        this.odsList = odsList;
     }
 
       //Metodos Helpers

@@ -60,6 +60,7 @@ public class ImageController {
             byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
             String mimeType = Files.probeContentType(imageFile.toPath());
 
+            System.out.println("Path de la imagen" + imageFile.toPath());
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, mimeType)
                     .body(imageBytes);

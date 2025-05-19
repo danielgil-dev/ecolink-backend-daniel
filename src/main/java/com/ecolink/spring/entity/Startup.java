@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,14 +17,12 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -34,6 +33,7 @@ public class Startup extends UserBase {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+  
     @OneToMany(mappedBy = "startup")
     List<Proposal> proposals;
 
@@ -44,9 +44,14 @@ public class Startup extends UserBase {
     @JoinTable(name = "startup_ods", joinColumns = @JoinColumn(name = "id_startup"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> odsList;
 
+    @Column
+    private String location;
     private String description;
+    
+    private Double compability;
 
-    public Startup(String name, List<Ods> odsList, String email, String description, String image) {
+
+    public Startup(String name, List<Ods> odsList, String email, String description, String image, String location) {
         this.name = name;
         this.level = 0L;
         this.odsList = odsList;
@@ -55,6 +60,7 @@ public class Startup extends UserBase {
         this.description = description;
         this.status = Status.PENDING;
         this.imageUrl = image;
+        this.location = location;
     }
 
     public void addProposal(Proposal proposal) {
@@ -74,16 +80,11 @@ public class Startup extends UserBase {
         this.odsList.add(ods);
     }
 
-    public String getName() {
-        return this.name;
+    public Double getCompability(){
+        return this.compability;
     }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCompapility(Double compability){
+        this.compability = compability;
     }
 
     @Override

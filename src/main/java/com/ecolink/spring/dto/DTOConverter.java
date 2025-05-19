@@ -117,17 +117,23 @@ public class DTOConverter {
 
     public StartupPrivateProfileDTO convertStartupToStartupPrivateProfile(Startup startup,
             List<Post> likedPostByTheUser) {
+
         StartupPrivateProfileDTO startupProfile = modelMapper.map(startup, StartupPrivateProfileDTO.class);
+
         List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
                 .map(this::convertPostToPostProfileDto)
                 .collect(Collectors.toList());
-        startupProfile.setListLikePost(listLikedPost);
 
+        List<OdsDTO>  odsWhiWithoutIdDTOs =startup.getOdsList().stream()
+                .map(this::convertOdsToDto)
+                .collect(Collectors.toList());
+
+        startupProfile.setUserOdsList(odsWhiWithoutIdDTOs);
+        startupProfile.setListLikePost(listLikedPost);
         return startupProfile;
     }
 
     public StartupProductPrivateProfileDTO convertStartupProductToStartupProductPrivateProfileDTO(Startup startup) {
-
         return modelMapper.map(startup, StartupProductPrivateProfileDTO.class);
     }
 
@@ -300,8 +306,12 @@ public class DTOConverter {
         List<PostProfileUserDTO> listLikedPost = likedPostByTheUser.stream()
                 .map(this::convertPostToPostProfileDto)
                 .collect(Collectors.toList());
+        List<OdsDTO> odsDto = company.getOdsList().stream()
+                .map(this::convertOdsToDto)
+                .collect(Collectors.toList());
         companyProfileDTO.setListLikePost(listLikedPost);
         companyProfileDTO.setListChallengesCompany(listChallenges);
+        companyProfileDTO.setUserOdsList(odsDto);
         return companyProfileDTO;
     }
 
@@ -334,6 +344,9 @@ public class DTOConverter {
     }
 
     public GetUserDTO convertUserDTO(UserBase user) {
+        if (user == null) {
+            return null; // O maneja este caso de manera adecuada según tus requerimientos
+        }
         return modelMapper.map(user, GetUserDTO.class);
     }
 
@@ -379,4 +392,21 @@ public class DTOConverter {
     public UserPendingDTO convertStartupToUserPendingDto(Startup startup) {
         return modelMapper.map(startup, UserPendingDTO.class);
     }
+
+    //Modelos DTO para la lista de compatibilidades
+    public CompanyCompabilityDTO convertCompanyCompabilityDTO(Company company){
+
+        CompanyCompabilityDTO companyCompabilityDTO = modelMapper.map(company, CompanyCompabilityDTO.class);
+        //companyCompabilityDTO.setCompability(String.format("%.2f%%", company.getCompability()));
+        return companyCompabilityDTO;
+    }
+
+    public StartupCompabilityDTO convertStartupCompabilityDTO(Startup startup){
+        StartupCompabilityDTO startupCompabilityDTO = modelMapper.map(startup, StartupCompabilityDTO.class);
+        startupCompabilityDTO.setType("STARTUP");
+        //startupCompabilityDTO.setCompability(String.format("%.2f%%", startup.getCompability()));
+        return startupCompabilityDTO;
+    }
+
+    
 }

@@ -16,7 +16,8 @@ public class StartupPrivateProfileDTO {
     String name;
     String email;
     String description;
-    List<OdsWithoutIdDTO> odsList;
+    String location;
+    List<OdsDTO> userOdsList;
     List<ProposalStartupProfileDTO> proposals;
     List<StartupProductPrivateProfileDTO> products;
     List<PostProfileUserDTO> listLikePost;

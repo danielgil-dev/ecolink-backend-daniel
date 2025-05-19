@@ -40,7 +40,7 @@ public class OdsDataLoader implements CommandLineRunner {
         odsList.forEach(ods -> {
             if (!service.existByName(ods.getName())) {
                 service.save(ods);
-            }
+            } 
         });
     }
 }

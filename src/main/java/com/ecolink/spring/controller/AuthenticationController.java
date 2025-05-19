@@ -320,8 +320,12 @@ public class AuthenticationController {
     }
 
     @GetMapping("/user/me")
-    public GetUserDTO me(@AuthenticationPrincipal UserBase user) {
-
-        return converter.convertUserDTO(user);
+    public ResponseEntity<?> me(@AuthenticationPrincipal UserBase user) {
+        if (user == null) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.UNAUTHORIZED.value(), "No authenticated user found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+        }
+        
+        return ResponseEntity.ok(converter.convertUserDTO(user));
     }
 }

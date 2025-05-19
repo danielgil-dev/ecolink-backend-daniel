@@ -34,9 +34,9 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/api/order/**", "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**",
-								"/api/admin/**", "/api/product/**", "/api/mission/**", "/api/comment/**", "/api/like/**", "/api/category/**", "/api/proposal/**", "/api/verify/**","/api/profile/**", "/api/challenge/**", "/api/paypal/**", "/api/post/**")
+								"/api/admin/**", "/api/product/**", "/api/mission/**","/api/company/**","/api/startup/**" ,"/api/comment/**", "/api/like/**", "/api/category/**", "/api/proposal/**", "/api/verify/**","/api/profile/**", "/api/challenge/**", "/api/paypal/**", "/api/post/**","/api/deepseek/**", "/api/compatibility")
 						.permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/startup/**",
+						.requestMatchers(HttpMethod.GET, 
 								"/api/ods/**", "/api/client/**", "/api/company/**", "/api/challenge/**",
 								"/api/image/**")
 						.permitAll()

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -35,6 +36,9 @@ public class Client extends UserBase {
         this.isVerified = false;
     }
 
+    @Column
+    private String location;
+    
     @ManyToMany
     @JoinTable(name = "user_preferences", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_ods"))
     private List<Ods> preferences;

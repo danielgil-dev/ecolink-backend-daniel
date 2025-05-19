@@ -9,5 +9,6 @@ public class GetUserFrontDTO {
     Long id;
     String name;
     String imageUrl;
+    String location;
     Long level;
 }

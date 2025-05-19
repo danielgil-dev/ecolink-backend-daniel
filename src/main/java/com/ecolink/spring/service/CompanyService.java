@@ -1,6 +1,8 @@
 package com.ecolink.spring.service;
 
 import java.util.List;
+
+import org.hibernate.sql.ast.tree.expression.Star;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,9 @@ public class CompanyService {
 
     public Company findById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+    public List<Company> findAll(){
+        return repository.findAll();
     }
 
     public void changeCompanyState(Company company, Status state) {

@@ -17,6 +17,8 @@ public class CompanyProfileDTO {
     private String email;
     private String status;
     private String description;
+    private String location;
+    private List<OdsDTO> userOdsList;
     private List<ChallengeCompanyProfileDTO> listChallengesCompany;
     private List<PostProfileUserDTO> listLikePost;
     private List<OrderDTO> orders;

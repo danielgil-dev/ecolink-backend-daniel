@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,14 +23,18 @@ import com.ecolink.spring.dto.ProductDTO;
 import com.ecolink.spring.dto.ProductSalesDTO;
 import com.ecolink.spring.dto.StartupHomeDTO;
 import com.ecolink.spring.dto.StartupPublicProfileDTO;
+import com.ecolink.spring.entity.Company;
 import com.ecolink.spring.entity.Ods;
 import com.ecolink.spring.entity.OrderLine;
 import com.ecolink.spring.entity.Product;
 import com.ecolink.spring.entity.Proposal;
 import com.ecolink.spring.entity.Startup;
 import com.ecolink.spring.entity.UserBase;
+import com.ecolink.spring.exception.CompanyNotFoundException;
 import com.ecolink.spring.exception.ErrorDetails;
+import com.ecolink.spring.exception.OdsNotFoundException;
 import com.ecolink.spring.exception.StartupNotFoundException;
+import com.ecolink.spring.response.SuccessDetails;
 import com.ecolink.spring.service.OdsService;
 import com.ecolink.spring.service.OrderLineService;
 import com.ecolink.spring.service.ProductService;
@@ -232,4 +237,50 @@ public class StartupController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
     }
 
+    //The method to update the ODS of a startup
+     @PutMapping("/ods/update")
+    public ResponseEntity<?> updateOds(@AuthenticationPrincipal UserBase user, @RequestParam List<Long> odsList) {
+        
+        if (!(user instanceof Startup)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User is not a startup");
+        }
+
+        try {
+           
+
+            List<Ods> newOdsUserPreferencesList = new ArrayList<>();
+            odsList.forEach(odsId -> {
+                Ods ods = odsService.findById(odsId);
+                if (ods != null) {
+                    newOdsUserPreferencesList.add(ods);
+                }
+            });
+
+            if (newOdsUserPreferencesList.isEmpty() || newOdsUserPreferencesList.size() == 0) {
+                throw new OdsNotFoundException("There is no ODS found with the given ids");
+            }
+
+            Startup startuptoUpdate = service.findById(user.getId());
+            if (startuptoUpdate == null) {
+                throw new CompanyNotFoundException("There is no startup with the given id");      
+            }
+            startuptoUpdate.setOdsList(newOdsUserPreferencesList);
+            service.save(startuptoUpdate);
+            SuccessDetails successDetails = new SuccessDetails(HttpStatus.OK.value(), "ODS updated successfully");
+            return ResponseEntity.ok(successDetails);
+
+        } catch(CompanyNotFoundException e){
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        }catch(OdsNotFoundException e){
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.NOT_FOUND.value(), e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        }catch (Exception e) {
+            ErrorDetails errorDetails = new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Ocurrió un error interno en el servidor");
+                    e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+        }
+
+    }
 }

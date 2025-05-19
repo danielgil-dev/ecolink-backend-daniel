@@ -34,6 +34,10 @@ public class Ods {
     @JsonIgnore
     private List<Startup> startups;
 
+    @ManyToMany(mappedBy = "odsList")
+    @JsonIgnore
+    private List<Company> companies;
+
     @ManyToMany(mappedBy = "preferences")
     @JsonIgnore
     private List<Client> userPreferences;
@@ -65,5 +69,14 @@ public class Ods {
 
     public void removePost(Post post){
         this.posts.remove(post);
+    }
+
+    //Metodos helpers COMPANY
+    public void addCompany(Company company) {
+        this.companies.add(company);
+    }
+
+    public void removeCompany(Company company) {
+        this.companies.remove(company);
     }
 }
