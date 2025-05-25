@@ -35,12 +35,6 @@ public class CompatibilityService {
         // Sumar ambas puntuaciones
         compatibilityScore = odsScore + locationScore;
 
-        // Para depuración (puedes comentar estas líneas después)
-        System.out.println("Compatibilidad entre " + company.getName() + " y " + startup.getName() + ":");
-        System.out.println("- ODS Score: " + odsScore);
-        System.out.println("- Location Score: " + locationScore);
-        System.out.println("- Total Score: " + compatibilityScore);
-
         return compatibilityScore;
     }
 
@@ -74,7 +68,8 @@ public class CompatibilityService {
         return locationCompability;
     }
 
-    public Page<Startup> findCompatibleStartupsForCompany(Company company, int page, int size, SortType order, String locationFilter) {
+    public Page<Startup> findCompatibleStartupsForCompany(Company company, int page, int size, SortType order,
+            String locationFilter) {
 
         Pageable pageable = PageRequest.of(page, size);
         List<Startup> allStartups = startupService.findAll();
@@ -82,23 +77,22 @@ public class CompatibilityService {
         for (Startup startup : allStartups) {
             startup.setCompapility(calculateCompatibility(company, startup));
         }
-        //Removemos aquellas que no tengan ninguna compatibatibilidad
+        // Removemos aquellas que no tengan ninguna compatibatibilidad
         allStartups.removeIf(startup -> startup.getCompability() <= 0);
-        
-        List<Startup> filteredStartups = allStartups.stream().filter(startup ->{
 
-            //Si no hay un pais por el cual buscar devolvemos todas
-            if (locationFilter == null || locationFilter.isEmpty()) {
-                return true;
-            }
+        List<Startup> filteredStartups = allStartups.stream().filter(startup -> {
 
-            //Si hay un país por el cual buscar, seleccinoaremos todas las startups que pertenezcan a ese país
+            // Si no hay un pais por el cual buscar devolvemos todas
+            if (locationFilter == null || locationFilter.isEmpty()) {return true; }
+
+            // Si hay un país por el cual buscar, seleccinoaremos todas las startups que
+            // pertenezcan a ese país
             return startup.getLocation() != null && startup.getLocation().equalsIgnoreCase(locationFilter.trim());
         }).collect(Collectors.toList());
 
         if (order == SortType.DESC) {
             filteredStartups
-            .sort((startup1, startup2) -> Double.compare(startup2.getCompability(), startup1.getCompability()));
+                    .sort((startup1, startup2) -> Double.compare(startup2.getCompability(), startup1.getCompability()));
         } else {
 
             filteredStartups
@@ -110,10 +104,11 @@ public class CompatibilityService {
         int end = Math.min(start + pageable.getPageSize(), filteredStartups.size());
 
         return new PageImpl<>(filteredStartups.subList(start, end), pageable,
-        filteredStartups.size());
+                filteredStartups.size());
     }
 
-    public Page<Company> findCompatiblesCompanyForStartup(Startup startup, int page, int size, SortType order, String locationFilter) {
+    public Page<Company> findCompatiblesCompanyForStartup(Startup startup, int page, int size, SortType order,
+            String locationFilter) {
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -123,17 +118,17 @@ public class CompatibilityService {
             company.setCompability(calculateCompatibility(company, startup));
         }
 
-        //Removemos aquellas que no tengan ninguna compatibatibilidad
+        // Removemos aquellas que no tengan ninguna compatibatibilidad
         allCompanies.removeIf(company -> company.getCompability() <= 0);
 
         List<Company> filteredCompanies = allCompanies.stream().filter(company -> {
 
-            //Comprobamamos que haya algun pais por el cual buscar
+            // Comprobamamos que haya algun pais por el cual buscar
             if (locationFilter == null || locationFilter.isEmpty()) {
                 return true;
             }
 
-            //Si si existe devolvemos una lista con el país que se solicita
+            // Si si existe devolvemos una lista con el país que se solicita
             return company.getLocation() != null && company.getLocation().equalsIgnoreCase(locationFilter.trim());
         }).collect(Collectors.toList());
         if (order == SortType.DESC) {
@@ -148,7 +143,7 @@ public class CompatibilityService {
         int end = Math.min(start + pageable.getPageSize(), filteredCompanies.size());
 
         return new PageImpl<>(filteredCompanies.subList(start, end), pageable,
-        filteredCompanies.size());
+                filteredCompanies.size());
     }
 
 }

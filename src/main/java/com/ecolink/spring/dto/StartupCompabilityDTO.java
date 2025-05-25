@@ -17,7 +17,7 @@ public class StartupCompabilityDTO {
     private String name;
     private String imageUrl;
     private String type;
-    private String compability;
+    private Double compability;
     private String location;
     private List<OdsDTO> odsList;
 }
