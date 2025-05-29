@@ -33,7 +33,7 @@ public class SecurityConfig {
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/order/**", "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**",
+						.requestMatchers("/","/api/order/**", "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**",
 								"/api/admin/**", "/api/product/**", "/api/mission/**","/api/company/**","/api/startup/**" ,"/api/comment/**", "/api/like/**", "/api/category/**", "/api/proposal/**", "/api/verify/**","/api/profile/**", "/api/challenge/**", "/api/paypal/**", "/api/post/**","/api/deepseek/**", "/api/compatibility")
 						.permitAll()
 						.requestMatchers(HttpMethod.GET, 
