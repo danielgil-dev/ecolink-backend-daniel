@@ -143,7 +143,7 @@ La plataforma incluye múltiples vistas enfocadas a cada tipo de usuario, con pa
 ### Registro
 ![Registro](screenshots/RegisterUserManual.png)
 
-### EcoMacht Sección de Compatibilidad entre usuarios
+### Sección de Compatibilidad entre usuarios
 ![Seccion de compatibilidad entre usuarios](screenshots/SectionCompabilityUserManual.png)
 
 ### Perfil del Usuario
