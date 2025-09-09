@@ -1,7 +1,5 @@
 # 🌱 EcoLink - Plataforma de Sostenibilidad y Emprendimiento
 
-![EcoLink Logo](uploads/ods/S-WEB-Goal-17.png)
-
 EcoLink es una plataforma integral diseñada para conectar startups sostenibles, empresas, consumidores e inversores, con el objetivo de fomentar la innovación y el desarrollo sostenible alineados con los Objetivos de Desarrollo Sostenible (ODS) de la ONU.
 
 ## 📋 Características Principales
@@ -136,6 +134,8 @@ La plataforma incluye múltiples vistas enfocadas a cada tipo de usuario, con pa
 
 ### Capturas de pantalla de la pagina web
 
+### Home 
+![Home](screenshots/HomePage.png)
 
 ### Login
 ![Login](screenshots/LoginUserManual.png)
@@ -149,5 +149,7 @@ La plataforma incluye múltiples vistas enfocadas a cada tipo de usuario, con pa
 ### Perfil del Usuario
 ![Perfil Usuario](screenshots/UserProfileuserManual.png)
 
+### Sugerencia de Ods
+![Perfil Usuario](screenshots/SuggestedOds.png)
 ---
 
