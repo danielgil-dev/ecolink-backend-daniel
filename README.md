@@ -136,33 +136,18 @@ La plataforma incluye múltiples vistas enfocadas a cada tipo de usuario, con pa
 
 ### Capturas de pantalla de la pagina web
 
-```markdown
+
+### Login
 ![Login](screenshots/LoginUserManual.png)
 
-### Panel de Startups
+### Registro
 ![Registro](screenshots/RegisterUserManual.png)
 
-### Marketplace
+### EcoMacht Sección de Compatibilidad entre usuarios
 ![Seccion de compatibilidad entre usuarios](screenshots/SectionCompabilityUserManual.png)
 
-### Panel de Administración
+### Perfil del Usuario
 ![Perfil Usuario](screenshots/UserProfileuserManual.png)
-```
-
-## 🤝 Contribuir
-
-Las contribuciones son bienvenidas. Si deseas contribuir:
-
-1. Haz fork del proyecto
-2. Crea una rama para tu funcionalidad (`git checkout -b feature/amazing-feature`)
-3. Realiza tus cambios y haz commit (`git commit -m 'Add amazing feature'`)
-4. Haz push a la rama (`git push origin feature/amazing-feature`)
-5. Abre un Pull Request
-
-## 📜 Licencia
-
-Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para obtener más información.
 
 ---
 
-Desarrollado con ❤️ por Daniel Gil - 2025
